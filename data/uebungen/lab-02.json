@@ -1,0 +1,116 @@
+[
+  {
+    "id": "P02-01",
+    "typ": "quiz",
+    "titel": { "de": "Regelkonform benannt?", "en": "Named according to the rules?" },
+    "aufgabe": {
+      "de": "<p>Aufgaben heißen Substantiv + Verb im Infinitiv, Ereignisse beschreiben einen eingetretenen Zustand. Welche Beschriftungen halten sich daran?</p>",
+      "en": "<p>Activities are named verb + object, events describe a state that has occurred. Which labels follow that?</p>"
+    },
+    "fragen": [
+      {
+        "frage": { "de": "Regelkonforme <strong>Aufgaben</strong>namen (mehrere richtig):", "en": "Well-formed <strong>activity</strong> names (several correct):" },
+        "mehrfach": true,
+        "optionen": [
+          { "de": "Rechnung prüfen", "en": "Check invoice" },
+          { "de": "Rechnungsprüfung", "en": "Invoice check" },
+          { "de": "Wird geprüft", "en": "Is checked" },
+          { "de": "Ware verpacken", "en": "Pack goods" },
+          { "de": "Verpackung", "en": "Packaging" },
+          { "de": "Kunden informieren und Rechnung senden", "en": "Inform customer and send invoice" }
+        ],
+        "richtig": [0, 3],
+        "erklaerung": { "de": "„Rechnungsprüfung“ und „Verpackung“ sind Substantive ohne Verb, „Wird geprüft“ ist passiv und ohne Objekt, und „informieren und senden“ sind zwei Tätigkeiten, also zwei Aufgaben.", "en": "“Invoice check” and “packaging” are nouns without a verb, “is checked” is passive and has no object, and “inform and send” are two activities, so two tasks." }
+      },
+      {
+        "frage": { "de": "Regelkonforme <strong>Ereignis</strong>namen (mehrere richtig):", "en": "Well-formed <strong>event</strong> names (several correct):" },
+        "mehrfach": true,
+        "optionen": [
+          { "de": "Bestellung eingegangen", "en": "Order received" },
+          { "de": "Bestellung", "en": "Order" },
+          { "de": "Bestellung bearbeiten", "en": "Process order" },
+          { "de": "Ware versandbereit", "en": "Goods ready for dispatch" },
+          { "de": "Frist abgelaufen", "en": "Deadline expired" }
+        ],
+        "richtig": [0, 3, 4],
+        "erklaerung": { "de": "Ein Ereignis ist ein Zeitpunkt, an dem etwas eingetreten ist: Partizip oder Zustand. „Bestellung bearbeiten“ ist eine Aufgabe, „Bestellung“ sagt nicht, was passiert ist.", "en": "An event is a point in time at which something has occurred: participle or state. “Process order” is a task, “order” does not say what happened." }
+      }
+    ]
+  },
+  {
+    "id": "P02-02",
+    "typ": "erkunden",
+    "modell": "modelle/uc02-blutentnahme.bpmn",
+    "modellName": "UC02 · Blutentnahme in der Hausarztpraxis",
+    "titel": { "de": "Die Blutentnahme lesen", "en": "Reading the blood sampling" },
+    "aufgabe": {
+      "de": "<p>Klicken Sie die Elemente an und lassen Sie eine Marke laufen. Beantworten Sie dann die Fragen.</p>",
+      "en": "<p>Click the elements and run a token. Then answer the questions.</p>"
+    },
+    "fragen": [
+      {
+        "frage": { "de": "Wie viele Elemente muss die Marke passieren, bevor sie das Endereignis erreicht (Start und Ende nicht mitgezählt)?", "en": "How many elements does the token pass before it reaches the end event (start and end not counted)?" },
+        "optionen": [ { "de": "4", "en": "4" }, { "de": "5", "en": "5" }, { "de": "6", "en": "6" } ],
+        "richtig": [1],
+        "erklaerung": { "de": "Fünf Aufgaben, jede mit genau einem eingehenden und einem ausgehenden Sequenzfluss.", "en": "Five tasks, each with exactly one incoming and one outgoing sequence flow." }
+      },
+      {
+        "frage": { "de": "Warum steht in diesem Modell kein Gateway?", "en": "Why is there no gateway in this model?" },
+        "optionen": [
+          { "de": "Weil Gateways erst in Lab 03 eingeführt werden.", "en": "Because gateways are only introduced in lab 03." },
+          { "de": "Weil der Ablauf keine Entscheidung enthält: Jede Instanz durchläuft dieselben fünf Schritte.", "en": "Because the flow contains no decision: every instance runs through the same five steps." },
+          { "de": "Weil in der Medizin keine Gateways erlaubt sind.", "en": "Because gateways are not allowed in medicine." }
+        ],
+        "richtig": [1],
+        "erklaerung": { "de": "Ein Gateway gehört nur dorthin, wo sich Instanzen unterscheiden können. Ein linearer Ablauf braucht keines.", "en": "A gateway belongs only where instances can differ. A linear flow needs none." }
+      }
+    ]
+  },
+  {
+    "id": "P02-03",
+    "typ": "fehler",
+    "modell": "modelle/uc02-blutentnahme-fehlerhaft.bpmn",
+    "modellName": "UC02 · Blutentnahme (fehlerhaft)",
+    "titel": { "de": "Vier Fehler in der Blutentnahme", "en": "Four errors in the blood sampling" },
+    "aufgabe": {
+      "de": "<p>Dieses Modell derselben Blutentnahme enthält <strong>vier</strong> Verstöße gegen die Regeln aus diesem Lab. Klicken Sie jedes fehlerhafte Element an und wählen Sie die verletzte Regel. Zwei Verstöße betreffen die Benennung, einer die Beschriftung, einer das Ende des Ablaufs.</p>",
+      "en": "<p>This model of the same blood sampling contains <strong>four</strong> violations of the rules from this lab. Click every faulty element and choose the violated rule. Two violations concern naming, one labelling, one the end of the flow.</p>"
+    },
+    "fehler": [
+      { "element": "s1", "regel": "R11" },
+      { "element": "t1", "regel": "R07" },
+      { "element": "t3", "regel": "R07" },
+      { "element": "t5", "regel": "R02" }
+    ],
+    "hinweis": { "de": "Das unbeschriftete Startereignis verstößt gegen R11. Eine Aufgabe, die nur aus einem Substantiv besteht oder im Passiv steht, gegen R07. Eine Aufgabe ohne ausgehenden Fluss gegen R02. Die Aufgabe mit zwei Tätigkeiten („versorgen und verpacken“) ist ein fünfter Schönheitsfehler, den der Prüfer nicht erwartet.", "en": "The unlabelled start event violates R11. A task consisting only of a noun or standing in the passive violates R07. A task without outgoing flow violates R02. The task with two activities (“dress and pack”) is a fifth blemish the checker does not expect." },
+    "rueckmeldung": { "de": "Die Aufgabe „Einstichstelle versorgen und Proben verpacken“ wäre außerdem in zwei Aufgaben zu teilen.", "en": "The task “dress puncture site and pack samples” should additionally be split into two tasks." }
+  },
+  {
+    "id": "P02-04",
+    "typ": "modell",
+    "modell": "modelle/uc01-kaffee.bpmn",
+    "modellName": "Kaffee am Kiosk",
+    "titel": { "de": "Den Kiosk selbst modellieren", "en": "Model the kiosk yourself" },
+    "aufgabe": {
+      "de": "<p>Ein Gast bestellt einen Kaffee. Die Verkäuferin mahlt die Bohnen, brüht den Kaffee, füllt den Becher und gibt ihn aus. Damit ist der Vorgang beendet.</p><p>Modellieren Sie den Ablauf im Editor: ein Startereignis (bereits vorhanden), vier Aufgaben, ein Endereignis. Benennen Sie alles regelkonform. Zum Anlegen eines Elements ziehen Sie es aus der Palette links oder klicken Sie ein Element an und wählen Sie im Kontextmenü das nächste.</p>",
+      "en": "<p>A guest orders a coffee. The vendor grinds the beans, brews the coffee, fills the cup and hands it over. That ends the process.</p><p>Model the flow in the editor: one start event (already there), four tasks, one end event. Name everything according to the rules. To create an element, drag it from the palette on the left or click an element and choose the next one from its context menu.</p>"
+    },
+    "pruefung": { "starts": 1, "enden": 1, "minAufgaben": 4, "aufgaben": ["mahlen", "brühen", "füllen", "ausgeben"] },
+    "hinweis": { "de": "Die Prüfung sucht in den Aufgabennamen nach den Verben aus der Beschreibung: mahlen, brühen, füllen, ausgeben. Das Startereignis beschreibt den Auslöser („Kaffee bestellt“), das Endereignis das Ergebnis.", "en": "The check looks for the verbs from the description in the task names: mahlen, brühen, füllen, ausgeben (German labels). The start event describes the trigger, the end event the result." },
+    "rueckmeldung": { "de": "Ihr erstes vollständiges Modell. Laden Sie es als .bpmn herunter und öffnen Sie es in Adonis.", "en": "Your first complete model. Download it as .bpmn and open it in Adonis." }
+  },
+  {
+    "id": "P02-05",
+    "typ": "modell",
+    "modell": "modelle/uc02-blutentnahme.bpmn",
+    "modellName": "Blutentnahme",
+    "titel": { "de": "Die Blutentnahme aus der Beschreibung", "en": "The blood sampling from the description" },
+    "aufgabe": {
+      "de": "<p>Sobald ein Patient aufgerufen wird, prüft die medizinische Fachangestellte seine Identität, etikettiert die Röhrchen, entnimmt Blut, versorgt die Einstichstelle und verpackt die Proben für den Laborkurier. Danach sind die Proben versandbereit.</p><p>Modellieren Sie den Ablauf ohne Vorlage. Achten Sie darauf, dass jede Aufgabe genau eine Tätigkeit enthält.</p>",
+      "en": "<p>As soon as a patient is called, the medical assistant checks their identity, labels the tubes, draws blood, dresses the puncture site and packs the samples for the lab courier. Then the samples are ready for dispatch.</p><p>Model the flow without a template. Make sure every task contains exactly one activity.</p>"
+    },
+    "pruefung": { "starts": 1, "enden": 1, "minAufgaben": 5, "aufgaben": ["Identität", "etikettieren", "entnehmen", "versorgen", "verpacken"] },
+    "hinweis": { "de": "Fünf Tätigkeiten in der Beschreibung, fünf Aufgaben im Modell. Der Auslöser ist „Patient aufgerufen“, das Ergebnis „Proben versandbereit“.", "en": "Five activities in the description, five tasks in the model. The trigger is “patient called”, the result “samples ready for dispatch”." },
+    "rueckmeldung": { "de": "Vergleichen Sie mit der Musterlösung: Ihre Beschriftungen dürfen abweichen, die Struktur nicht.", "en": "Compare with the model solution: your labels may differ, the structure may not." }
+  }
+]

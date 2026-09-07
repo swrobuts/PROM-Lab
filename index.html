@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="de" data-lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PROM-Lab · Modul Prozessmanagement · THWS Business School</title>
+  <meta name="prom:titel-en" content="PROM-Lab · Process management module · THWS Business School" />
+  <meta name="description" content="Interaktive Lernumgebung zur BPMN-Prozessmodellierung: zehn Labs von Aufgabe und Ereignis bis zu Redesign und KI, lebende Modelle im Browser, Musterlösungen als .bpmn für Adonis CE." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/bpmn/diagram-js.css" />
+  <link rel="stylesheet" href="assets/bpmn/bpmn-js.css" />
+  <link rel="stylesheet" href="assets/bpmn/bpmn-font/css/bpmn.css" />
+  <link rel="stylesheet" href="assets/bpmn/bpmn-js-token-simulation.css" />
+  <link rel="stylesheet" href="assets/prom.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%2300595C'/><text x='16' y='23' font-family='sans-serif' font-size='18' font-weight='bold' text-anchor='middle' fill='%2390D033'>P</text></svg>" />
+</head>
+<body>
+
+<header class="header">
+  <div class="header-left">
+    <a class="header-logo" href="index.html"><span class="mark">PROM</span>-Lab</a>
+    <span class="header-back">
+      <span lang="de">THWS Business School · Modul Prozessmanagement</span>
+      <span lang="en">THWS Business School · Process management module</span>
+    </span>
+  </div>
+  <div class="header-right">
+    <button class="lang-btn active" data-lang-btn="de" aria-pressed="true">DE</button>
+    <button class="lang-btn" data-lang-btn="en" aria-pressed="false">EN</button>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-inner">
+    <span class="hero-tag">
+      <span lang="de">Lernumgebung · Prozessmanagement</span>
+      <span lang="en">Learning environment · Process management</span>
+    </span>
+    <h1 class="hero-title">PROM</h1>
+    <p class="hero-subtitle">
+      <span lang="de">Prozesse begreifen, indem man sie modelliert</span>
+      <span lang="en">Understanding processes by modelling them</span>
+    </p>
+    <p class="hero-desc">
+      <span lang="de">Zehn Labs führen von Aufgabe, Ereignis und Sequenzfluss über Gateways, Pools und Teilprozesse
+        bis zu Modellqualität, Redesign mit Simulation und KI-gestützter Modellierung. Jedes Modell lebt in diesem
+        Browserfenster: anklicken, Marken laufen lassen, selbst modellieren, prüfen lassen.</span>
+      <span lang="en">Ten labs lead from activity, event and sequence flow through gateways, pools and subprocesses
+        to model quality, redesign with simulation and AI-assisted modelling. Every model lives in this browser
+        window: click it, run tokens, model it yourself, have it checked.</span>
+    </p>
+    <div class="hero-badges">
+      <span class="hero-badge">BPMN 2.0</span>
+      <span class="hero-badge">Adonis CE</span>
+      <span class="hero-badge">Gateways · Ereignisse · Pools</span>
+      <span class="hero-badge"><span lang="de">Marken-Simulation</span><span lang="en">Token simulation</span></span>
+      <span class="hero-badge"><span lang="de">Ist · Soll · KI</span><span lang="en">As-is · to-be · AI</span></span>
+      <span class="hero-badge"><span lang="de">Ohne Anmeldung</span><span lang="en">No sign-up</span></span>
+      <span class="hero-badge"><span lang="de">Ohne Installation</span><span lang="en">No installation</span></span>
+    </div>
+    <div class="cta-row">
+      <a class="btn solid" href="lab-01-grundlagen.html" data-lab-link>
+        <span lang="de">Mit Lab 01 beginnen</span><span lang="en">Start with lab 01</span>
+      </a>
+      <a class="btn" href="#labs">
+        <span lang="de">Alle Labs ansehen</span><span lang="en">See all labs</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<div class="stats-bar">
+  <div class="stats-grid">
+    <div class="stat-item"><div class="stat-value">10</div><div class="stat-label">Labs</div></div>
+    <div class="stat-item"><div class="stat-value">54</div><div class="stat-label"><span lang="de">Übungen</span><span lang="en">Exercises</span></div></div>
+    <div class="stat-item"><div class="stat-value">21</div><div class="stat-label">Use Cases</div></div>
+    <div class="stat-item"><div class="stat-value">24</div><div class="stat-label"><span lang="de">Modelle als .bpmn</span><span lang="en">Models as .bpmn</span></div></div>
+  </div>
+</div>
+
+<main>
+
+<section class="section" id="labs">
+  <div class="section-head">
+    <span class="badge"><span lang="de">Die zehn Labs</span><span lang="en">The ten labs</span></span>
+    <div class="accent-line"></div>
+    <h2>
+      <span lang="de">Von der ersten Aufgabe zum geprüften Soll-Prozess</span>
+      <span lang="en">From the first activity to the checked to-be process</span>
+    </h2>
+    <p>
+      <span lang="de">Die Labs folgen dem Modul „Modellierung und Analyse von Prozessen“ der Vorlesung. Sie lassen sich der
+        Reihe nach durcharbeiten, funktionieren aber auch einzeln. Jedes Lab bringt seine eigenen Beispiele aus
+        Gastronomie, Medizin, Produktion, Technik, Logistik und Handel mit.</span>
+      <span lang="en">The labs follow the lecture module “modelling and analysing processes”. They can be worked through in
+        sequence, but also stand on their own. Every lab brings its own examples from gastronomy, medicine, production,
+        engineering, logistics and retail.</span>
+    </p>
+  </div>
+  <div data-fortschritt></div>
+  <div class="labs-grid">
+    <a class="lab-card" href="lab-01-grundlagen.html" data-lab-link>
+      <div class="lab-num">01</div>
+      <h3><span lang="de">Warum Prozessmodelle?</span><span lang="en">Why process models?</span></h3>
+      <div class="sub">Process, instance, token, BPMN, tools</div>
+      <div class="desc"><span lang="de">Was ein Prozess ist, was eine Marke tut, wozu BPMN dient – und wie eine .bpmn-Datei in Adonis CE hinein- und wieder herauskommt.</span><span lang="en">What a process is, what a token does, what BPMN is for – and how a .bpmn file gets into Adonis CE and out again.</span></div>
+      <div class="meta">4 <span lang="de">Übungen</span><span lang="en">exercises</span> · <span lang="de">Kiosk</span><span lang="en">kiosk</span></div>
+    </a>
+    <a class="lab-card" href="lab-02-sequenzfluss.html" data-lab-link>
+      <div class="lab-num">02</div>
+      <h3><span lang="de">Aufgaben, Ereignisse, Sequenzfluss</span><span lang="en">Activities, events, sequence flow</span></h3>
+      <div class="sub">Start, task, end, naming conventions</div>
+      <div class="desc"><span lang="de">Der lineare Ablauf und seine Benennung: Substantiv plus Verb für Aufgaben, Zustand für Ereignisse. Kaffee am Kiosk, Blutentnahme in der Praxis.</span><span lang="en">The linear flow and its naming: verb plus object for activities, state for events. Coffee at the kiosk, blood sampling at the practice.</span></div>
+      <div class="meta">5 <span lang="de">Übungen</span><span lang="en">exercises</span> · <span lang="de">Gastronomie · Medizin</span><span lang="en">gastronomy · medicine</span></div>
+    </a>
+    <a class="lab-card" href="lab-03-xor.html" data-lab-link>
+      <div class="lab-num">03</div>
+      <h3><span lang="de">Entscheidungen: das exklusive Gateway</span><span lang="en">Decisions: the exclusive gateway</span></h3>
+      <div class="sub">XOR, conditions, default flow, loops</div>
+      <div class="desc"><span lang="de">Verzweigen, beschriften, zusammenführen, zurückspringen. Reifenwechsel, Triage in der Notaufnahme, Retoure im Online-Handel.</span><span lang="en">Branch, label, merge, loop back. Tyre change, triage in the emergency room, return in online retail.</span></div>
+      <div class="meta">6 <span lang="de">Übungen</span><span lang="en">exercises</span> · <span lang="de">Technik · Medizin · Handel</span><span lang="en">engineering · medicine · retail</span></div>
+    </a>
+    <a class="lab-card" href="lab-04-parallel.html" data-lab-link>
+      <div class="lab-num">04</div>
+      <h3><span lang="de">Nebenläufigkeit: parallel und inklusiv</span><span lang="en">Concurrency: parallel and inclusive</span></h3>
+      <div class="sub">AND, OR, blocks, deadlocks</div>
+      <div class="desc"><span lang="de">Gleichzeitig statt nacheinander – und was passiert, wenn der falsche Gatewaytyp schließt. Maschine rüsten, Pizzeria, Patientenaufnahme.</span><span lang="en">Simultaneously instead of one after another – and what happens when the wrong gateway type closes. Machine set-up, pizzeria, patient admission.</span></div>
+      <div class="meta">6 <span lang="de">Übungen</span><span lang="en">exercises</span> · <span lang="de">Produktion · Gastronomie · Klinik</span><span lang="en">production · gastronomy · hospital</span></div>
+    </a>
+    <a class="lab-card" href="lab-05-ereignisse.html" data-lab-link>
+      <div class="lab-num">05</div>
+      <h3><span lang="de">Ereignisse im Ablauf</span><span lang="en">Events along the way</span></h3>
+      <div class="sub">Message, timer, error, boundary, event-based</div>
+      <div class="desc"><span lang="de">Warten, Fristen, Störungen: Zwischenereignisse, angeheftete Ereignisse und das ereignisbasierte Gateway. Ersatzteil, Anlagenstörung, Apotheke.</span><span lang="en">Waiting, deadlines, breakdowns: intermediate events, boundary events and the event-based gateway. Spare part, machine failure, pharmacy.</span></div>
+      <div class="meta">6 <span lang="de">Übungen</span><span lang="en">exercises</span> · <span lang="de">Logistik · Produktion · Apotheke</span><span lang="en">logistics · production · pharmacy</span></div>
+    </a>
+    <a class="lab-card" href="lab-06-pools.html" data-lab-link>
+      <div class="lab-num">06</div>
+      <h3><span lang="de">Beteiligte: Pools, Bahnen, Nachrichten</span><span lang="en">Participants: pools, lanes, messages</span></h3>
+      <div class="sub">Collaboration, message flow, black box</div>
+      <div class="desc"><span lang="de">Wer macht was, und wo endet die Organisation? Tischreservierung, Wareneingang im Logistikzentrum, Facharztüberweisung.</span><span lang="en">Who does what, and where does the organisation end? Table reservation, goods receipt at the logistics centre, specialist referral.</span></div>
+      <div class="meta">6 <span lang="de">Übungen</span><span lang="en">exercises</span> · <span lang="de">Gastronomie · Logistik · Praxis</span><span lang="en">gastronomy · logistics · practice</span></div>
+    </a>
+    <a class="lab-card" href="lab-07-struktur.html" data-lab-link>
+      <div class="lab-num">07</div>
+      <h3><span lang="de">Struktur: Teilprozesse, Daten, Schleifen</span><span lang="en">Structure: subprocesses, data, loops</span></h3>
+      <div class="sub">Subprocess, call activity, data, multi-instance</div>
+      <div class="desc"><span lang="de">Große Modelle lesbar halten: gliedern, Daten anbinden, Wiederholungen markieren. Instandhaltung, Qualitätsprüfung je Los, Visite.</span><span lang="en">Keeping large models readable: structure, attach data, mark repetitions. Maintenance, quality check per lot, ward round.</span></div>
+      <div class="meta">5 <span lang="de">Übungen</span><span lang="en">exercises</span> · <span lang="de">Technik · Produktion · Medizin</span><span lang="en">engineering · production · medicine</span></div>
+    </a>
+    <a class="lab-card" href="lab-08-qualitaet.html" data-lab-link>
+      <div class="lab-num">08</div>
+      <h3><span lang="de">Modellqualität</span><span lang="en">Model quality</span></h3>
+      <div class="sub">Conventions, error hunting, weakness patterns</div>
+      <div class="desc"><span lang="de">Zwölf Regeln, ein absichtlich falsches Modell und die fünf Schwachstellenmuster. Gästereklamation, Laborbedarf im Klinikum.</span><span lang="en">Twelve rules, a deliberately wrong model and the five weakness patterns. Guest complaint, lab supplies at the hospital.</span></div>
+      <div class="meta">6 <span lang="de">Übungen</span><span lang="en">exercises</span> · <span lang="de">Gastronomie · Klinik</span><span lang="en">gastronomy · hospital</span></div>
+    </a>
+    <a class="lab-card" href="lab-09-ist-soll.html" data-lab-link>
+      <div class="lab-num">09</div>
+      <h3><span lang="de">Vom Ist zum Soll</span><span lang="en">From as-is to to-be</span></h3>
+      <div class="sub">Redesign heuristics, simulation in Adonis</div>
+      <div class="desc"><span lang="de">Schwachstellen beheben, Umbau begründen, in Adonis CE simulieren und die Prozessschrittanalyse lesen. Auftragsabwicklung im Zerspanungsbetrieb.</span><span lang="en">Fix weaknesses, justify the redesign, simulate in Adonis CE and read the process step analysis. Order processing at a machining shop.</span></div>
+      <div class="meta">5 <span lang="de">Übungen</span><span lang="en">exercises</span> · <span lang="de">Produktion</span><span lang="en">production</span></div>
+    </a>
+    <a class="lab-card" href="lab-10-ki.html" data-lab-link>
+      <div class="lab-num">10</div>
+      <h3><span lang="de">KI in der Modellierung</span><span lang="en">AI in modelling</span></h3>
+      <div class="sub">Generated model, acceptance, prompt as scoping</div>
+      <div class="desc"><span lang="de">Ein Sprachmodell modelliert das Entlassmanagement komplett allein. Notation fehlerfrei, Semantik nicht. Die Abnahme bleibt beim Menschen.</span><span lang="en">A language model models discharge management entirely on its own. Notation flawless, semantics not. Acceptance stays with the human.</span></div>
+      <div class="meta">5 <span lang="de">Übungen</span><span lang="en">exercises</span> · <span lang="de">Klinik</span><span lang="en">hospital</span></div>
+    </a>
+  </div>
+</section>
+
+<section class="section soft">
+  <div class="inner">
+    <div class="section-head">
+      <span class="badge dark"><span lang="de">Wie das hier funktioniert</span><span lang="en">How this works</span></span>
+      <div class="accent-line"></div>
+      <h2><span lang="de">Echte Notation – in Ihrem Browser</span><span lang="en">Real notation – inside your browser</span></h2>
+    </div>
+    <div class="labs-grid">
+      <div class="concept-box">
+        <h3><span lang="de">Modelle, die leben</span><span lang="en">Models that live</span></h3>
+        <p><span lang="de">Jedes Diagramm ist ein echtes BPMN-Modell, gezeichnet von derselben Bibliothek, die auch
+          Camunda verwendet. Klicken Sie auf ein Symbol, und es erklärt sich. Lassen Sie eine Marke laufen, und Sie sehen,
+          was ein Gateway wirklich tut.</span>
+        <span lang="en">Every diagram is a real BPMN model, drawn by the same library Camunda uses. Click a symbol and it
+          explains itself. Run a token and you see what a gateway really does.</span></p>
+      </div>
+      <div class="concept-box">
+        <h3><span lang="de">Selbst modellieren, prüfen lassen</span><span lang="en">Model yourself, have it checked</span></h3>
+        <p><span lang="de">In den Modellierübungen zeichnen Sie direkt auf der Seite. „Prüfen“ läuft zwölf Regeln und
+          einen Vergleich mit der Aufgabe – und nennt die Abweichung, nicht die Lösung. Es gibt mehrere richtige Modelle.</span>
+        <span lang="en">In the modelling exercises you draw right on the page. “Check” runs twelve rules and a comparison with
+          the task – and names the deviation, not the solution. There is more than one correct model.</span></p>
+      </div>
+      <div class="concept-box">
+        <h3><span lang="de">Adonis CE als Werkzeug</span><span lang="en">Adonis CE as the tool</span></h3>
+        <p><span lang="de">Jede Musterlösung liegt als .bpmn-Datei bereit. Laden Sie sie in Adonis CE, Camunda Modeler oder
+          bpmn.io – und laden Sie Ihr eigenes Adonis-Modell hier hoch, um es prüfen zu lassen. Lab 01 zeigt den Weg
+          hin und zurück.</span>
+        <span lang="en">Every model solution comes as a .bpmn file. Load it into Adonis CE, Camunda Modeler or bpmn.io – and
+          upload your own Adonis model here to have it checked. Lab 01 shows the way there and back.</span></p>
+      </div>
+    </div>
+    <div class="tip-box">
+      <p><strong><span lang="de">Ihr Fortschritt bleibt lokal.</span><span lang="en">Your progress stays local.</span></strong>
+        <span lang="de">Gelöste Übungen und Ihre Modelle im Editor werden im Speicher Ihres Browsers vermerkt. Diese Angaben
+          verlassen Ihr Gerät nicht; es gibt keine Auswertung und keine Übermittlung an die Hochschule. Oben bei den
+          Kacheln sehen Sie Ihren Stand und können ihn löschen, um von vorn zu beginnen.</span>
+        <span lang="en">Solved exercises and your models in the editor are noted in your browser's local storage. This
+          information never leaves your device; there is no evaluation and no transmission to the university. Above the
+          tiles you see your progress and can delete it to start over.</span></p>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="probe">
+  <div class="section-head">
+    <span class="badge"><span lang="de">Zum Ausprobieren</span><span lang="en">Try it</span></span>
+    <div class="accent-line"></div>
+    <h2><span lang="de">Ein erstes Modell</span><span lang="en">A first model</span></h2>
+    <p>
+      <span lang="de">Klicken Sie auf ein Symbol. Drücken Sie „Marke laufen lassen“ und dann auf das Startereignis.
+        Mehr braucht es nicht, um anzufangen.</span>
+      <span lang="en">Click a symbol. Press “Run a token” and then the start event. That is all it takes to begin.</span>
+    </p>
+  </div>
+  <div data-modell="modelle/uc01-kaffee.bpmn" data-name="UC01 · Kaffee am Kiosk zubereiten"></div>
+</section>
+
+<section class="section soft">
+  <div class="inner">
+    <div class="section-head">
+      <span class="badge"><span lang="de">Erster Schritt</span><span lang="en">First step</span></span>
+      <div class="accent-line"></div>
+      <h2><span lang="de">Wenn Sie noch nie ein Prozessmodell gezeichnet haben</span><span lang="en">If you have never drawn a process model</span></h2>
+      <p>
+        <span lang="de">Fangen Sie mit Lab 01 an. Es erklärt, was ein Prozess von einer Aufbauorganisation unterscheidet,
+          was eine Marke ist und wie Sie Adonis CE einrichten. Wer das schon kennt, steigt bei Lab 02 ein.</span>
+        <span lang="en">Start with lab 01. It explains what distinguishes a process from an organisational chart, what a
+          token is and how to set up Adonis CE. If you already know that, start at lab 02.</span>
+      </p>
+    </div>
+    <div class="cta-row" style="justify-content:flex-start">
+      <a class="btn solid" href="lab-01-grundlagen.html" data-lab-link><span lang="de">Lab 01 öffnen</span><span lang="en">Open lab 01</span></a>
+      <a class="btn" href="lab-02-sequenzfluss.html" data-lab-link><span lang="de">Direkt zum Modellieren</span><span lang="en">Straight to modelling</span></a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  <span lang="de">THWS Business School · PROM-Lab · Prof. Dr. Robert Butscher · Diagramme mit <a href="https://bpmn.io" rel="noopener">bpmn.io</a></span>
+  <span lang="en">THWS Business School · PROM-Lab · Prof. Dr. Robert Butscher · Diagrams with <a href="https://bpmn.io" rel="noopener">bpmn.io</a></span>
+</footer>
+
+<script type="module">
+  import { starteUebersicht } from './assets/prom.js'
+  starteUebersicht({ basis: '.' })
+</script>
+</body>
+</html>

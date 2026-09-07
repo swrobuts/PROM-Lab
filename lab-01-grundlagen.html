@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="de" data-lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lab 01 · Warum Prozessmodelle? · PROM-Lab</title>
+  <meta name="prom:titel-en" content="Lab 01 · Why process models? · PROM-Lab" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/bpmn/diagram-js.css" />
+  <link rel="stylesheet" href="assets/bpmn/bpmn-js.css" />
+  <link rel="stylesheet" href="assets/bpmn/bpmn-font/css/bpmn.css" />
+  <link rel="stylesheet" href="assets/bpmn/bpmn-js-token-simulation.css" />
+  <link rel="stylesheet" href="assets/prom.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%2300595C'/><text x='16' y='23' font-family='sans-serif' font-size='18' font-weight='bold' text-anchor='middle' fill='%2390D033'>P</text></svg>" />
+</head>
+<body class="lab-page">
+
+<header class="header">
+  <div class="header-left">
+    <a class="header-logo" href="index.html" data-lab-link><span class="mark">PROM</span>-Lab</a>
+    <a class="header-back" href="index.html" data-lab-link>
+      <span lang="de">← Zur Übersicht</span><span lang="en">← Back to overview</span>
+    </a>
+  </div>
+  <div class="header-right">
+    <button class="lang-btn active" data-lang-btn="de" aria-pressed="true">DE</button>
+    <button class="lang-btn" data-lang-btn="en" aria-pressed="false">EN</button>
+  </div>
+</header>
+
+<nav class="sidebar" aria-label="Lab-Navigation">
+  <div class="sidebar-title"><span lang="de">Abschnitte</span><span lang="en">Sections</span></div>
+  <a class="sidebar-link" href="#prozess"><span lang="de">Was ein Prozess ist</span><span lang="en">What a process is</span></a>
+  <a class="sidebar-link" href="#marke"><span lang="de">Modell, Instanz, Marke</span><span lang="en">Model, instance, token</span></a>
+  <a class="sidebar-link" href="#bpmn"><span lang="de">Wozu BPMN?</span><span lang="en">Why BPMN?</span></a>
+  <a class="sidebar-link" href="#werkzeuge"><span lang="de">Werkzeuge</span><span lang="en">Tools</span></a>
+  <a class="sidebar-link" href="#adonis"><span lang="de">Adonis CE: Import und Export</span><span lang="en">Adonis CE: import and export</span></a>
+  <a class="sidebar-link" href="#datei"><span lang="de">Die .bpmn-Datei</span><span lang="en">The .bpmn file</span></a>
+  <a class="sidebar-link" href="#uebungen"><span lang="de">Übungen</span><span lang="en">Exercises</span></a>
+  <a class="sidebar-link" href="#zusammenfassung"><span lang="de">Zusammenfassung</span><span lang="en">Summary</span></a>
+</nav>
+
+<div class="lab-header">
+  <div class="lab-num-big">01</div>
+  <h1 class="lab-title">
+    <span lang="de">Warum Prozessmodelle?</span>
+    <span lang="en">Why process models?</span>
+  </h1>
+  <p class="lab-intro">
+    <span lang="de">Bevor das erste Rechteck gezeichnet wird, lohnt ein Blick darauf, was ein Prozessmodell überhaupt
+      leisten soll: Es beschreibt, in welcher Reihenfolge Dinge geschehen, was sie auslöst und womit sie enden, und
+      zwar so, dass Fachabteilung, IT und ein Werkzeug dieselbe Zeichnung lesen. Dieses Lab führt die drei Begriffe
+      ein, auf denen alles Weitere aufbaut, stellt die Werkzeuge vor und zeigt, wie eine .bpmn-Datei in Adonis CE
+      hinein- und wieder herauskommt.</span>
+    <span lang="en">Before the first rectangle is drawn, it is worth looking at what a process model is supposed to
+      achieve: it describes in which order things happen, what triggers them and what they end with, in a way that the
+      business, IT and a tool read the same drawing. This lab introduces the three terms everything else builds on,
+      presents the tools and shows how a .bpmn file gets into Adonis CE and out again.</span>
+  </p>
+  <div class="lernziele">
+    <span class="lernziel-chip"><span lang="de">Prozess und Instanz</span><span lang="en">Process and instance</span></span>
+    <span class="lernziel-chip"><span lang="de">Marke (Token)</span><span lang="en">Token</span></span>
+    <span class="lernziel-chip">BPMN 2.0</span>
+    <span class="lernziel-chip">Adonis CE · Camunda · bpmn.io</span>
+    <span class="lernziel-chip"><span lang="de">.bpmn-Datei</span><span lang="en">.bpmn file</span></span>
+  </div>
+</div>
+
+<main class="main-content">
+
+  <section class="section-block" id="prozess">
+    <h2><span lang="de">Was ein Prozess ist</span><span lang="en">What a process is</span></h2>
+    <p>
+      <span lang="de">Ein Prozess ist eine Folge von Tätigkeiten, die durch ein Ereignis ausgelöst wird, ein Ergebnis
+        für einen Kunden erzeugt und dabei Ressourcen verbraucht. Die Aufbauorganisation sagt, <em>wer</em> zu wem gehört;
+        die Ablauforganisation sagt, <em>was</em> in welcher Reihenfolge geschieht. Ein Prozessmodell zeigt die zweite
+        Sicht. Die erste erscheint darin höchstens als Zuständigkeit, in BPMN als Bahn.</span>
+      <span lang="en">A process is a sequence of activities that is triggered by an event, produces a result for a
+        customer and consumes resources along the way. The organisational structure says <em>who</em> belongs to whom;
+        the process organisation says <em>what</em> happens in which order. A process model shows the second view. The
+        first appears in it at most as a responsibility, in BPMN as a lane.</span>
+    </p>
+    <div class="concept-box">
+      <h3><span lang="de">Die vier Fragen, die jedes Modell beantwortet</span><span lang="en">The four questions every model answers</span></h3>
+      <ul>
+        <li><span lang="de"><strong>Wodurch beginnt es?</strong> Ein Ereignis: Eine Bestellung geht ein, ein Patient trifft ein, ein Timer läuft ab.</span><span lang="en"><strong>What starts it?</strong> An event: an order comes in, a patient arrives, a timer expires.</span></li>
+        <li><span lang="de"><strong>Was geschieht, und in welcher Reihenfolge?</strong> Aufgaben, verbunden durch Sequenzflüsse.</span><span lang="en"><strong>What happens, and in which order?</strong> Activities, connected by sequence flows.</span></li>
+        <li><span lang="de"><strong>Wo verzweigt es?</strong> Gateways mit Bedingungen.</span><span lang="en"><strong>Where does it branch?</strong> Gateways with conditions.</span></li>
+        <li><span lang="de"><strong>Womit endet es?</strong> Ein oder mehrere Endereignisse, jedes ein Ergebnis.</span><span lang="en"><strong>What does it end with?</strong> One or more end events, each a result.</span></li>
+      </ul>
+    </div>
+    <p>
+      <span lang="de">Das kleinste vollständige Modell hat also ein Startereignis, mindestens eine Aufgabe und ein
+        Endereignis. Hier ist eines. Klicken Sie auf die Symbole.</span>
+      <span lang="en">The smallest complete model therefore has a start event, at least one task and an end event. Here
+        is one. Click the symbols.</span>
+    </p>
+    <div data-modell="modelle/uc01-kaffee.bpmn" data-name="UC01 · Kaffee am Kiosk zubereiten"></div>
+  </section>
+
+  <section class="section-block" id="marke">
+    <h2><span lang="de">Modell, Instanz, Marke</span><span lang="en">Model, instance, token</span></h2>
+    <p>
+      <span lang="de">Das Modell oben beschreibt den Kiosk-Ablauf ein einziges Mal. Jede tatsächliche Bestellung ist
+        eine <strong>Prozessinstanz</strong>: ein Durchlauf mit eigenem Anfang, eigenem Ende und eigenen Daten. Vierzig
+        Bestellungen am Vormittag sind vierzig Instanzen desselben Modells. Der Bauplan ist einer, die Häuser sind viele.</span>
+      <span lang="en">The model above describes the kiosk flow exactly once. Every actual order is a <strong>process
+        instance</strong>: one run with its own start, its own end and its own data. Forty orders in a morning are forty
+        instances of the same model. There is one blueprint, there are many houses.</span>
+    </p>
+    <p>
+      <span lang="de">Um zu verstehen, was ein Modell tut, denkt man sich eine <strong>Marke</strong> (englisch
+        <em>Token</em>), die beim Startereignis geboren wird, über die Sequenzflüsse wandert, an jeder Aufgabe wartet, bis
+        sie erledigt ist, und beim Endereignis verschwindet. Gateways sind Weichen für Marken: Das exklusive lässt
+        eine durch, das parallele vervielfältigt sie, die parallele Zusammenführung wartet, bis alle da sind. Jedes Lab
+        dieser Umgebung hat den Knopf „Marke laufen lassen“, mit dem Sie das ausprobieren.</span>
+      <span lang="en">To understand what a model does, imagine a <strong>token</strong> that is born at the start
+        event, travels along the sequence flows, waits at every task until it is done and disappears at the end event.
+        Gateways are switches for tokens: the exclusive one lets one through, the parallel one multiplies it, the
+        parallel join waits until all have arrived. Every lab in this environment has the button “Run a token” to try
+        that out.</span>
+    </p>
+    <div class="tip-box">
+      <p><strong><span lang="de">Warum das zählt.</span><span lang="en">Why it matters.</span></strong>
+        <span lang="de">Fast jeder Fehler in einem Prozessmodell wird sichtbar, wenn man eine Marke hindurchschickt:
+          die Verzweigung ohne Bedingung, die Zusammenführung, die ewig wartet, die Aufgabe, in die zwei Marken laufen.
+          Deshalb steht die Marke am Anfang und nicht am Ende dieses Kurses.</span>
+        <span lang="en">Almost every error in a process model becomes visible when you send a token through it: the
+          split without a condition, the join that waits forever, the task two tokens run into. That is why the token
+          comes at the beginning of this course, not at the end.</span></p>
+    </div>
+  </section>
+
+  <section class="section-block" id="bpmn">
+    <h2><span lang="de">Wozu BPMN?</span><span lang="en">Why BPMN?</span></h2>
+    <p>
+      <span lang="de">Prozesse lassen sich mit Kästchen und Pfeilen in jedem Zeichenprogramm skizzieren. Sobald aber
+        zwei Personen dieselbe Skizze verschieden lesen, braucht es eine Vereinbarung, was ein Kästchen bedeutet.
+        <strong>BPMN</strong> (Business Process Model and Notation) ist diese Vereinbarung: ein Standard der OMG, seit 2011
+        in Version 2.0, der festlegt, welche Symbole es gibt, wie Marken durch sie laufen und wie ein Modell als
+        XML-Datei gespeichert wird. Die Notation ist für drei Leser zugleich gemacht:</span>
+      <span lang="en">Processes can be sketched with boxes and arrows in any drawing program. But as soon as two people
+        read the same sketch differently, an agreement is needed on what a box means. <strong>BPMN</strong> (Business
+        Process Model and Notation) is that agreement: an OMG standard, version 2.0 since 2011, that defines which
+        symbols exist, how tokens run through them and how a model is stored as an XML file. The notation is made for
+        three readers at once:</span>
+    </p>
+    <ul>
+      <li><span lang="de"><strong>Die Fachabteilung</strong> liest Aufgaben, Ereignisse und Gateways wie einen Comic: von links nach rechts, ohne Schulung.</span><span lang="en"><strong>The business</strong> reads tasks, events and gateways like a comic: left to right, without training.</span></li>
+      <li><span lang="de"><strong>Die IT</strong> findet in denselben Symbolen die technischen Details, etwa welche Nachricht ein Ereignis auslöst.</span><span lang="en"><strong>IT</strong> finds the technical details in the same symbols, such as which message triggers an event.</span></li>
+      <li><span lang="de"><strong>Das Werkzeug</strong> kann das Modell prüfen, simulieren und in einer Prozess-Engine ausführen, weil die Bedeutung jedes Symbols festgelegt ist.</span><span lang="en"><strong>The tool</strong> can check, simulate and execute the model in a process engine, because the meaning of every symbol is defined.</span></li>
+    </ul>
+    <div class="info-box">
+      <p><span lang="de">Die Vorlesung ordnet BPMN im Camunda-Framework nach Freund und Rücker ein: strategisches
+        Modell (grob, für Entscheidungen), operatives Modell (was diese Umgebung übt) und technisches Modell (ausführbar).
+        Alle drei benutzen dieselben Symbole in unterschiedlicher Tiefe.</span>
+        <span lang="en">The lecture places BPMN in the Camunda framework by Freund and Rücker: strategic model (coarse,
+        for decisions), operational model (what this environment practises) and technical model (executable). All three
+        use the same symbols at different depth.</span></p>
+    </div>
+  </section>
+
+  <section class="section-block" id="werkzeuge">
+    <h2><span lang="de">Werkzeuge</span><span lang="en">Tools</span></h2>
+    <p>
+      <span lang="de">Die Werkzeugwahl ist frei. Die Vorlesung empfiehlt Adonis CE, weil es kostenlos, browserbasiert
+        und für die Simulation in Lab 09 nötig ist. Die Aufzählung ist eine Auswahl ohne Wertung.</span>
+      <span lang="en">The choice of tool is yours. The lecture recommends Adonis CE because it is free, browser-based and
+        needed for the simulation in lab 09. The list is a selection, not a ranking.</span>
+    </p>
+    <div class="werkzeuge">
+      <div class="werkzeug standard">
+        <h4>Adonis CE <span class="badge"><span lang="de">Standard</span><span lang="en">Default</span></span></h4>
+        <p><span lang="de">Community Edition von BOC. Modellieren im Browser, Modellkatalog, BPMN-DI-Import und -Export, Prozessschrittanalyse zur Simulation. Registrierung nötig.</span><span lang="en">Community edition by BOC. Modelling in the browser, model catalogue, BPMN DI import and export, process step analysis for simulation. Registration required.</span></p>
+        <a href="https://www.adonis-community.com/" rel="noopener">adonis-community.com</a>
+      </div>
+      <div class="werkzeug">
+        <h4>Camunda Modeler</h4>
+        <p><span lang="de">Kostenfreies Desktopprogramm. Erzeugt die .bpmn-Dateien, mit denen dieses Lab arbeitet, und dient als Referenz dafür, wie ein Modell auszusehen hat.</span><span lang="en">Free desktop program. Produces the .bpmn files this lab works with and serves as a reference for what a model should look like.</span></p>
+        <a href="https://camunda.com/download/modeler/" rel="noopener">camunda.com</a>
+      </div>
+      <div class="werkzeug">
+        <h4>bpmn.io</h4>
+        <p><span lang="de">Der Modellierer im Browser, ohne Konto. Dieselbe Bibliothek zeichnet die Modelle auf diesen Seiten. Gut zum schnellen Ausprobieren, ohne Katalog und Simulation.</span><span lang="en">The modeller in the browser, no account. The same library draws the models on these pages. Good for quick trials, without catalogue and simulation.</span></p>
+        <a href="https://demo.bpmn.io/" rel="noopener">demo.bpmn.io</a>
+      </div>
+      <div class="werkzeug">
+        <h4>SAP Signavio</h4>
+        <p><span lang="de">Professionelle Suite mit Modellierung, Simulation und Process Mining; kostenfreie akademische Lizenz.</span><span lang="en">Professional suite with modelling, simulation and process mining; free academic licence.</span></p>
+      </div>
+      <div class="werkzeug">
+        <h4>draw.io · Lucidchart</h4>
+        <p><span lang="de">Zeichenprogramme mit BPMN-Schablonen. Schnell für ein Bild, aber ohne Validierung, Simulation und ohne .bpmn-Export: Abgabe dann als PNG oder SVG.</span><span lang="en">Drawing programs with BPMN stencils. Quick for a picture, but without validation, simulation or .bpmn export: submit as PNG or SVG then.</span></p>
+      </div>
+      <div class="werkzeug">
+        <h4><span lang="de">Diese Lernumgebung</span><span lang="en">This learning environment</span></h4>
+        <p><span lang="de">Der Editor in den Modellierübungen erzeugt ebenfalls .bpmn-Dateien und prüft sie gegen zwölf Regeln. Zum Üben gedacht, nicht als Ersatz für ein Werkzeug mit Katalog.</span><span lang="en">The editor in the modelling exercises also produces .bpmn files and checks them against twelve rules. Meant for practice, not as a replacement for a tool with a catalogue.</span></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-block" id="adonis">
+    <h2><span lang="de">Adonis CE: Import und Export</span><span lang="en">Adonis CE: import and export</span></h2>
+    <p>
+      <span lang="de">Alle Musterlösungen dieser Umgebung liegen als .bpmn-Dateien bereit. So kommen sie in Adonis
+        hinein und wieder heraus. Die Menüpfade entsprechen der Adonis-Dokumentation (Version 16); die Community
+        Edition ist gleich aufgebaut.</span>
+      <span lang="en">All model solutions of this environment are available as .bpmn files. This is how they get into
+        Adonis and out again. The menu paths follow the Adonis documentation (version 16); the community edition is
+        built the same way.</span>
+    </p>
+    <h3><span lang="de">Import</span><span lang="en">Import</span></h3>
+    <ol class="schritte">
+      <li><span lang="de">Datei herunterladen, etwa <a href="modelle/uc01-kaffee.bpmn" download>uc01-kaffee.bpmn</a>.</span><span lang="en">Download the file, e.g. <a href="modelle/uc01-kaffee.bpmn" download>uc01-kaffee.bpmn</a>.</span></li>
+      <li><span lang="de">In Adonis den <strong>Modellkatalog</strong> öffnen und die Modellgruppe, in die das Modell soll, mit der <strong>rechten Maustaste</strong> anklicken.</span><span lang="en">In Adonis open the <strong>model catalogue</strong> and <strong>right-click</strong> the model group the model should go into.</span></li>
+      <li><span lang="de"><strong>Import/Export</strong> und dann <strong>BPMN DI Import</strong> wählen.</span><span lang="en">Choose <strong>Import/Export</strong> and then <strong>BPMN DI import</strong>.</span></li>
+      <li><span lang="de">Die Datei auswählen (.bpmn oder .xml; auch ein ZIP mit mehreren Dateien auf oberster Ebene) und <strong>Datei importieren</strong> bestätigen.</span><span lang="en">Select the file (.bpmn or .xml; also a ZIP with several files at top level) and confirm <strong>Import file</strong>.</span></li>
+      <li><span lang="de">Adonis legt ein Geschäftsprozessdiagramm an und übernimmt das Layout aus der Datei. Öffnen, prüfen, weiterarbeiten.</span><span lang="en">Adonis creates a business process diagram and takes the layout from the file. Open it, check it, continue working.</span></li>
+    </ol>
+    <h3><span lang="de">Export</span><span lang="en">Export</span></h3>
+    <ol class="schritte">
+      <li><span lang="de">Im Modellkatalog das Modell mit der <strong>rechten Maustaste</strong> anklicken.</span><span lang="en">In the model catalogue <strong>right-click</strong> the model.</span></li>
+      <li><span lang="de"><strong>Import/Export</strong>, dann <strong>BPMN DI Export</strong>.</span><span lang="en"><strong>Import/Export</strong>, then <strong>BPMN DI export</strong>.</span></li>
+      <li><span lang="de">Bei Bedarf „Mit Teilprozessen exportieren“ (nur eingebettete Teilprozesse und Aufrufaktivitäten) und „Rekursion zulassen“ ankreuzen, dann <strong>Exportieren</strong>.</span><span lang="en">If needed tick “Export with subprocesses” (embedded subprocesses and call activities only) and “Allow recursion”, then <strong>Export</strong>.</span></li>
+      <li><span lang="de">Die .bpmn-Datei lässt sich hier in jeder Modellierübung über „.bpmn importieren“ prüfen, in Camunda oder bpmn.io öffnen und im Arbeitsauftrag abgeben. Für ein Bild zusätzlich den Grafikexport des Diagramms (SVG oder PDF) verwenden.</span><span lang="en">The .bpmn file can be checked here in every modelling exercise via “Import .bpmn”, opened in Camunda or bpmn.io and submitted for the assignment. For a picture, additionally use the diagram's graphic export (SVG or PDF).</span></li>
+    </ol>
+    <div class="warn-box">
+      <p><strong><span lang="de">Eigenheiten beim Import.</span><span lang="en">Quirks of the import.</span></strong>
+        <span lang="de">Adonis benennt Elementtypen in seiner eigenen Sprache („Aufgabe“ mit Untertyp statt „Send Task“),
+          zeigt manche Datenobjekte und Anmerkungen anders und verlangt für die Simulation die Ansicht „Standard mit
+          Simulation“ statt „Kompakt“. Die Bedeutung des Modells ändert sich dadurch nicht. Was fehlt oder anders
+          aussieht, lässt sich in Adonis nachziehen; die Datei bleibt die gemeinsame Grundlage.</span>
+        <span lang="en">Adonis names element types in its own language (“task” with a subtype instead of “send task”),
+          shows some data objects and annotations differently and requires the view “Standard with simulation” instead
+          of “Compact” for the simulation. The meaning of the model does not change. Whatever is missing or looks
+          different can be adjusted in Adonis; the file remains the common basis.</span></p>
+    </div>
+  </section>
+
+  <section class="section-block" id="datei">
+    <h2><span lang="de">Die .bpmn-Datei</span><span lang="en">The .bpmn file</span></h2>
+    <p>
+      <span lang="de">Eine .bpmn-Datei ist XML und besteht aus zwei Teilen. Der erste beschreibt den <strong>Prozess</strong>:
+        welche Aufgaben, Ereignisse und Gateways es gibt und welche Sequenzflüsse sie verbinden. Der zweite, das
+        <strong>Diagram Interchange</strong> (DI), beschreibt die <strong>Zeichnung</strong>: wo jedes Symbol liegt und
+        über welche Wegpunkte jede Linie läuft. Deshalb kann ein Werkzeug ein importiertes Modell neu anordnen, ohne
+        seine Bedeutung zu ändern, und deshalb ist ein Bild kein Modell.</span>
+      <span lang="en">A .bpmn file is XML and consists of two parts. The first describes the <strong>process</strong>:
+        which tasks, events and gateways exist and which sequence flows connect them. The second, the <strong>diagram
+        interchange</strong> (DI), describes the <strong>drawing</strong>: where every symbol lies and through which
+        waypoints every line runs. That is why a tool can rearrange an imported model without changing its meaning, and
+        why a picture is not a model.</span>
+    </p>
+    <pre class="code-block">&lt;bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" …&gt;
+  &lt;bpmn:process id="Process_uc01" name="Kaffee am Kiosk zubereiten"&gt;
+    &lt;bpmn:startEvent id="s1" name="Kaffee bestellt"&gt;
+      &lt;bpmn:outgoing&gt;Flow_s1_t1&lt;/bpmn:outgoing&gt;
+    &lt;/bpmn:startEvent&gt;
+    &lt;bpmn:task id="t1" name="Bohnen mahlen"&gt; … &lt;/bpmn:task&gt;
+    &lt;bpmn:sequenceFlow id="Flow_s1_t1" sourceRef="s1" targetRef="t1" /&gt;
+    …
+  &lt;/bpmn:process&gt;
+  &lt;bpmndi:BPMNDiagram&gt;
+    &lt;bpmndi:BPMNPlane bpmnElement="Process_uc01"&gt;
+      &lt;bpmndi:BPMNShape bpmnElement="t1"&gt;
+        &lt;dc:Bounds x="290" y="65" width="120" height="80" /&gt;
+      &lt;/bpmndi:BPMNShape&gt;
+      …
+&lt;/bpmn:definitions&gt;</pre>
+    <p>
+      <span lang="de">Sie müssen dieses XML nie schreiben. Lesen können sollten Sie es, denn in Lab 10 erzeugt eine KI
+        genau solche Dateien, und die Frage, ob sie stimmen, entscheidet sich im Modell, nicht im Bild.</span>
+      <span lang="en">You never have to write this XML. You should be able to read it, because in lab 10 an AI produces
+        exactly such files, and whether they are right is decided in the model, not in the picture.</span>
+    </p>
+  </section>
+
+  <section class="section-block" id="uebungen">
+    <h2><span lang="de">Übungen</span><span lang="en">Exercises</span></h2>
+    <p>
+      <span lang="de">Vier kurze Übungen: eine Marke laufen lassen, Aufbau von Ablauf unterscheiden, XML lesen und
+        einmal den Weg durch Adonis gehen. Gelöste Übungen werden im Browser vermerkt.</span>
+      <span lang="en">Four short exercises: run a token, distinguish structure from process, read XML and walk the way
+        through Adonis once. Solved exercises are noted in the browser.</span>
+    </p>
+    <div data-uebung="P01-01"></div>
+    <div data-uebung="P01-02"></div>
+    <div data-uebung="P01-03"></div>
+    <div data-uebung="P01-04"></div>
+  </section>
+
+  <section class="section-block" id="zusammenfassung">
+    <h2><span lang="de">Zusammenfassung</span><span lang="en">Summary</span></h2>
+    <ul>
+      <li><span lang="de">Ein Prozessmodell zeigt die Ablauforganisation: Auslöser, Reihenfolge, Verzweigungen, Ergebnis.</span><span lang="en">A process model shows the process organisation: trigger, order, branches, result.</span></li>
+      <li><span lang="de">Das Modell ist der Bauplan, die Instanz der einzelne Durchlauf, die Marke seine Spur durch das Modell.</span><span lang="en">The model is the blueprint, the instance the single run, the token its trace through the model.</span></li>
+      <li><span lang="de">BPMN 2.0 legt Symbole, Markenverhalten und Dateiformat fest, damit Fachbereich, IT und Werkzeug dasselbe lesen.</span><span lang="en">BPMN 2.0 defines symbols, token behaviour and file format so that business, IT and tool read the same thing.</span></li>
+      <li><span lang="de">Adonis CE importiert und exportiert .bpmn über das Kontextmenü im Modellkatalog; die Datei ist die gemeinsame Grundlage, das Bild nur ihre Ansicht.</span><span lang="en">Adonis CE imports and exports .bpmn via the context menu in the model catalogue; the file is the common basis, the picture only its view.</span></li>
+    </ul>
+    <nav class="nav-bottom"></nav>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <span lang="de">THWS Business School · PROM-Lab · Prof. Dr. Robert Butscher · Diagramme mit <a href="https://bpmn.io" rel="noopener">bpmn.io</a></span>
+  <span lang="en">THWS Business School · PROM-Lab · Prof. Dr. Robert Butscher · Diagrams with <a href="https://bpmn.io" rel="noopener">bpmn.io</a></span>
+</footer>
+
+<script type="module">
+  import { starteLab } from './assets/prom.js'
+  starteLab({ lab: 'lab-01', basis: '.' })
+</script>
+</body>
+</html>

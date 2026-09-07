@@ -1,0 +1,9 @@
+{
+  "name": "prom-lab-tools",
+  "private": true,
+  "type": "module",
+  "description": "Prüfwerkzeuge für PROM-Lab (nicht Teil der ausgelieferten Seite)",
+  "devDependencies": {
+    "@xmldom/xmldom": "^0.9.8"
+  }
+}

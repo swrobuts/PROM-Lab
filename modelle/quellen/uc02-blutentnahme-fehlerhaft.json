@@ -1,0 +1,15 @@
+{
+  "id": "uc02f", "name": "Blutentnahme in der Hausarztpraxis (fehlerhaft)", "absichtlichFehlerhaft": true,
+  "nodes": [
+    {"id": "s1", "type": "startEvent", "col": 0, "row": 0},
+    {"id": "t1", "type": "task", "name": "Identitätsprüfung", "col": 1, "row": 0},
+    {"id": "t2", "type": "task", "name": "Röhrchen etikettieren", "col": 2, "row": 0},
+    {"id": "t3", "type": "task", "name": "Wird Blut entnommen", "col": 3, "row": 0},
+    {"id": "t4", "type": "task", "name": "Einstichstelle versorgen und Proben verpacken", "col": 4, "row": 0},
+    {"id": "t5", "type": "task", "name": "Proben an Kurier übergeben", "col": 5, "row": 0}
+  ],
+  "flows": [
+    {"from": "s1", "to": "t1"}, {"from": "t1", "to": "t2"}, {"from": "t2", "to": "t3"},
+    {"from": "t3", "to": "t4"}, {"from": "t4", "to": "t5"}
+  ]
+}

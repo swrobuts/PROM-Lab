@@ -1,0 +1,125 @@
+[
+  {
+    "id": "P01-01",
+    "typ": "erkunden",
+    "modell": "modelle/uc01-kaffee.bpmn",
+    "modellName": "UC01 · Kaffee am Kiosk zubereiten",
+    "titel": { "de": "Eine Marke durch den Kiosk schicken", "en": "Send a token through the kiosk" },
+    "aufgabe": {
+      "de": "<p>Drücken Sie <em>Marke laufen lassen</em> und klicken Sie dann auf das Startereignis. Beobachten Sie, wie die Marke von Aufgabe zu Aufgabe wandert. Beantworten Sie danach die Fragen.</p>",
+      "en": "<p>Press <em>Run a token</em> and then click the start event. Watch the token travel from task to task. Then answer the questions.</p>"
+    },
+    "fragen": [
+      {
+        "frage": { "de": "Was stellt die Marke dar?", "en": "What does the token represent?" },
+        "optionen": [
+          { "de": "Eine einzelne Prozessinstanz, also einen konkreten Kaffee für einen konkreten Gast.", "en": "A single process instance, i.e. one concrete coffee for one concrete guest." },
+          { "de": "Die Verkäuferin, die den Prozess ausführt.", "en": "The vendor who executes the process." },
+          { "de": "Den Prozess als Ganzes, also alle Kaffees des Tages.", "en": "The process as a whole, i.e. all coffees of the day." }
+        ],
+        "richtig": [0],
+        "erklaerung": { "de": "Das Modell beschreibt den Ablauf einmal; jede Marke ist ein Durchlauf. Zwei Bestellungen sind zwei Marken im selben Modell.", "en": "The model describes the flow once; every token is one run. Two orders are two tokens in the same model." }
+      },
+      {
+        "frage": { "de": "Wie viele Instanzen entstehen, wenn an einem Vormittag 40 Gäste Kaffee bestellen?", "en": "How many instances arise when 40 guests order coffee in one morning?" },
+        "optionen": [
+          { "de": "Eine, weil es nur ein Modell gibt.", "en": "One, because there is only one model." },
+          { "de": "40, eine je Bestellung.", "en": "40, one per order." },
+          { "de": "Vier, eine je Aufgabe.", "en": "Four, one per task." }
+        ],
+        "richtig": [1],
+        "erklaerung": { "de": "Prozessmodell und Prozessinstanz sind zwei Dinge: ein Bauplan, viele Häuser.", "en": "Process model and process instance are two things: one blueprint, many houses." }
+      }
+    ],
+    "rueckmeldung": { "de": "Modell, Instanz und Marke sind die drei Begriffe, auf denen alles Weitere aufbaut.", "en": "Model, instance and token are the three terms everything else builds on." }
+  },
+  {
+    "id": "P01-02",
+    "typ": "quiz",
+    "titel": { "de": "Prozess oder Aufbauorganisation?", "en": "Process or organisational structure?" },
+    "aufgabe": {
+      "de": "<p>Die Vorlesung unterscheidet Aufbau- und Ablauforganisation. Welche der folgenden Aussagen gehören zur <strong>Ablauforganisation</strong>, also zu dem, was ein Prozessmodell zeigt?</p>",
+      "en": "<p>The lecture distinguishes organisational structure from process organisation. Which of the following statements belong to <strong>process organisation</strong>, i.e. to what a process model shows?</p>"
+    },
+    "fragen": [
+      {
+        "frage": { "de": "Mehrere Antworten sind richtig.", "en": "Several answers are correct." },
+        "mehrfach": true,
+        "optionen": [
+          { "de": "In welcher Reihenfolge die Röhrchen etikettiert und das Blut entnommen wird.", "en": "In which order the tubes are labelled and the blood is drawn." },
+          { "de": "Wer wem im Krankenhaus disziplinarisch unterstellt ist.", "en": "Who reports to whom in the hospital." },
+          { "de": "Welches Ereignis eine Bestellung auslöst und womit sie endet.", "en": "Which event triggers an order and what it ends with." },
+          { "de": "Wie viele Stellen die Abteilung Einkauf hat.", "en": "How many positions the purchasing department has." },
+          { "de": "Unter welcher Bedingung ein Antrag zur Freigabe an die Leitung geht.", "en": "Under which condition an application goes to management for approval." }
+        ],
+        "richtig": [0, 2, 4],
+        "erklaerung": { "de": "Reihenfolge, Auslöser, Ergebnis und Bedingungen sind Ablauf. Unterstellung und Stellenzahl sind Aufbau; in BPMN erscheint der Aufbau höchstens als Bahn.", "en": "Order, trigger, result and conditions are process. Reporting lines and headcount are structure; in BPMN the structure appears at most as a lane." }
+      }
+    ]
+  },
+  {
+    "id": "P01-03",
+    "typ": "quiz",
+    "titel": { "de": "Die .bpmn-Datei lesen", "en": "Reading the .bpmn file" },
+    "aufgabe": {
+      "de": "<p>Unten steht ein Ausschnitt aus <code>uc01-kaffee.bpmn</code>. Lesen Sie ihn und beantworten Sie die Fragen.</p><pre class=\"code-block\">&lt;bpmn:task id=\"t2\" name=\"Kaffee brühen\"&gt;\n  &lt;bpmn:incoming&gt;Flow_t1_t2&lt;/bpmn:incoming&gt;\n  &lt;bpmn:outgoing&gt;Flow_t2_t3&lt;/bpmn:outgoing&gt;\n&lt;/bpmn:task&gt;\n&lt;bpmn:sequenceFlow id=\"Flow_t2_t3\" sourceRef=\"t2\" targetRef=\"t3\" /&gt;\n…\n&lt;bpmndi:BPMNShape id=\"t2_di\" bpmnElement=\"t2\"&gt;\n  &lt;dc:Bounds x=\"480\" y=\"0\" width=\"120\" height=\"80\" /&gt;\n&lt;/bpmndi:BPMNShape&gt;</pre>",
+      "en": "<p>Below is an excerpt from <code>uc01-kaffee.bpmn</code>. Read it and answer the questions.</p><pre class=\"code-block\">&lt;bpmn:task id=\"t2\" name=\"Kaffee brühen\"&gt;\n  &lt;bpmn:incoming&gt;Flow_t1_t2&lt;/bpmn:incoming&gt;\n  &lt;bpmn:outgoing&gt;Flow_t2_t3&lt;/bpmn:outgoing&gt;\n&lt;/bpmn:task&gt;\n&lt;bpmn:sequenceFlow id=\"Flow_t2_t3\" sourceRef=\"t2\" targetRef=\"t3\" /&gt;\n…\n&lt;bpmndi:BPMNShape id=\"t2_di\" bpmnElement=\"t2\"&gt;\n  &lt;dc:Bounds x=\"480\" y=\"0\" width=\"120\" height=\"80\" /&gt;\n&lt;/bpmndi:BPMNShape&gt;</pre>"
+    },
+    "fragen": [
+      {
+        "frage": { "de": "Welcher Teil der Datei beschreibt, <em>wo</em> das Rechteck gezeichnet wird?", "en": "Which part of the file describes <em>where</em> the rectangle is drawn?" },
+        "optionen": [
+          { "de": "Der Block <code>bpmn:task</code>.", "en": "The <code>bpmn:task</code> block." },
+          { "de": "Der Block <code>bpmndi:BPMNShape</code> mit seinen <code>dc:Bounds</code>.", "en": "The <code>bpmndi:BPMNShape</code> block with its <code>dc:Bounds</code>." },
+          { "de": "Der <code>bpmn:sequenceFlow</code>.", "en": "The <code>bpmn:sequenceFlow</code>." }
+        ],
+        "richtig": [1],
+        "erklaerung": { "de": "BPMN trennt Semantik (Prozess, Aufgaben, Flüsse) von Darstellung (Diagram Interchange, DI). Deshalb kann ein Werkzeug das Modell anders zeichnen, ohne die Bedeutung zu ändern.", "en": "BPMN separates semantics (process, tasks, flows) from presentation (diagram interchange, DI). That is why a tool can draw the model differently without changing its meaning." }
+      },
+      {
+        "frage": { "de": "Warum lohnt sich der Export als .bpmn statt als Bild?", "en": "Why is export as .bpmn worth more than as an image?" },
+        "optionen": [
+          { "de": "Weil die Datei kleiner ist.", "en": "Because the file is smaller." },
+          { "de": "Weil ein anderes Werkzeug das Modell öffnen, prüfen, simulieren und weiterbearbeiten kann.", "en": "Because another tool can open, check, simulate and continue editing the model." },
+          { "de": "Weil ein Bild keine Beschriftungen enthält.", "en": "Because an image contains no labels." }
+        ],
+        "richtig": [1],
+        "erklaerung": { "de": "Das Bild zeigt, die Datei bedeutet. Der Arbeitsauftrag verlangt deshalb .bpmn oder SVG, wenn ein Modellierungswerkzeug benutzt wird.", "en": "The image shows, the file means. That is why the assignment asks for .bpmn or SVG when a modelling tool is used." }
+      }
+    ]
+  },
+  {
+    "id": "P01-04",
+    "typ": "quiz",
+    "titel": { "de": "Adonis CE: hinein und wieder heraus", "en": "Adonis CE: in and out again" },
+    "aufgabe": {
+      "de": "<p>Registrieren Sie sich für Adonis CE, laden Sie <a href=\"modelle/uc01-kaffee.bpmn\" download>uc01-kaffee.bpmn</a> herunter und importieren Sie die Datei nach der Anleitung oben. Exportieren Sie das Modell anschließend wieder als BPMN DI. Beantworten Sie dann:</p>",
+      "en": "<p>Register for Adonis CE, download <a href=\"modelle/uc01-kaffee.bpmn\" download>uc01-kaffee.bpmn</a> and import the file following the instructions above. Then export the model again as BPMN DI. Then answer:</p>"
+    },
+    "fragen": [
+      {
+        "frage": { "de": "Wo befindet sich in Adonis CE der BPMN-Import?", "en": "Where is the BPMN import located in Adonis CE?" },
+        "optionen": [
+          { "de": "Im Kontextmenü einer Modellgruppe im Modellkatalog unter „Import/Export“.", "en": "In the context menu of a model group in the model catalogue under “Import/Export”." },
+          { "de": "In der Palette links neben dem Diagramm.", "en": "In the palette to the left of the diagram." },
+          { "de": "Unter „Simulationsdaten“ einer Aufgabe.", "en": "Under “simulation data” of a task." }
+        ],
+        "richtig": [0],
+        "erklaerung": { "de": "Import und Export sind Funktionen des Katalogs, nicht des Editors: Rechtsklick auf die Gruppe, „Import/Export“, „BPMN DI Import“.", "en": "Import and export are catalogue functions, not editor functions: right-click the group, “Import/Export”, “BPMN DI import”." }
+      },
+      {
+        "frage": { "de": "Welche Dateiendungen nimmt der Import an?", "en": "Which file extensions does the import accept?" },
+        "mehrfach": true,
+        "optionen": [
+          { "de": ".bpmn", "en": ".bpmn" },
+          { "de": ".xml", "en": ".xml" },
+          { "de": ".zip mit mehreren BPMN-Dateien", "en": ".zip with several BPMN files" },
+          { "de": ".png", "en": ".png" }
+        ],
+        "richtig": [0, 1, 2],
+        "erklaerung": { "de": "Ein Bild lässt sich nicht importieren; es enthält keine Semantik. Im ZIP werden nur Dateien auf oberster Ebene gelesen.", "en": "An image cannot be imported; it carries no semantics. In a ZIP only top-level files are read." }
+      }
+    ],
+    "hinweis": { "de": "Der Import kann Namen und Untertypen anders anzeigen als hier (etwa „Aufgabe“ mit Typ „Task“). Das Layout aus der Datei bleibt erhalten.", "en": "The import may show names and subtypes differently than here (e.g. “task” with a type). The layout from the file is preserved." }
+  }
+]

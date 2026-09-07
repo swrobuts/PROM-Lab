@@ -1,5 +1,6 @@
 ki/uc21-entlassmanagement-ki-rohfassung.bpmn
 uc01-kaffee.bpmn
+uc02-blutentnahme-fehlerhaft.bpmn
 uc02-blutentnahme.bpmn
 uc03-reifenwechsel.bpmn
 uc04-triage.bpmn

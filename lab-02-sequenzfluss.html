@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="de" data-lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lab 02 · Aufgaben, Ereignisse, Sequenzfluss · PROM-Lab</title>
+  <meta name="prom:titel-en" content="Lab 02 · Activities, events, sequence flow · PROM-Lab" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/bpmn/diagram-js.css" />
+  <link rel="stylesheet" href="assets/bpmn/bpmn-js.css" />
+  <link rel="stylesheet" href="assets/bpmn/bpmn-font/css/bpmn.css" />
+  <link rel="stylesheet" href="assets/bpmn/bpmn-js-token-simulation.css" />
+  <link rel="stylesheet" href="assets/prom.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%2300595C'/><text x='16' y='23' font-family='sans-serif' font-size='18' font-weight='bold' text-anchor='middle' fill='%2390D033'>P</text></svg>" />
+</head>
+<body class="lab-page">
+
+<header class="header">
+  <div class="header-left">
+    <a class="header-logo" href="index.html" data-lab-link><span class="mark">PROM</span>-Lab</a>
+    <a class="header-back" href="index.html" data-lab-link>
+      <span lang="de">← Zur Übersicht</span><span lang="en">← Back to overview</span>
+    </a>
+  </div>
+  <div class="header-right">
+    <button class="lang-btn active" data-lang-btn="de" aria-pressed="true">DE</button>
+    <button class="lang-btn" data-lang-btn="en" aria-pressed="false">EN</button>
+  </div>
+</header>
+
+<nav class="sidebar" aria-label="Lab-Navigation">
+  <div class="sidebar-title"><span lang="de">Abschnitte</span><span lang="en">Sections</span></div>
+  <a class="sidebar-link" href="#aufgabe"><span lang="de">Die Aufgabe</span><span lang="en">The activity</span></a>
+  <a class="sidebar-link" href="#ereignisse"><span lang="de">Start- und Endereignis</span><span lang="en">Start and end event</span></a>
+  <a class="sidebar-link" href="#sequenzfluss"><span lang="de">Der Sequenzfluss</span><span lang="en">The sequence flow</span></a>
+  <a class="sidebar-link" href="#benennung"><span lang="de">Benennung</span><span lang="en">Naming</span></a>
+  <a class="sidebar-link" href="#beispiel"><span lang="de">Beispiel: Blutentnahme</span><span lang="en">Example: blood sampling</span></a>
+  <a class="sidebar-link" href="#uebungen"><span lang="de">Übungen</span><span lang="en">Exercises</span></a>
+  <a class="sidebar-link" href="#zusammenfassung"><span lang="de">Zusammenfassung</span><span lang="en">Summary</span></a>
+</nav>
+
+<div class="lab-header">
+  <div class="lab-num-big">02</div>
+  <h1 class="lab-title">
+    <span lang="de">Aufgaben, Ereignisse, Sequenzfluss</span>
+    <span lang="en">Activities, events, sequence flow</span>
+  </h1>
+  <p class="lab-intro">
+    <span lang="de">Drei Symbole reichen für ein vollständiges Modell: ein Kreis für den Anfang, Rechtecke für das, was
+      getan wird, ein dicker Kreis für das Ende, verbunden durch Pfeile. Was dieses Lab darüber hinaus lehrt, ist die
+      Disziplin der Benennung. Sie entscheidet mehr über die Lesbarkeit eines Modells als jedes weitere Symbol.</span>
+    <span lang="en">Three symbols suffice for a complete model: a circle for the beginning, rectangles for what is done, a
+      thick circle for the end, connected by arrows. What this lab teaches beyond that is the discipline of naming. It
+      decides more about the readability of a model than any further symbol.</span>
+  </p>
+  <div class="lernziele">
+    <span class="lernziel-chip"><span lang="de">Aufgabe</span><span lang="en">Task</span></span>
+    <span class="lernziel-chip"><span lang="de">Start- und Endereignis</span><span lang="en">Start and end event</span></span>
+    <span class="lernziel-chip"><span lang="de">Sequenzfluss</span><span lang="en">Sequence flow</span></span>
+    <span class="lernziel-chip"><span lang="de">Substantiv + Verb</span><span lang="en">Verb + object</span></span>
+    <span class="lernziel-chip"><span lang="de">Erste eigene Modelle</span><span lang="en">First own models</span></span>
+  </div>
+</div>
+
+<main class="main-content">
+
+  <section class="section-block" id="aufgabe">
+    <h2><span lang="de">Die Aufgabe</span><span lang="en">The activity</span></h2>
+    <div class="symbolkarte">
+      <div class="symbolkarte-kopf">
+        <span class="symbolkarte-name"><span lang="de">Aufgabe</span><span lang="en">Task</span></span>
+        <span class="symbolkarte-was"><span lang="de">ein Schritt, den jemand oder etwas ausführt</span><span lang="en">a step someone or something performs</span></span>
+      </div>
+      <div class="symbolkarte-koerper">
+        <div class="symbolkarte-bild" aria-hidden="true">
+          <svg viewBox="0 0 140 90" width="140" height="90"><rect x="10" y="10" width="120" height="70" rx="10" fill="#fff" stroke="#10201C" stroke-width="2"/><text x="70" y="50" font-family="Space Grotesk, sans-serif" font-size="12" text-anchor="middle" fill="#10201C">Bohnen mahlen</text></svg>
+        </div>
+        <div class="symbolkarte-text">
+          <ul class="symbolkarte-teile">
+            <li><span><span lang="de">Bedeutung</span><span lang="en">Meaning</span></span><span><span lang="de">Eine Marke, die hier ankommt, wartet, bis die Tätigkeit erledigt ist, und läuft dann weiter.</span><span lang="en">A token that arrives here waits until the work is done, then moves on.</span></span></li>
+            <li><span><span lang="de">Körnung</span><span lang="en">Granularity</span></span><span><span lang="de">So grob wie möglich, so fein wie nötig: eine Aufgabe je Tätigkeit, nicht je Handgriff.</span><span lang="en">As coarse as possible, as fine as necessary: one task per activity, not per hand movement.</span></span></li>
+            <li><span><span lang="de">Flüsse</span><span lang="en">Flows</span></span><span><span lang="de">Genau ein eingehender und ein ausgehender Sequenzfluss. Mehrere Ausgänge sind Sache eines Gateways.</span><span lang="en">Exactly one incoming and one outgoing sequence flow. Several exits are a gateway's business.</span></span></li>
+            <li><span><span lang="de">Typen</span><span lang="en">Types</span></span><span><span lang="de">Ein kleines Symbol oben links kennzeichnet optional, wer arbeitet: Mensch, System, Hand, Umschlag. Ein leeres Rechteck ist nie falsch.</span><span lang="en">A small icon top left optionally marks who works: person, system, hand, envelope. An empty rectangle is never wrong.</span></span></li>
+          </ul>
+          <p class="symbolkarte-falle"><strong><span lang="de">Stolperfalle:</span><span lang="en">Pitfall:</span></strong>
+            <span lang="de">„Kaffee brühen und Becher füllen“ ist keine Aufgabe, sondern zwei. Das Und im Namen ist das Warnsignal.</span>
+            <span lang="en">“Brew coffee and fill cup” is not one task but two. The “and” in the name is the warning sign.</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-block" id="ereignisse">
+    <h2><span lang="de">Start- und Endereignis</span><span lang="en">Start and end event</span></h2>
+    <div class="symbolkarte">
+      <div class="symbolkarte-kopf">
+        <span class="symbolkarte-name"><span lang="de">Startereignis · Endereignis</span><span lang="en">Start event · end event</span></span>
+        <span class="symbolkarte-was"><span lang="de">wo eine Instanz beginnt und wo sie endet</span><span lang="en">where an instance begins and where it ends</span></span>
+      </div>
+      <div class="symbolkarte-koerper">
+        <div class="symbolkarte-bild" aria-hidden="true">
+          <svg viewBox="0 0 140 90" width="140" height="90"><circle cx="35" cy="45" r="18" fill="#fff" stroke="#10201C" stroke-width="1.5"/><circle cx="105" cy="45" r="18" fill="#fff" stroke="#10201C" stroke-width="4"/><text x="35" y="78" font-family="Space Grotesk, sans-serif" font-size="9" text-anchor="middle" fill="#4C5C57">Start</text><text x="105" y="78" font-family="Space Grotesk, sans-serif" font-size="9" text-anchor="middle" fill="#4C5C57">Ende</text></svg>
+        </div>
+        <div class="symbolkarte-text">
+          <ul class="symbolkarte-teile">
+            <li><span><span lang="de">Start</span><span lang="en">Start</span></span><span><span lang="de">Dünner Kreis. Hier wird die Marke geboren. Der Name sagt, <em>was eingetreten ist</em>: „Kaffee bestellt“, „Patient aufgerufen“.</span><span lang="en">Thin circle. The token is born here. The name says <em>what has occurred</em>: “coffee ordered”, “patient called”.</span></span></li>
+            <li><span><span lang="de">Ende</span><span lang="en">End</span></span><span><span lang="de">Dicker Kreis. Die Marke verschwindet. Der Name sagt, <em>was das Ergebnis ist</em>: „Kaffee ausgegeben“, „Proben versandbereit“.</span><span lang="en">Thick circle. The token disappears. The name says <em>what the result is</em>: “coffee handed over”, “samples ready for dispatch”.</span></span></li>
+            <li><span><span lang="de">Anzahl</span><span lang="en">Count</span></span><span><span lang="de">Genau ein Start je Prozess (Ausnahmen später). Endereignisse dürfen mehrere sein, eines je unterscheidbarem Ergebnis.</span><span lang="en">Exactly one start per process (exceptions later). End events may be several, one per distinguishable result.</span></span></li>
+            <li><span><span lang="de">Flüsse</span><span lang="en">Flows</span></span><span><span lang="de">Der Start hat nur ausgehende, das Ende nur eingehende Sequenzflüsse.</span><span lang="en">The start has only outgoing, the end only incoming sequence flows.</span></span></li>
+          </ul>
+          <p class="symbolkarte-falle"><strong><span lang="de">Stolperfalle:</span><span lang="en">Pitfall:</span></strong>
+            <span lang="de">Ein Ereignis ist keine Tätigkeit. „Bestellung aufnehmen“ als Startereignis ist falsch; der Start ist „Bestellung eingegangen“, das Aufnehmen die erste Aufgabe.</span>
+            <span lang="en">An event is not an activity. “Take order” as a start event is wrong; the start is “order received”, taking it is the first task.</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-block" id="sequenzfluss">
+    <h2><span lang="de">Der Sequenzfluss</span><span lang="en">The sequence flow</span></h2>
+    <div class="symbolkarte">
+      <div class="symbolkarte-kopf">
+        <span class="symbolkarte-name"><span lang="de">Sequenzfluss</span><span lang="en">Sequence flow</span></span>
+        <span class="symbolkarte-was"><span lang="de">die Reihenfolge, in der die Marke läuft</span><span lang="en">the order in which the token runs</span></span>
+      </div>
+      <div class="symbolkarte-koerper">
+        <div class="symbolkarte-bild" aria-hidden="true">
+          <svg viewBox="0 0 140 90" width="140" height="90"><defs><marker id="pf" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#10201C"/></marker></defs><rect x="6" y="25" width="50" height="40" rx="7" fill="#fff" stroke="#10201C" stroke-width="2"/><rect x="84" y="25" width="50" height="40" rx="7" fill="#fff" stroke="#10201C" stroke-width="2"/><line x1="56" y1="45" x2="83" y2="45" stroke="#10201C" stroke-width="2" marker-end="url(#pf)"/></svg>
+        </div>
+        <div class="symbolkarte-text">
+          <ul class="symbolkarte-teile">
+            <li><span><span lang="de">Bedeutung</span><span lang="en">Meaning</span></span><span><span lang="de">Erst das eine, dann das andere. Durchgezogene Linie, gefüllte Spitze.</span><span lang="en">First one, then the other. Solid line, filled arrowhead.</span></span></li>
+            <li><span><span lang="de">Richtung</span><span lang="en">Direction</span></span><span><span lang="de">Von links nach rechts. Ein Modell, das man von rechts nach links liest, ist eine Zumutung.</span><span lang="en">Left to right. A model read right to left is an imposition.</span></span></li>
+            <li><span><span lang="de">Grenze</span><span lang="en">Boundary</span></span><span><span lang="de">Ein Sequenzfluss bleibt immer innerhalb eines Pools (Lab 06).</span><span lang="en">A sequence flow always stays inside one pool (lab 06).</span></span></li>
+          </ul>
+          <p class="symbolkarte-falle"><strong><span lang="de">Stolperfalle:</span><span lang="en">Pitfall:</span></strong>
+            <span lang="de">Zwei Pfeile aus einer Aufgabe heraus bedeuten in BPMN, dass <em>beide</em> Pfade beschritten werden. Wer verzweigen will, braucht ein Gateway.</span>
+            <span lang="en">Two arrows out of a task mean in BPMN that <em>both</em> paths are taken. If you want to branch, you need a gateway.</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-block" id="benennung">
+    <h2><span lang="de">Benennung</span><span lang="en">Naming</span></h2>
+    <p>
+      <span lang="de">Die BPMN-Spezifikation schreibt keine Namen vor. Die Praxis hat sich auf zwei Konventionen
+        geeinigt, die auch der Regelprüfer dieser Umgebung anmahnt:</span>
+      <span lang="en">The BPMN specification prescribes no names. Practice has settled on two conventions, which the rule
+        checker of this environment also reminds you of:</span>
+    </p>
+    <table>
+      <thead><tr><th><span lang="de">Element</span><span lang="en">Element</span></th><th><span lang="de">Muster</span><span lang="en">Pattern</span></th><th><span lang="de">Gut</span><span lang="en">Good</span></th><th><span lang="de">Schlecht</span><span lang="en">Bad</span></th></tr></thead>
+      <tbody>
+        <tr><td><span lang="de">Aufgabe</span><span lang="en">Task</span></td><td><span lang="de">Substantiv + Verb im Infinitiv</span><span lang="en">Verb + object</span></td><td>Rechnung prüfen · Räder demontieren</td><td>Rechnungsprüfung · Wird geprüft · Prüfen und buchen</td></tr>
+        <tr><td><span lang="de">Ereignis</span><span lang="en">Event</span></td><td><span lang="de">Substantiv + Partizip oder Zustand</span><span lang="en">Object + participle or state</span></td><td>Bestellung eingegangen · Ware versandbereit</td><td>Bestellung · Bestellung bearbeiten</td></tr>
+        <tr><td><span lang="de">Gateway</span><span lang="en">Gateway</span></td><td><span lang="de">Frage (ab Lab 03)</span><span lang="en">Question (from lab 03)</span></td><td>Räder einlagern?</td><td>Prüfung · Entscheidung</td></tr>
+      </tbody>
+    </table>
+    <div class="concept-box">
+      <h3><span lang="de">Warum das so streng ist</span><span lang="en">Why it is this strict</span></h3>
+      <p><span lang="de">Ein Modell wird zehnmal häufiger gelesen als geschrieben, meist von Personen ohne BPMN-Kenntnis.
+        Das Verb sagt ihnen, was zu tun ist; das Partizip, was passiert ist. Ein Substantiv allein („Prüfung“) lässt offen,
+        ob geprüft wird, geprüft wurde oder eine Prüfung eingeht. Und ein Werkzeug, das Aufgaben zu Arbeitsanweisungen
+        macht, kann aus „Rechnung prüfen“ eine Anweisung ableiten, aus „Rechnungsprüfung“ nicht.</span>
+        <span lang="en">A model is read ten times more often than written, mostly by people without BPMN knowledge. The
+        verb tells them what to do; the participle what has happened. A noun alone (“check”) leaves open whether something
+        is being checked, has been checked or a check is arriving. And a tool that turns tasks into work instructions can
+        derive an instruction from “check invoice”, not from “invoice check”.</span></p>
+    </div>
+  </section>
+
+  <section class="section-block" id="beispiel">
+    <h2><span lang="de">Beispiel: Blutentnahme</span><span lang="en">Example: blood sampling</span></h2>
+    <p>
+      <span lang="de">Sobald ein Patient aufgerufen wird, prüft die medizinische Fachangestellte seine Identität,
+        etikettiert die Röhrchen, entnimmt Blut, versorgt die Einstichstelle und verpackt die Proben für den Laborkurier.
+        Fünf Tätigkeiten, keine Entscheidung, ein Ergebnis. So sieht das als Modell aus:</span>
+      <span lang="en">As soon as a patient is called, the medical assistant checks their identity, labels the tubes,
+        draws blood, dresses the puncture site and packs the samples for the lab courier. Five activities, no decision,
+        one result. This is what it looks like as a model:</span>
+    </p>
+    <div data-modell="modelle/uc02-blutentnahme.bpmn" data-name="UC02 · Blutentnahme in der Hausarztpraxis"></div>
+    <div class="tip-box">
+      <p><strong><span lang="de">Von der Beschreibung zum Modell.</span><span lang="en">From description to model.</span></strong>
+        <span lang="de">Unterstreichen Sie in der Beschreibung die Verben: prüfen, etikettieren, entnehmen, versorgen,
+          verpacken. Jedes Verb mit seinem Objekt ist eine Aufgabe. Das Wort „sobald“ verrät den Auslöser, „für den
+          Laborkurier“ das Ergebnis. Diese Lesetechnik trägt durch alle weiteren Labs, auch wenn Gateways und
+          Ereignisse dazukommen.</span>
+        <span lang="en">Underline the verbs in the description: check, label, draw, dress, pack. Every verb with its object
+          is a task. The word “as soon as” reveals the trigger, “for the lab courier” the result. This reading technique
+          carries through all further labs, even when gateways and events are added.</span></p>
+    </div>
+  </section>
+
+  <section class="section-block" id="uebungen">
+    <h2><span lang="de">Übungen</span><span lang="en">Exercises</span></h2>
+    <p>
+      <span lang="de">Fünf Übungen: zweimal lesen, einmal Fehler suchen, zweimal selbst modellieren. Der Editor
+        zeichnet mit derselben Bibliothek wie bpmn.io; „Prüfen“ nennt Regelverstöße und vergleicht die Struktur mit der
+        Aufgabe. Es gibt mehrere richtige Modelle.</span>
+      <span lang="en">Five exercises: read twice, hunt errors once, model yourself twice. The editor draws with the same
+        library as bpmn.io; “Check” names rule violations and compares the structure with the task. There is more than
+        one correct model.</span>
+    </p>
+    <div data-uebung="P02-01"></div>
+    <div data-uebung="P02-02"></div>
+    <div data-uebung="P02-03"></div>
+    <div data-uebung="P02-04"></div>
+    <div data-uebung="P02-05"></div>
+  </section>
+
+  <section class="section-block" id="zusammenfassung">
+    <h2><span lang="de">Zusammenfassung</span><span lang="en">Summary</span></h2>
+    <ul>
+      <li><span lang="de">Ein vollständiges Modell hat ein Startereignis, Aufgaben und mindestens ein Endereignis, verbunden durch Sequenzflüsse von links nach rechts.</span><span lang="en">A complete model has a start event, tasks and at least one end event, connected by sequence flows from left to right.</span></li>
+      <li><span lang="de">Eine Aufgabe enthält genau eine Tätigkeit und heißt Substantiv + Verb im Infinitiv.</span><span lang="en">A task contains exactly one activity and is named verb + object.</span></li>
+      <li><span lang="de">Ein Ereignis ist ein eingetretener Zustand, kein Tun: Partizip statt Infinitiv.</span><span lang="en">An event is a state that has occurred, not an action: participle instead of infinitive.</span></li>
+      <li><span lang="de">Die Verben der Prozessbeschreibung sind die Aufgaben, „sobald“ und „wenn“ sind die Ereignisse.</span><span lang="en">The verbs of the process description are the tasks, “as soon as” and “when” are the events.</span></li>
+    </ul>
+    <nav class="nav-bottom"></nav>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <span lang="de">THWS Business School · PROM-Lab · Prof. Dr. Robert Butscher · Diagramme mit <a href="https://bpmn.io" rel="noopener">bpmn.io</a></span>
+  <span lang="en">THWS Business School · PROM-Lab · Prof. Dr. Robert Butscher · Diagrams with <a href="https://bpmn.io" rel="noopener">bpmn.io</a></span>
+</footer>
+
+<script type="module">
+  import { starteLab } from './assets/prom.js'
+  starteLab({ lab: 'lab-02', basis: '.' })
+</script>
+</body>
+</html>
