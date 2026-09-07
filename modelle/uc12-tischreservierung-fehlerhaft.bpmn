@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_uc12f" targetNamespace="https://thws.de/prom-lab" exporter="PROM-Lab gen_bpmn.py" exporterVersion="1.0">
+  <bpmn:collaboration id="Collab_uc12f">
+    <bpmn:participant id="Pool_gast" name="Gast" processRef="Process_gast" />
+    <bpmn:participant id="Pool_restaurant" name="Restaurant" processRef="Process_restaurant" />
+    <bpmn:messageFlow id="Msg_rt2_ge1" name="Bestätigung" sourceRef="rt2" targetRef="ge1" />
+    <bpmn:messageFlow id="Msg_rt3_ge1" name="Absage" sourceRef="rt3" targetRef="ge1" />
+    <bpmn:messageFlow id="Msg_rt2_kt1" name="Reservierung" sourceRef="rt2" targetRef="kt1" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_gast" name="Gast" isExecutable="false">
+    <bpmn:startEvent id="gs" name="Essenswunsch">
+      <bpmn:outgoing>Flow_gs_gt1</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:task id="gt1" name="Reservierung anfragen">
+      <bpmn:incoming>Flow_gs_gt1</bpmn:incoming>
+      <bpmn:outgoing>Flow_gt1_rs</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:intermediateCatchEvent id="ge1" name="Antwort erhalten">
+      <bpmn:outgoing>Flow_ge1_gend1</bpmn:outgoing>
+      <bpmn:messageEventDefinition />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:endEvent id="gend1" name="Antwort bekannt">
+      <bpmn:incoming>Flow_ge1_gend1</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_gs_gt1" sourceRef="gs" targetRef="gt1" />
+    <bpmn:sequenceFlow id="Flow_gt1_rs" sourceRef="gt1" targetRef="rs" />
+    <bpmn:sequenceFlow id="Flow_ge1_gend1" sourceRef="ge1" targetRef="gend1" />
+  </bpmn:process>
+  <bpmn:process id="Process_restaurant" name="Restaurant" isExecutable="false">
+    <bpmn:laneSet id="LaneSet_restaurant">
+      <bpmn:lane id="Lane_service" name="Service">
+        <bpmn:flowNodeRef>rs</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>rt1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>rg1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>rt2</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>rt3</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>rend2</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>rt4</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>rend1</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_kueche" name="Küche">
+        <bpmn:flowNodeRef>kt1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>kend</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="rs">
+      <bpmn:outgoing>Flow_rs_rt1</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:task id="rt1" name="Belegung prüfen">
+      <bpmn:incoming>Flow_rs_rt1</bpmn:incoming>
+      <bpmn:outgoing>Flow_rt1_rg1</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:exclusiveGateway id="rg1" name="Tisch frei?">
+      <bpmn:incoming>Flow_rt1_rg1</bpmn:incoming>
+      <bpmn:outgoing>Flow_rg1_rt2</bpmn:outgoing>
+      <bpmn:outgoing>Flow_rg1_rt3</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sendTask id="rt2" name="Reservierung bestätigen">
+      <bpmn:incoming>Flow_rg1_rt2</bpmn:incoming>
+      <bpmn:outgoing>Flow_rt2_rt4</bpmn:outgoing>
+    </bpmn:sendTask>
+    <bpmn:sendTask id="rt3" name="Absage senden">
+      <bpmn:incoming>Flow_rg1_rt3</bpmn:incoming>
+      <bpmn:outgoing>Flow_rt3_rend2</bpmn:outgoing>
+    </bpmn:sendTask>
+    <bpmn:endEvent id="rend2" name="Anfrage abgelehnt">
+      <bpmn:incoming>Flow_rt3_rend2</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:task id="rt4" name="Tisch eindecken">
+      <bpmn:incoming>Flow_rt2_rt4</bpmn:incoming>
+      <bpmn:outgoing>Flow_rt4_rend1</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:endEvent id="rend1" name="Gast erwartet">
+      <bpmn:incoming>Flow_rt4_rend1</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:task id="kt1" name="Reservierung in Tagesplanung aufnehmen">
+      <bpmn:outgoing>Flow_kt1_kend</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:endEvent id="kend" name="Planung ergänzt">
+      <bpmn:incoming>Flow_kt1_kend</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_rs_rt1" sourceRef="rs" targetRef="rt1" />
+    <bpmn:sequenceFlow id="Flow_rt1_rg1" sourceRef="rt1" targetRef="rg1" />
+    <bpmn:sequenceFlow id="Flow_rg1_rt2" name="ja" sourceRef="rg1" targetRef="rt2" />
+    <bpmn:sequenceFlow id="Flow_rg1_rt3" sourceRef="rg1" targetRef="rt3" />
+    <bpmn:sequenceFlow id="Flow_rt3_rend2" sourceRef="rt3" targetRef="rend2" />
+    <bpmn:sequenceFlow id="Flow_rt2_rt4" sourceRef="rt2" targetRef="rt4" />
+    <bpmn:sequenceFlow id="Flow_rt4_rend1" sourceRef="rt4" targetRef="rend1" />
+    <bpmn:sequenceFlow id="Flow_kt1_kend" sourceRef="kt1" targetRef="kend" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="Diagram_uc12f">
+    <bpmndi:BPMNPlane id="Plane_uc12f" bpmnElement="Collab_uc12f">
+      <bpmndi:BPMNShape id="Pool_gast_di" bpmnElement="Pool_gast" isHorizontal="true">
+        <dc:Bounds x="40" y="40" width="1373" height="130" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Pool_restaurant_di" bpmnElement="Pool_restaurant" isHorizontal="true">
+        <dc:Bounds x="40" y="230" width="1373" height="390" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_service_di" bpmnElement="Lane_service" isHorizontal="true">
+        <dc:Bounds x="70" y="230" width="1343" height="260" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_kueche_di" bpmnElement="Lane_kueche" isHorizontal="true">
+        <dc:Bounds x="70" y="490" width="1343" height="130" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="gs_di" bpmnElement="gs">
+        <dc:Bounds x="177" y="87" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="157" y="129" width="77" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="gt1_di" bpmnElement="gt1">
+        <dc:Bounds x="325" y="65" width="120" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ge1_di" bpmnElement="ge1">
+        <dc:Bounds x="937" y="87" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="904" y="129" width="102" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="gend1_di" bpmnElement="gend1">
+        <dc:Bounds x="1127" y="87" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1097" y="129" width="96" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="rs_di" bpmnElement="rs">
+        <dc:Bounds x="367" y="277" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="rt1_di" bpmnElement="rt1">
+        <dc:Bounds x="515" y="255" width="120" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="rg1_di" bpmnElement="rg1" isMarkerVisible="true">
+        <dc:Bounds x="740" y="270" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="730" y="250" width="70" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="rt2_di" bpmnElement="rt2">
+        <dc:Bounds x="895" y="255" width="120" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="rt3_di" bpmnElement="rt3">
+        <dc:Bounds x="895" y="385" width="120" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="rend2_di" bpmnElement="rend2">
+        <dc:Bounds x="1127" y="407" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1091" y="449" width="109" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="rt4_di" bpmnElement="rt4">
+        <dc:Bounds x="1085" y="255" width="120" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="rend1_di" bpmnElement="rend1">
+        <dc:Bounds x="1317" y="277" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1293" y="319" width="83" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="kt1_di" bpmnElement="kt1">
+        <dc:Bounds x="895" y="515" width="120" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="kend_di" bpmnElement="kend">
+        <dc:Bounds x="1127" y="537" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1097" y="579" width="96" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_gs_gt1_di" bpmnElement="Flow_gs_gt1">
+        <di:waypoint x="213" y="105" />
+        <di:waypoint x="325" y="105" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_gt1_rs_di" bpmnElement="Flow_gt1_rs">
+        <di:waypoint x="385" y="145" />
+        <di:waypoint x="385" y="353" />
+        <di:waypoint x="385" y="353" />
+        <di:waypoint x="385" y="313" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_ge1_gend1_di" bpmnElement="Flow_ge1_gend1">
+        <di:waypoint x="973" y="105" />
+        <di:waypoint x="1127" y="105" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_rs_rt1_di" bpmnElement="Flow_rs_rt1">
+        <di:waypoint x="403" y="295" />
+        <di:waypoint x="515" y="295" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_rt1_rg1_di" bpmnElement="Flow_rt1_rg1">
+        <di:waypoint x="635" y="295" />
+        <di:waypoint x="740" y="295" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_rg1_rt2_di" bpmnElement="Flow_rg1_rt2">
+        <di:waypoint x="790" y="295" />
+        <di:waypoint x="895" y="295" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="822" y="275" width="40" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_rg1_rt3_di" bpmnElement="Flow_rg1_rt3">
+        <di:waypoint x="765" y="320" />
+        <di:waypoint x="765" y="425" />
+        <di:waypoint x="895" y="425" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_rt3_rend2_di" bpmnElement="Flow_rt3_rend2">
+        <di:waypoint x="1015" y="425" />
+        <di:waypoint x="1127" y="425" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_rt2_rt4_di" bpmnElement="Flow_rt2_rt4">
+        <di:waypoint x="1015" y="295" />
+        <di:waypoint x="1085" y="295" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_rt4_rend1_di" bpmnElement="Flow_rt4_rend1">
+        <di:waypoint x="1205" y="295" />
+        <di:waypoint x="1317" y="295" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_kt1_kend_di" bpmnElement="Flow_kt1_kend">
+        <di:waypoint x="1015" y="555" />
+        <di:waypoint x="1127" y="555" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Msg_rt2_ge1_di" bpmnElement="Msg_rt2_ge1">
+        <di:waypoint x="955" y="255" />
+        <di:waypoint x="955" y="189" />
+        <di:waypoint x="947" y="189" />
+        <di:waypoint x="947" y="123" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="961" y="215" width="72" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Msg_rt3_ge1_di" bpmnElement="Msg_rt3_ge1">
+        <di:waypoint x="1025" y="385" />
+        <di:waypoint x="1025" y="254" />
+        <di:waypoint x="963" y="254" />
+        <di:waypoint x="963" y="123" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1031" y="312" width="40" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Msg_rt2_kt1_di" bpmnElement="Msg_rt2_kt1">
+        <di:waypoint x="915" y="335" />
+        <di:waypoint x="915" y="515" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="921" y="418" width="78" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

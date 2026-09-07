@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="de" data-lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lab 10 · KI in der Modellierung · PROM-Lab</title>
+  <meta name="prom:titel-en" content="Lab 10 · AI in modelling · PROM-Lab" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/bpmn/diagram-js.css" />
+  <link rel="stylesheet" href="assets/bpmn/bpmn-js.css" />
+  <link rel="stylesheet" href="assets/bpmn/bpmn-font/css/bpmn.css" />
+  <link rel="stylesheet" href="assets/bpmn/bpmn-js-token-simulation.css" />
+  <link rel="stylesheet" href="assets/prom.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%2300595C'/><text x='16' y='23' font-family='sans-serif' font-size='18' font-weight='bold' text-anchor='middle' fill='%2390D033'>P</text></svg>" />
+</head>
+<body class="lab-page">
+
+<header class="header">
+  <div class="header-left">
+    <a class="header-logo" href="index.html" data-lab-link><span class="mark">PROM</span>-Lab</a>
+    <a class="header-back" href="index.html" data-lab-link>
+      <span lang="de">← Zur Übersicht</span><span lang="en">← Back to overview</span>
+    </a>
+  </div>
+  <div class="header-right">
+    <button class="lang-btn active" data-lang-btn="de" aria-pressed="true">DE</button>
+    <button class="lang-btn" data-lang-btn="en" aria-pressed="false">EN</button>
+  </div>
+</header>
+
+<nav class="sidebar" aria-label="Lab-Navigation">
+  <div class="sidebar-title"><span lang="de">Abschnitte</span><span lang="en">Sections</span></div>
+  <a class="sidebar-link" href="#versuch"><span lang="de">Der Versuch</span><span lang="en">The experiment</span></a>
+  <a class="sidebar-link" href="#befund"><span lang="de">Der Befund</span><span lang="en">The finding</span></a>
+  <a class="sidebar-link" href="#chancen"><span lang="de">Chancen und Grenzen</span><span lang="en">Chances and limits</span></a>
+  <a class="sidebar-link" href="#uebungen"><span lang="de">Übungen</span><span lang="en">Exercises</span></a>
+  <a class="sidebar-link" href="#zusammenfassung"><span lang="de">Zusammenfassung</span><span lang="en">Summary</span></a>
+</nav>
+
+<div class="lab-header">
+  <div class="lab-num-big">10</div>
+  <h1 class="lab-title">
+    <span lang="de">KI in der Modellierung</span>
+    <span lang="en">AI in modelling</span>
+  </h1>
+  <p class="lab-intro">
+    <span lang="de">Kann eine KI die Modellierung komplett übernehmen? Dieses Lab macht den Versuch: Eine Prozessbeschreibung aus dem Entlassmanagement eines Krankenhauses geht ohne weitere Hinweise an ein Sprachmodell, und das Ergebnis wird so abgenommen, wie Sie es in Lab 08 gelernt haben. Die Notation ist fehlerfrei. Die Semantik nicht. Was daraus für Chancen, Grenzen und den besseren Prompt folgt, ist der Inhalt dieses Labs.</span>
+    <span lang="en">Can an AI take over modelling completely? This lab makes the attempt: a process description from a hospital's discharge management goes to a language model without further hints, and the result is accepted the way you learned in lab 08. The notation is flawless. The semantics are not. What follows for chances, limits and the better prompt is the content of this lab.</span>
+  </p>
+  <div class="lernziele">
+    <span class="lernziel-chip"><span lang="de">KI-Rohfassung</span><span lang="en">AI raw version</span></span>
+    <span class="lernziel-chip"><span lang="de">Abnahme</span><span lang="en">Acceptance</span></span>
+    <span class="lernziel-chip"><span lang="de">Chancen · Grenzen</span><span lang="en">Chances · limits</span></span>
+    <span class="lernziel-chip"><span lang="de">Prompt als Abgrenzung</span><span lang="en">Prompt as scoping</span></span>
+    <span class="lernziel-chip"><span lang="de">Assistenz statt Autonomie</span><span lang="en">Assistance instead of autonomy</span></span>
+  </div>
+</div>
+
+<main class="main-content">
+
+  <section class="section-block" id="versuch">
+    <h2><span lang="de">Der Versuch</span><span lang="en">The experiment</span></h2>
+    <p>
+      <span lang="de">Die folgende Prozessbeschreibung wurde ohne weitere Hinweise einem Sprachmodell vorgelegt, mit der Bitte um eine vollständige BPMN-2.0-Datei. Ein Durchgang, keine Rückfragen, keine Validierung. Das Ergebnis liegt unverändert vor und importiert ohne Warnung.</span>
+      <span lang="en">The following process description was given to a language model without further hints, asking for a complete BPMN 2.0 file. One pass, no questions, no validation. The result is available unchanged and imports without warning.</span>
+    </p>
+    <div class="concept-box">
+      <p><strong><span lang="de">Prozessbeschreibung Entlassmanagement.</span><span lang="en">Process description discharge management.</span></strong> <span lang="de">Die Stationsärztin entscheidet bei der Visite, dass ein Patient entlassen werden kann. Sie erstellt den Entlassbrief. Parallel dazu prüft die Pflege, ob der Patient ein Hilfsmittel (z. B. Rollator) braucht; falls ja, bestellt der Sozialdienst das Hilfsmittel beim Sanitätshaus und wartet auf dessen Lieferbestätigung. Trifft die Bestätigung nicht innerhalb von 24 Stunden ein, wird der Sozialdienst telefonisch nachfassen. Sobald Entlassbrief und (falls nötig) Hilfsmittel vorliegen, führt die Ärztin das Entlassgespräch mit dem Patienten und übergibt Brief und Medikationsplan. Der Hausarzt erhält den Entlassbrief elektronisch. Die Abrechnung meldet den Fall an die Krankenkasse. Ist der Patient nicht transportfähig, wird stattdessen die Entlassung um einen Tag verschoben und der Prozess beginnt bei der Visite von vorn.</span><span lang="en">The ward physician decides during the ward round that a patient can be discharged. She writes the discharge letter. In parallel, nursing checks whether the patient needs an aid (e.g. a walker); if so, the social service orders the aid from the medical supplier and waits for its delivery confirmation. If the confirmation does not arrive within 24 hours, the social service follows up by phone. As soon as discharge letter and (if needed) aid are available, the physician conducts the discharge talk with the patient and hands over letter and medication plan. The family doctor receives the discharge letter electronically. Billing reports the case to the health insurer. If the patient is not transportable, the discharge is instead postponed by one day and the process starts over at the ward round.</span></p>
+    </div>
+    <div data-modell="modelle/ki/uc21-entlassmanagement-ki-rohfassung.bpmn" data-name="UC21 · KI-Rohfassung (unverändert)" data-hoch></div>
+  </section>
+
+  <section class="section-block" id="befund">
+    <h2><span lang="de">Der Befund</span><span lang="en">The finding</span></h2>
+    <p>
+      <span lang="de">Sieben Beobachtungen, drei davon Fehler. Keiner der drei ist im Bild auffällig; sie zeigen sich beim Durchspielen mit Marken, im Regelprüfer und in der Frage, welche Annahme das Modell trifft, die im Text nicht steht.</span>
+      <span lang="en">Seven observations, three of them errors. None of the three is conspicuous in the picture; they show when playing through with tokens, in the rule checker and in the question which assumption the model makes that is not in the text.</span>
+    </p>
+    <table>
+      <thead><tr><th><span lang="de">Nr.</span><span lang="en">No.</span></th><th><span lang="de">Beobachtung</span><span lang="en">Observation</span></th><th><span lang="de">Bewertung</span><span lang="en">Assessment</span></th></tr></thead>
+      <tbody>
+<tr><td>1</td><td><span lang="de">Pools für Krankenhaus, Sanitätshaus, Hausarzt, Krankenkasse, Patient; vier Bahnen; Send-/Receive-Tasks; Nachrichtenflüsse zur Poolkante</span><span lang="en">Pools for hospital, medical supplier, family doctor, insurer, patient; four lanes; send/receive tasks; message flows to pool edges</span></td><td><span lang="de">Notation korrekt, Struktur lesbar</span><span lang="en">Notation correct, structure readable</span></td></tr>
+<tr><td>2</td><td><span lang="de">„Hilfsmittelbedarf prüfen“ in der Bahn Pflege, „bestellen“ beim Sozialdienst</span><span lang="en">“Hilfsmittelbedarf prüfen” in lane nursing, “bestellen” with social service</span></td><td><span lang="de">Zuständigkeiten richtig übernommen</span><span lang="en">Responsibilities taken over correctly</span></td></tr>
+<tr><td>3</td><td><span lang="de">Nicht unterbrechender Timer, Rückfluss in die Warteaufgabe</span><span lang="en">Non-interrupting timer, flow back into the waiting task</span></td><td><span lang="de"><strong>Semantikfehler</strong>: zweite Marke, Prozess läuft doppelt oder blockiert (R10)</span><span lang="en"><strong>Semantic error</strong>: second token, process runs twice or blocks (R10)</span></td></tr>
+<tr><td>4</td><td><span lang="de">„Nicht transportfähig“ springt in die parallele Verzweigung zurück</span><span lang="en">“Not transportable” jumps back into the parallel split</span></td><td><span lang="de">Entlassbrief wird zweimal erstellt; „von vorn“ heißt neue Instanz, nicht Rücksprung</span><span lang="en">Discharge letter created twice; “from the beginning” means new instance, not jump back</span></td></tr>
+<tr><td>5</td><td><span lang="de">Transportfähigkeit erst nach Brief und Hilfsmittel geprüft</span><span lang="en">Transportability checked only after letter and aid</span></td><td><span lang="de">Stille Annahme; der Text lässt es offen, das Modell kennzeichnet es nicht</span><span lang="en">Silent assumption; the text leaves it open, the model does not flag it</span></td></tr>
+<tr><td>6</td><td><span lang="de">„Entlassgespräch führen, Brief &amp; Medikationsplan übergeben“</span><span lang="en">“Conduct discharge talk, hand over letter &amp; medication plan”</span></td><td><span lang="de">Zwei Tätigkeiten in einer Aufgabe (R07)</span><span lang="en">Two activities in one task (R07)</span></td></tr>
+<tr><td>7</td><td><span lang="de">Layout mit Koordinaten, saubere Bahnen</span><span lang="en">Layout with coordinates, clean lanes</span></td><td><span lang="de">Brauchbar; in Adonis nur Feinschliff</span><span lang="en">Usable; only polish in Adonis</span></td></tr>
+      </tbody>
+    </table>
+    <p>
+      <span lang="de">So sieht die geprüfte Fassung aus: Transportfähigkeit zuerst, Verschiebung als eigenes Ende, ereignisbasiertes Gateway für die Lieferbestätigung, eine Tätigkeit je Aufgabe.</span>
+      <span lang="en">This is what the checked version looks like: transportability first, postponement as its own end, event-based gateway for the delivery confirmation, one activity per task.</span>
+    </p>
+    <div data-modell="modelle/uc21-entlassmanagement-geprueft.bpmn" data-name="UC21 · Entlassmanagement (geprüfte Fassung)" data-hoch></div>
+  </section>
+
+  <section class="section-block" id="chancen">
+    <h2><span lang="de">Chancen und Grenzen</span><span lang="en">Chances and limits</span></h2>
+    <div class="labs-grid" style="grid-template-columns: 1fr 1fr">
+      <div class="challenge-box"><h3><span lang="de">Chancen</span><span lang="en">Chances</span></h3><ul>
+        <li><span lang="de">Rollen, Aufgaben und Nachrichten vollständig aus dem Text extrahiert.</span><span lang="en">Roles, tasks and messages fully extracted from the text.</span></li>
+        <li><span lang="de">Notation fehlerfrei; Datei sofort importierbar; Layout brauchbar.</span><span lang="en">Notation flawless; file imports at once; layout usable.</span></li>
+        <li><span lang="de">Unter fünf Minuten von der Beschreibung zum Entwurf.</span><span lang="en">Under five minutes from description to draft.</span></li>
+        <li><span lang="de">Als Diskussionsgrundlage für die Erhebung mit den Beteiligten und als Prüfliste nützlich.</span><span lang="en">Useful as a discussion basis for elicitation with the participants and as a checklist.</span></li>
+      </ul></div>
+      <div class="warn-box"><h3><span lang="de">Grenzen</span><span lang="en">Limits</span></h3><ul>
+        <li><span lang="de">Marken-Semantik nicht durchgerechnet: nicht unterbrechender Timer mit Rückfluss.</span><span lang="en">Token semantics not worked through: non-interrupting timer with flow back.</span></li>
+        <li><span lang="de">Lücken der Beschreibung ohne Kennzeichnung gefüllt: Zeitpunkt der Transportprüfung.</span><span lang="en">Gaps in the description filled without flagging: timing of the transport check.</span></li>
+        <li><span lang="de">Wiederanlauf als Rücksprung statt als neue Instanz modelliert.</span><span lang="en">Restart modelled as jump back instead of new instance.</span></li>
+        <li><span lang="de">Benennungskonvention nicht durchgehend eingehalten.</span><span lang="en">Naming convention not followed throughout.</span></li>
+        <li><span lang="de">Keiner dieser Fehler ist im Bild sichtbar. Die Prüfpflicht bleibt beim Menschen.</span><span lang="en">None of these errors is visible in the picture. The duty to check stays with the human.</span></li>
+      </ul></div>
+    </div>
+    <div class="tip-box">
+      <p><strong><span lang="de">Das Spektrum der Zusammenarbeit.</span><span lang="en">The spectrum of collaboration.</span></strong> <span lang="de">Die Vorlesung ordnet KI-Einsatz zwischen Assistenz und Autonomie ein. Der Versuch zeigt, wo die Grenze heute liegt: Die KI erweitert die Reichweite (Extraktion, Notation, Tempo), der Mensch setzt die Grenzen (Abgrenzung, Annahmen, Abnahme) und trägt die Verantwortung. Der bessere Prompt ist deshalb kein Trick, sondern eine Prozessabgrenzung: Auslöser, Ende, Beteiligte, Grenzen der Organisation, Konventionen und der Auftrag, jede Annahme zu nennen.</span><span lang="en">The lecture places AI use between assistance and autonomy. The experiment shows where the line lies today: AI extends the reach (extraction, notation, speed), the human sets the limits (scoping, assumptions, acceptance) and bears the responsibility. The better prompt is therefore not a trick but a process scoping: trigger, end, participants, boundaries of the organisation, conventions and the instruction to name every assumption.</span></p>
+    </div>
+  </section>
+
+  <section class="section-block" id="uebungen">
+    <h2><span lang="de">Übungen</span><span lang="en">Exercises</span></h2>
+    <p><span lang="de">Fünf Übungen: das KI-Modell erkunden, es mit dem Prüfer abnehmen, Chancen und Grenzen belegen, einen eigenen KI-Versuch importieren und reparieren, und einen Prompt als Prozessabgrenzung formulieren.</span><span lang="en">Five exercises: explore the AI model, accept it with the checker, substantiate chances and limits, import and repair your own AI attempt, and formulate a prompt as a process scoping.</span></p>
+    <div data-uebung="P10-01"></div>
+    <div data-uebung="P10-02"></div>
+    <div data-uebung="P10-03"></div>
+    <div data-uebung="P10-04"></div>
+    <div data-uebung="P10-05"></div>
+  </section>
+
+  <section class="section-block" id="zusammenfassung">
+    <h2><span lang="de">Zusammenfassung</span><span lang="en">Summary</span></h2>
+    <ul>
+      <li><span lang="de">Ein Sprachmodell liefert aus einer Beschreibung ein importierbares, notationskorrektes Modell in Minuten.</span><span lang="en">A language model delivers an importable, notation-correct model from a description in minutes.</span></li>
+      <li><span lang="de">Die Fehler liegen in der Semantik: Marken, Wiederanlauf, stille Annahmen. Im Bild sind sie unsichtbar.</span><span lang="en">The errors lie in the semantics: tokens, restart, silent assumptions. They are invisible in the picture.</span></li>
+      <li><span lang="de">Abnahme heißt: Marken laufen lassen, Regeln prüfen, Annahmen klären, Verantwortung übernehmen.</span><span lang="en">Acceptance means: run tokens, check rules, clarify assumptions, take responsibility.</span></li>
+      <li><span lang="de">Der bessere Prompt ist eine Prozessabgrenzung, mit oder ohne KI.</span><span lang="en">The better prompt is a process scoping, with or without AI.</span></li>
+    </ul>
+    <nav class="nav-bottom"></nav>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <span lang="de">THWS Business School · PROM-Lab · Prof. Dr. Robert Butscher · Diagramme mit <a href="https://bpmn.io" rel="noopener">bpmn.io</a></span>
+  <span lang="en">THWS Business School · PROM-Lab · Prof. Dr. Robert Butscher · Diagrams with <a href="https://bpmn.io" rel="noopener">bpmn.io</a></span>
+</footer>
+
+<script type="module">
+  import { starteLab } from './assets/prom.js'
+  starteLab({ lab: 'lab-10', basis: '.' })
+</script>
+</body>
+</html>

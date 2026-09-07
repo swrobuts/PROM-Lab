@@ -74,6 +74,7 @@ export function leseGraph (doc) {
       for (const ed of [...c.childNodes].filter(x => x.nodeType === 1 && /EventDefinition$/.test(x.localName))) {
         k.ereignis = ed.localName.replace('EventDefinition', '')
       }
+      k.schleife = [...c.childNodes].some(x => x.nodeType === 1 && /LoopCharacteristics$/.test(x.localName))
       g.knoten.set(k.id, k)
       if (typ === 'subProcess') leseProzess(c, prozessId, k.id)
     }
@@ -339,6 +340,10 @@ export function vergleicheStruktur (g, muster) {
     const n = knoten.filter(istAktivitaet).length
     n >= muster.minAufgaben ? ok(`Aufgaben: ${n}`, `Activities: ${n}`) : nein(`Erwartet werden mindestens ${muster.minAufgaben} Aufgaben, gefunden ${n}.`, `Expected at least ${muster.minAufgaben} activities, found ${n}.`)
   }
+  if (muster.maxAufgaben != null) {
+    const n = knoten.filter(istAktivitaet).length
+    n <= muster.maxAufgaben ? ok(`Höchstens ${muster.maxAufgaben} Aufgaben: ${n}`, `At most ${muster.maxAufgaben} activities: ${n}`) : nein(`Erwartet werden höchstens ${muster.maxAufgaben} Aufgaben, gefunden ${n}. Was lässt sich streichen oder zusammenfassen?`, `Expected at most ${muster.maxAufgaben} activities, found ${n}. What can be dropped or merged?`)
+  }
   for (const stichwort of muster.aufgaben || []) {
     const treffer = knoten.filter(istAktivitaet).some(k => norm(k.name).includes(norm(stichwort)))
     treffer ? ok(`Aufgabe „${stichwort}“ vorhanden`, `Activity “${stichwort}” present`) : nein(`Keine Aufgabe enthält „${stichwort}“. Fehlt ein Schritt, oder heißt er anders als in der Beschreibung?`, `No activity contains “${stichwort}”. Is a step missing, or named differently from the description?`)
@@ -359,6 +364,14 @@ export function vergleicheStruktur (g, muster) {
   if (muster.teilprozesse != null) {
     const n = knoten.filter(k => k.typ === 'subProcess' || k.typ === 'callActivity').length
     inSpanne(n, muster.teilprozesse) ? ok(`Teilprozesse: ${n}`, `Subprocesses: ${n}`) : nein(`Erwartet werden ${spanneText(muster.teilprozesse)} Teilprozesse oder Aufrufaktivitäten, gefunden ${n}.`, `Expected ${spanneText(muster.teilprozesse)} subprocesses or call activities, found ${n}.`)
+  }
+  if (muster.mehrfachinstanz != null) {
+    const n = knoten.filter(k => k.schleife).length
+    inSpanne(n, muster.mehrfachinstanz) ? ok(`Schleifen- oder Mehrfachinstanzmarker: ${n}`, `Loop or multi-instance markers: ${n}`) : nein(`Erwartet werden ${spanneText(muster.mehrfachinstanz)} Elemente mit Schleifen- oder Mehrfachinstanzmarker, gefunden ${n}.`, `Expected ${spanneText(muster.mehrfachinstanz)} elements with loop or multi-instance marker, found ${n}.`)
+  }
+  if (muster.daten != null) {
+    const n = [...g.knoten.values()].filter(k => k.typ === 'dataObjectReference' || k.typ === 'dataStoreReference').length
+    inSpanne(n, muster.daten) ? ok(`Datenobjekte und -speicher: ${n}`, `Data objects and stores: ${n}`) : nein(`Erwartet werden ${spanneText(muster.daten)} Datenobjekte oder Datenspeicher, gefunden ${n}.`, `Expected ${spanneText(muster.daten)} data objects or stores, found ${n}.`)
   }
   for (const name of muster.pools || []) {
     const treffer = g.pools.some(p => norm(p.name).includes(norm(name)))

@@ -1,0 +1,149 @@
+[
+  {
+    "id": "P06-01",
+    "typ": "erkunden",
+    "modell": "modelle/uc12-tischreservierung.bpmn",
+    "modellName": "UC12 · Tischreservierung im Restaurant",
+    "hoch": true,
+    "titel": { "de": "Gast und Restaurant: zwei Prozesse, eine Kollaboration", "en": "Guest and restaurant: two processes, one collaboration" },
+    "aufgabe": {
+      "de": "<p>Klicken Sie auf die beiden Pools, auf die Bahnen Service und Küche und auf die gestrichelten Nachrichtenflüsse. Lassen Sie dann im Restaurant eine Marke laufen.</p>",
+      "en": "<p>Click the two pools, the lanes Service and Küche and the dashed message flows. Then run a token in the restaurant.</p>"
+    },
+    "fragen": [
+      {
+        "frage": { "de": "Warum ist der Gast ein eigener Pool und nicht eine dritte Bahn im Restaurant?", "en": "Why is the guest a separate pool and not a third lane in the restaurant?" },
+        "optionen": [
+          { "de": "Weil der Gast nicht zur Organisation gehört: Das Restaurant kann ihm keine Aufgaben zuweisen, es kann ihm nur Nachrichten schicken.", "en": "Because the guest does not belong to the organisation: the restaurant cannot assign him tasks, it can only send him messages." },
+          { "de": "Weil Pools immer oben stehen.", "en": "Because pools always stand at the top." },
+          { "de": "Weil der Gast keine Aufgaben hat.", "en": "Because the guest has no tasks." }
+        ],
+        "richtig": [0],
+        "erklaerung": { "de": "Bahnen teilen einen Prozess unter Zuständigen auf, die derselben Steuerung unterliegen. Ein Pool ist ein eigener Prozess mit eigener Steuerung; die Verbindung sind Nachrichten.", "en": "Lanes divide one process among responsibles under the same control. A pool is its own process with its own control; the connection is messages." }
+      },
+      {
+        "frage": { "de": "Zwischen „Reservierung bestätigen“ (Service) und „Reservierung in Tagesplanung aufnehmen“ (Küche) verläuft ein Sequenzfluss. Wäre ein Nachrichtenfluss richtig?", "en": "Between “Reservierung bestätigen” (Service) and “Reservierung in Tagesplanung aufnehmen” (Küche) runs a sequence flow. Would a message flow be correct?" },
+        "optionen": [
+          { "de": "Ja, weil zwei verschiedene Abteilungen beteiligt sind.", "en": "Yes, because two different departments are involved." },
+          { "de": "Nein: Beide Bahnen liegen im selben Pool, dort gibt es nur Sequenzflüsse. Der Bahnwechsel ist eine Übergabe, keine Nachricht.", "en": "No: both lanes lie in the same pool, there are only sequence flows there. The lane change is a handover, not a message." },
+          { "de": "Beides ist gleichwertig.", "en": "Both are equivalent." }
+        ],
+        "richtig": [1],
+        "erklaerung": { "de": "Regel R06: Sequenzfluss innerhalb des Pools, Nachrichtenfluss zwischen Pools. Nie andersherum.", "en": "Rule R06: sequence flow inside the pool, message flow between pools. Never the other way round." }
+      }
+    ]
+  },
+  {
+    "id": "P06-02",
+    "typ": "erkunden",
+    "modell": "modelle/uc13-wareneingang.bpmn",
+    "modellName": "UC13 · Wareneingang im Logistikzentrum",
+    "hoch": true,
+    "titel": { "de": "Der Spediteur als Black Box", "en": "The carrier as a black box" },
+    "aufgabe": {
+      "de": "<p>Der Pool „Spediteur“ ist leer. Sehen Sie sich an, wie die Nachrichtenflüsse an seiner Kante enden, und verfolgen Sie eine Marke durch die drei Bahnen des Logistikzentrums.</p>",
+      "en": "<p>The pool “Spediteur” is empty. Look at how the message flows end at its edge and follow a token through the three lanes of the logistics centre.</p>"
+    },
+    "fragen": [
+      {
+        "frage": { "de": "Wann ist ein leerer (Black-Box-)Pool die richtige Wahl?", "en": "When is an empty (black-box) pool the right choice?" },
+        "optionen": [
+          { "de": "Wenn der interne Ablauf des Beteiligten für das eigene Modell keine Rolle spielt oder unbekannt ist; nur die ausgetauschten Nachrichten zählen.", "en": "When the participant's internal flow does not matter for your own model or is unknown; only the exchanged messages count." },
+          { "de": "Wenn der Beteiligte keine Aufgaben hat.", "en": "When the participant has no tasks." },
+          { "de": "Nie, Pools müssen immer gefüllt sein.", "en": "Never, pools must always be filled." }
+        ],
+        "richtig": [0],
+        "erklaerung": { "de": "Der Spediteur hat natürlich einen Prozess. Er interessiert das Logistikzentrum aber nicht; deshalb bleibt der Pool leer und die Nachrichten enden an seiner Kante.", "en": "The carrier of course has a process. But it does not interest the logistics centre; that is why the pool stays empty and the messages end at its edge." }
+      },
+      {
+        "frage": { "de": "Wie viele Endereignisse hat der Prozess des Logistikzentrums, und warum?", "en": "How many end events does the logistics centre's process have, and why?" },
+        "optionen": [
+          { "de": "Eines, weil es nur einen Pool gibt.", "en": "One, because there is only one pool." },
+          { "de": "Drei, weil es drei verschiedene Ergebnisse gibt: Ware verfügbar, Ware gesperrt, Klärung angestoßen.", "en": "Three, because there are three different results: goods available, goods blocked, clarification started." },
+          { "de": "Drei, weil es drei Bahnen gibt.", "en": "Three, because there are three lanes." }
+        ],
+        "richtig": [1],
+        "erklaerung": { "de": "Endereignisse folgen den Ergebnissen, nicht den Bahnen.", "en": "End events follow the results, not the lanes." }
+      }
+    ]
+  },
+  {
+    "id": "P06-03",
+    "typ": "quiz",
+    "titel": { "de": "Pool, Bahn oder Nachricht?", "en": "Pool, lane or message?" },
+    "aufgabe": { "de": "<p>Ordnen Sie zu.</p>", "en": "<p>Assign.</p>" },
+    "fragen": [
+      {
+        "frage": { "de": "Ein Klinikum modelliert die Aufnahme. Beteiligt sind Aufnahme, Station und Labor des Klinikums sowie der Hausarzt, der die Einweisung schickt. Was wird was?", "en": "A hospital models the admission. Involved are admission, ward and lab of the hospital as well as the family doctor who sends the referral. What becomes what?" },
+        "optionen": [
+          { "de": "Ein Pool Klinikum mit drei Bahnen, der Hausarzt als eigener Pool; die Einweisung ist ein Nachrichtenfluss.", "en": "One pool hospital with three lanes, the family doctor as a separate pool; the referral is a message flow." },
+          { "de": "Vier Bahnen in einem Pool.", "en": "Four lanes in one pool." },
+          { "de": "Vier Pools, verbunden durch Sequenzflüsse.", "en": "Four pools, connected by sequence flows." }
+        ],
+        "richtig": [0],
+        "erklaerung": { "de": "Innerhalb der Organisation: Bahnen. Außerhalb: Pool. Über die Grenze: Nachrichten.", "en": "Inside the organisation: lanes. Outside: pool. Across the boundary: messages." }
+      },
+      {
+        "frage": { "de": "Welche Aussagen zum Nachrichtenfluss stimmen? (mehrere)", "en": "Which statements about message flow are true? (several)" },
+        "mehrfach": true,
+        "optionen": [
+          { "de": "Er ist gestrichelt mit leerer Spitze und Kreis am Anfang.", "en": "It is dashed with an open arrowhead and a circle at the start." },
+          { "de": "Er darf an der Kante eines leeren Pools enden.", "en": "It may end at the edge of an empty pool." },
+          { "de": "Er darf zwei Bahnen desselben Pools verbinden.", "en": "It may connect two lanes of the same pool." },
+          { "de": "Er darf ein Nachrichten-Startereignis auslösen.", "en": "It may trigger a message start event." }
+        ],
+        "richtig": [0, 1, 3],
+        "erklaerung": { "de": "Innerhalb eines Pools gibt es keine Nachrichten, auch nicht zwischen Bahnen.", "en": "Inside a pool there are no messages, not even between lanes." }
+      }
+    ]
+  },
+  {
+    "id": "P06-04",
+    "typ": "fehler",
+    "modell": "modelle/uc12-tischreservierung-fehlerhaft.bpmn",
+    "modellName": "UC12 · Tischreservierung (fehlerhaft)",
+    "hoch": true,
+    "titel": { "de": "Vier Fehler in der Reservierung", "en": "Four errors in the reservation" },
+    "aufgabe": {
+      "de": "<p>Dieses Modell der Reservierung enthält <strong>vier</strong> Verstöße: zwei gegen die Regel für Sequenz- und Nachrichtenflüsse, einen an einem Gatewaypfad und ein unbeschriftetes Startereignis. Klicken Sie auch auf Linien.</p>",
+      "en": "<p>This model of the reservation contains <strong>four</strong> violations: two against the rule for sequence and message flows, one on a gateway path and an unlabelled start event. Click lines too.</p>"
+    },
+    "fehler": [
+      { "element": "Flow_gt1_rs", "regel": "R06" },
+      { "element": "Msg_rt2_kt1", "regel": "R06" },
+      { "element": "Flow_rg1_rt3", "regel": "R03" },
+      { "element": "rs", "regel": "R11" }
+    ],
+    "hinweis": { "de": "Ein Sequenzfluss vom Gast ins Restaurant überquert die Poolgrenze (R06). Ein Nachrichtenfluss von Service zu Küche bleibt im Pool (R06). Ein XOR-Pfad ohne Bedingung (R03). Ein Startereignis ohne Namen (R11).", "en": "A sequence flow from guest into restaurant crosses the pool boundary (R06). A message flow from service to kitchen stays inside the pool (R06). An XOR path without condition (R03). A start event without name (R11)." }
+  },
+  {
+    "id": "P06-05",
+    "typ": "modell",
+    "modell": "modelle/uc12-tischreservierung.bpmn",
+    "modellName": "Tischreservierung",
+    "hoch": true,
+    "titel": { "de": "Die Tischreservierung als Kollaboration", "en": "The table reservation as a collaboration" },
+    "aufgabe": {
+      "de": "<p>Ein Gast fragt eine Reservierung an. Der Service prüft die Belegung. Ist ein Tisch frei, bestätigt der Service, deckt den Tisch ein, und die Küche nimmt die Reservierung parallel in die Tagesplanung auf. Sonst sendet der Service eine Absage. Der Gast entscheidet nach der Antwort, ob er kommt oder sich eine Alternative sucht.</p><p>Modellieren Sie zwei Pools (Gast, Restaurant) und zwei Bahnen im Restaurant (Service, Küche). Im Editor: den Pool aus der Palette ziehen, Bahnen über das Kontextmenü des Pools hinzufügen. Nachrichtenflüsse entstehen, wenn Sie einen Pfeil über die Poolgrenze ziehen.</p>",
+      "en": "<p>A guest requests a reservation. Service checks occupancy. If a table is free, service confirms, sets the table, and the kitchen adds the reservation to the day plan in parallel. Otherwise service sends a refusal. After the reply the guest decides whether to come or look for an alternative.</p><p>Model two pools (Gast, Restaurant) and two lanes in the restaurant (Service, Küche). In the editor: drag the pool from the palette, add lanes via the pool's context menu. Message flows arise when you draw an arrow across the pool boundary.</p>"
+    },
+    "pruefung": { "starts": 2, "pools": ["Gast", "Restaurant"], "bahnen": ["Service", "Küche"], "nachrichten": [2, 3], "gateways": { "exclusiveGateway": [2, 3], "parallelGateway": [0, 2] }, "aufgaben": ["Belegung", "bestätigen", "Absage", "eindecken", "Tagesplanung"] },
+    "hinweis": { "de": "Jeder Pool hat eigenes Start- und Endereignis. Das Restaurant beginnt mit einem Nachrichten-Startereignis, auf das der Nachrichtenfluss des Gastes zeigt.", "en": "Every pool has its own start and end event. The restaurant starts with a message start event that the guest's message flow points to." },
+    "rueckmeldung": { "de": "Zwei Prozesse, verbunden nur über Nachrichten: Das ist eine Kollaboration.", "en": "Two processes, connected only via messages: that is a collaboration." }
+  },
+  {
+    "id": "P06-06",
+    "typ": "modell",
+    "modell": "modelle/uc13-wareneingang.bpmn",
+    "modellName": "Wareneingang",
+    "hoch": true,
+    "titel": { "de": "Der Wareneingang mit drei Bahnen und Black Box", "en": "Goods receipt with three lanes and a black box" },
+    "aufgabe": {
+      "de": "<p>Ein Spediteur meldet sich mit Lieferschein an der Pforte. Die Pforte prüft die Papiere und weist eine Rampe zu (Nachricht an den Spediteur). Der Wareneingang entlädt den Lkw und gleicht die Lieferung mit der Bestellung ab. Bei Abweichung meldet er sie an den Einkauf; der Prozess endet mit angestoßener Klärung. Ohne Abweichung prüft die Qualitätssicherung eine Stichprobe: bestanden, dann lagert der Wareneingang die Ware ein; nicht bestanden, dann wird die Ware gesperrt.</p><p>Modellieren Sie einen Pool Logistikzentrum mit den Bahnen Pforte, Wareneingang und Qualitätssicherung sowie den Spediteur als leeren Pool mit zwei Nachrichtenflüssen an seiner Kante.</p>",
+      "en": "<p>A carrier reports at the gate with a delivery note. The gate checks the papers and assigns a ramp (message to the carrier). Goods receipt unloads the truck and reconciles the delivery with the order. In case of deviation it reports to purchasing; the process ends with clarification started. Without deviation, quality assurance checks a sample: passed, then goods receipt stores the goods; failed, then the goods are blocked.</p><p>Model a pool Logistikzentrum with lanes Pforte, Wareneingang and Qualitätssicherung plus the carrier as an empty pool with two message flows at its edge.</p>"
+    },
+    "pruefung": { "starts": 1, "enden": [2, 3], "pools": ["Logistikzentrum", "Spediteur"], "bahnen": ["Pforte", "Wareneingang", "Qualität"], "nachrichten": 2, "gateways": { "exclusiveGateway": [2, 4] }, "aufgaben": ["Lieferpapiere", "Rampe", "entladen", "abgleichen", "Stichprobe", "sperren", "einlagern"] },
+    "hinweis": { "de": "Der leere Pool bleibt ohne Inhalt; die Nachrichtenflüsse ziehen Sie auf seinen Rand. Jede Aufgabe liegt in genau einer Bahn.", "en": "The empty pool stays without content; draw the message flows onto its edge. Every task lies in exactly one lane." },
+    "rueckmeldung": { "de": "Drei Bahnen, drei Ergebnisse, ein Partner als Black Box: ein typisches Ist-Modell.", "en": "Three lanes, three results, one partner as a black box: a typical as-is model." }
+  }
+]

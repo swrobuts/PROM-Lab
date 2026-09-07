@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="de" data-lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lab 09 · Vom Ist zum Soll · PROM-Lab</title>
+  <meta name="prom:titel-en" content="Lab 09 · From as-is to to-be · PROM-Lab" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/bpmn/diagram-js.css" />
+  <link rel="stylesheet" href="assets/bpmn/bpmn-js.css" />
+  <link rel="stylesheet" href="assets/bpmn/bpmn-font/css/bpmn.css" />
+  <link rel="stylesheet" href="assets/bpmn/bpmn-js-token-simulation.css" />
+  <link rel="stylesheet" href="assets/prom.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%2300595C'/><text x='16' y='23' font-family='sans-serif' font-size='18' font-weight='bold' text-anchor='middle' fill='%2390D033'>P</text></svg>" />
+</head>
+<body class="lab-page">
+
+<header class="header">
+  <div class="header-left">
+    <a class="header-logo" href="index.html" data-lab-link><span class="mark">PROM</span>-Lab</a>
+    <a class="header-back" href="index.html" data-lab-link>
+      <span lang="de">← Zur Übersicht</span><span lang="en">← Back to overview</span>
+    </a>
+  </div>
+  <div class="header-right">
+    <button class="lang-btn active" data-lang-btn="de" aria-pressed="true">DE</button>
+    <button class="lang-btn" data-lang-btn="en" aria-pressed="false">EN</button>
+  </div>
+</header>
+
+<nav class="sidebar" aria-label="Lab-Navigation">
+  <div class="sidebar-title"><span lang="de">Abschnitte</span><span lang="en">Sections</span></div>
+  <a class="sidebar-link" href="#ist"><span lang="de">Das Ist-Modell</span><span lang="en">The as-is model</span></a>
+  <a class="sidebar-link" href="#heuristiken"><span lang="de">Sieben Umbauvarianten</span><span lang="en">Seven redesign options</span></a>
+  <a class="sidebar-link" href="#soll"><span lang="de">Das Soll-Modell</span><span lang="en">The to-be model</span></a>
+  <a class="sidebar-link" href="#simulation"><span lang="de">Simulation in Adonis CE</span><span lang="en">Simulation in Adonis CE</span></a>
+  <a class="sidebar-link" href="#uebungen"><span lang="de">Übungen</span><span lang="en">Exercises</span></a>
+  <a class="sidebar-link" href="#zusammenfassung"><span lang="de">Zusammenfassung</span><span lang="en">Summary</span></a>
+</nav>
+
+<div class="lab-header">
+  <div class="lab-num-big">09</div>
+  <h1 class="lab-title">
+    <span lang="de">Vom Ist zum Soll</span>
+    <span lang="en">From as-is to to-be</span>
+  </h1>
+  <p class="lab-intro">
+    <span lang="de">Ein Ist-Modell ist erst dann fertig, wenn daraus ein Soll geworden ist. Dieses Lab zeigt an der Auftragsabwicklung eines Zerspanungsbetriebs, wie aus den Befunden aus Lab 08 ein begründeter Umbau wird: sieben Heuristiken nach Reijers und Liman Mansar, ihr Preis im Teufelsquadrat, und die Simulation in Adonis CE, mit der sich die Wirkung beziffern lässt. Genau das verlangt der Arbeitsauftrag.</span>
+    <span lang="en">An as-is model is only finished when it has become a to-be. This lab shows, with the order processing of a machining shop, how the findings from lab 08 turn into a justified redesign: seven heuristics after Reijers and Liman Mansar, their price in the devil's quadrangle, and the simulation in Adonis CE with which the effect can be quantified. That is exactly what the assignment requires.</span>
+  </p>
+  <div class="lernziele">
+    <span class="lernziel-chip"><span lang="de">Ist · Soll</span><span lang="en">As-is · to-be</span></span>
+    <span class="lernziel-chip"><span lang="de">Sieben Heuristiken</span><span lang="en">Seven heuristics</span></span>
+    <span class="lernziel-chip"><span lang="de">Teufelsquadrat</span><span lang="en">Devil's quadrangle</span></span>
+    <span class="lernziel-chip"><span lang="de">Prozessschrittanalyse</span><span lang="en">Process step analysis</span></span>
+    <span class="lernziel-chip"><span lang="de">Adonis CE</span><span lang="en">Adonis CE</span></span>
+  </div>
+</div>
+
+<main class="main-content">
+
+  <section class="section-block" id="ist">
+    <h2><span lang="de">Das Ist-Modell</span><span lang="en">The as-is model</span></h2>
+    <p>
+      <span lang="de">Der Arbeitsauftrag verlangt ein Ist- und ein Soll-Modell, klar unterscheidbar, mit begründeten Verbesserungen. Das Ist beschreibt, wie heute gearbeitet wird, ohne zu beschönigen: mit dem Fax, der Excel-Liste, der doppelten Prüfung. Es ist die Grundlage der Analyse, nicht ihr Ergebnis.</span>
+      <span lang="en">The assignment requires an as-is and a to-be model, clearly distinguishable, with justified improvements. The as-is describes how work is done today, without embellishment: with the fax, the Excel list, the double check. It is the basis of the analysis, not its result.</span>
+    </p>
+    <div data-modell="modelle/uc20-auftragsabwicklung-ist.bpmn" data-name="UC20 · Auftragsabwicklung im Zerspanungsbetrieb (Ist)" data-hoch></div>
+  </section>
+
+  <section class="section-block" id="heuristiken">
+    <h2><span lang="de">Sieben Umbauvarianten und ihr Preis</span><span lang="en">Seven redesign options and their price</span></h2>
+    <p>
+      <span lang="de">Ein erkannter Befund braucht eine Umbauvariante. Reijers und Liman Mansar haben 29 wiederkehrende Eingriffe gesammelt; sieben decken den größten Teil der Praxis ab. Jeder Eingriff verbessert mindestens eine der Zielgrößen Zeit, Kosten, Qualität, Flexibilität und verschlechtert in der Regel eine andere. Diese Wechselwirkung, das Teufelsquadrat, ist der Grund, warum ein Redesign eine Entscheidung ist und keine Optimierung.</span>
+      <span lang="en">A recognised finding needs a redesign option. Reijers and Liman Mansar collected 29 recurring interventions; seven cover most of practice. Every intervention improves at least one of the targets time, cost, quality, flexibility and usually worsens another. This interaction, the devil's quadrangle, is why a redesign is a decision and not an optimisation.</span>
+    </p>
+    <table>
+      <thead><tr><th><span lang="de">Heuristik</span><span lang="en">Heuristic</span></th><th><span lang="de">Eingriff</span><span lang="en">Intervention</span></th><th><span lang="de">Wirkung und Preis</span><span lang="en">Effect and price</span></th></tr></thead>
+      <tbody>
+<tr><td><span lang="de">Eliminierung</span><span lang="en">Elimination</span></td><td><span lang="de">Aufgabe streichen, die keinen Wert schafft (zweite Prüfung, Weiterleitung).</span><span lang="en">Drop a task that creates no value (second check, forwarding).</span></td><td><span lang="de">Zeit, Kosten ↓ · Qualitätsrisiko ↑</span><span lang="en">Time, cost ↓ · quality risk ↑</span></td></tr>
+<tr><td><span lang="de">Zusammenfassung</span><span lang="en">Composition</span></td><td><span lang="de">Kleine Aufgaben zu einer zusammenlegen, ein Bearbeiter.</span><span lang="en">Merge small tasks into one, one handler.</span></td><td><span lang="de">Übergaben ↓ · Spezialisierung ↓</span><span lang="en">Handovers ↓ · specialisation ↓</span></td></tr>
+<tr><td><span lang="de">Parallelisierung</span><span lang="en">Parallelisation</span></td><td><span lang="de">Unabhängige Aufgaben gleichzeitig ausführen.</span><span lang="en">Execute independent tasks at the same time.</span></td><td><span lang="de">Durchlaufzeit ↓ · Koordination ↑</span><span lang="en">Lead time ↓ · coordination ↑</span></td></tr>
+<tr><td><span lang="de">Bedingte Ausführung</span><span lang="en">Conditional execution</span></td><td><span lang="de">Aufgabe nur, wenn nötig (Material nur bestellen, wenn nicht vorrätig).</span><span lang="en">Task only if needed (order material only if not in stock).</span></td><td><span lang="de">Aufwand ↓ · Gateway und Datenbasis nötig</span><span lang="en">Effort ↓ · gateway and data basis needed</span></td></tr>
+<tr><td><span lang="de">Triage</span><span lang="en">Triage</span></td><td><span lang="de">Fälle nach Aufwand trennen: Standardfall schnell, Sonderfall gründlich.</span><span lang="en">Separate cases by effort: standard case fast, special case thorough.</span></td><td><span lang="de">Zeit ↓ · zwei Varianten zu pflegen</span><span lang="en">Time ↓ · two variants to maintain</span></td></tr>
+<tr><td><span lang="de">Automatisierung</span><span lang="en">Automation</span></td><td><span lang="de">Regelbasierte Aufgaben einem System übertragen (Zahnrad-Aufgabe).</span><span lang="en">Hand rule-based tasks to a system (cog task).</span></td><td><span lang="de">Zeit, Kosten ↓ · Investition, Flexibilität ↓</span><span lang="en">Time, cost ↓ · investment, flexibility ↓</span></td></tr>
+<tr><td><span lang="de">Zentralisierung</span><span lang="en">Centralisation</span></td><td><span lang="de">Eine Stelle für alle Fälle statt vieler; oder umgekehrt Dezentralisierung nahe am Kunden.</span><span lang="en">One unit for all cases instead of many; or conversely decentralisation close to the customer.</span></td><td><span lang="de">Kosten ↓ · Nähe, Flexibilität ↓</span><span lang="en">Cost ↓ · proximity, flexibility ↓</span></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="section-block" id="soll">
+    <h2><span lang="de">Das Soll-Modell</span><span lang="en">The to-be model</span></h2>
+    <p>
+      <span lang="de">Das Soll wendet vier Heuristiken an: Automatisierung (Angebot, ERP, Lieferschein), Parallelisierung (Arbeitsplan und Material), bedingte Ausführung (Bestellung nur bei fehlendem Bestand) und Eliminierung (zweite Maßprüfung, Medienbrüche). Es bleibt regelkonform: Blöcke geschlossen, Bedingungen beschriftet, jede Aufgabe in einer Bahn. Und es ist auf den ersten Blick vom Ist unterscheidbar.</span>
+      <span lang="en">The to-be applies four heuristics: automation (offer, ERP, delivery note), parallelisation (work plan and material), conditional execution (order only when stock is missing) and elimination (second measurement, media breaks). It stays rule-compliant: blocks closed, conditions labelled, every task in a lane. And it is distinguishable from the as-is at first glance.</span>
+    </p>
+    <div data-modell="modelle/uc20-auftragsabwicklung-soll.bpmn" data-name="UC20 · Auftragsabwicklung im Zerspanungsbetrieb (Soll)" data-hoch></div>
+  </section>
+
+  <section class="section-block" id="simulation">
+    <h2><span lang="de">Simulation in Adonis CE</span><span lang="en">Simulation in Adonis CE</span></h2>
+    <p>
+      <span lang="de">Ob der Umbau hält, was er verspricht, zeigt die Simulation. Adonis CE rechnet mit vier Zeitanteilen je Aufgabe (Bearbeitung, Warten, Liegen, Transport) und den Kosten. Die Prozessschrittanalyse läuft einen Pfad durch das Modell und summiert. Die Werte unten sind ein Vorschlag für das Ist; für das Soll setzen Sie automatisierte Aufgaben auf eine Minute und lassen die gestrichenen weg.</span>
+      <span lang="en">Whether the redesign delivers what it promises is shown by the simulation. Adonis CE calculates with four time components per task (processing, waiting, resting, transport) and the cost. The process step analysis runs one path through the model and sums up. The values below are a suggestion for the as-is; for the to-be set automated tasks to one minute and leave out the dropped ones.</span>
+    </p>
+    <div class="table-scroll">
+    <table>
+      <thead><tr><th><span lang="de">Aufgabe (Ist)</span><span lang="en">Task (as-is)</span></th><th><span lang="de">Bearbeitung</span><span lang="en">Processing</span></th><th><span lang="de">Liegezeit</span><span lang="en">Resting</span></th><th><span lang="de">Transport</span><span lang="en">Transport</span></th><th><span lang="de">Kosten</span><span lang="en">Cost</span></th></tr></thead>
+      <tbody>
+<tr><td>Anfrage in Excel-Liste eintragen</td><td>10 min</td><td>2 h</td><td>–</td><td>8 €</td></tr>
+<tr><td>Angebot in Excel kalkulieren</td><td>45 min</td><td>4 h</td><td>–</td><td>40 €</td></tr>
+<tr><td>Angebot per E-Mail senden</td><td>5 min</td><td>–</td><td>–</td><td>4 €</td></tr>
+<tr><td>Auftrag ins ERP abtippen</td><td>20 min</td><td>8 h</td><td>–</td><td>16 €</td></tr>
+<tr><td>Zeichnung prüfen</td><td>30 min</td><td>4 h</td><td>–</td><td>30 €</td></tr>
+<tr><td>Arbeitsplan erstellen</td><td>60 min</td><td>8 h</td><td>–</td><td>60 €</td></tr>
+<tr><td>Material bestellen</td><td>15 min</td><td>48 h</td><td>–</td><td>12 €</td></tr>
+<tr><td>Teile fräsen</td><td>240 min</td><td>16 h</td><td>–</td><td>320 €</td></tr>
+<tr><td>Teile entgraten</td><td>40 min</td><td>2 h</td><td>10 min</td><td>35 €</td></tr>
+<tr><td>Maße prüfen</td><td>30 min</td><td>1 h</td><td>–</td><td>30 €</td></tr>
+<tr><td>Maße nochmals prüfen</td><td>30 min</td><td>4 h</td><td>15 min</td><td>30 €</td></tr>
+<tr><td>Teile verpacken</td><td>20 min</td><td>1 h</td><td>–</td><td>15 €</td></tr>
+<tr><td>Lieferschein von Hand schreiben</td><td>15 min</td><td>2 h</td><td>–</td><td>12 €</td></tr>
+<tr><td>Sendung übergeben</td><td>10 min</td><td>8 h</td><td>–</td><td>8 €</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <ol class="schritte">
+      <li><span lang="de">Ist-Modell in Adonis importieren (Lab 01) und öffnen.</span><span lang="en">Import the as-is model into Adonis (lab 01) and open it.</span></li>
+      <li><span lang="de">Doppelklick auf eine Aufgabe; die Ansicht von „Kompakt“ auf „Standard mit Simulation“ stellen.</span><span lang="en">Double-click a task; switch the view from “Compact” to “Standard with simulation”.</span></li>
+      <li><span lang="de">Unter „Simulationsdaten“ Bearbeitungszeit, Liegezeit, Transportzeit und Kosten eintragen; für alle Aufgaben wiederholen.</span><span lang="en">Under “simulation data” enter processing time, resting time, transport time and cost; repeat for all tasks.</span></li>
+      <li><span lang="de">Rechts oben im Menü mit den drei Punkten „Prozessschrittanalyse“ wählen und mit dem Play-Knopf starten.</span><span lang="en">Choose “Process step analysis” in the three-dot menu top right and start with the play button.</span></li>
+      <li><span lang="de">An jedem XOR-Gateway den Standardfall wählen (Material vorrätig, Angebot angenommen).</span><span lang="en">At every XOR gateway choose the standard case (material in stock, offer accepted).</span></li>
+      <li><span lang="de">Ergebnis nach Excel exportieren; dasselbe für das Soll wiederholen und die Durchlaufzeiten vergleichen.</span><span lang="en">Export the result to Excel; repeat the same for the to-be and compare the cycle times.</span></li>
+    </ol>
+    <div class="warn-box">
+      <p><strong><span lang="de">Was die Simulation nicht sagt.</span><span lang="en">What the simulation does not say.</span></strong> <span lang="de">Die Prozessschrittanalyse rechnet einen Pfad mit festen Werten. Sie kennt keine Auslastung, keine Warteschlange vor einer knappen Ressource und keine Streuung. Ein Engpass, der erst bei zehn gleichzeitigen Aufträgen entsteht, bleibt unsichtbar. Dafür braucht es eine ereignisdiskrete Simulation (Signavio-Beispiel der Vorlesung) oder echte Ereignisdaten (Process Mining).</span><span lang="en">The process step analysis calculates one path with fixed values. It knows no utilisation, no queue in front of a scarce resource and no variance. A bottleneck that only arises with ten simultaneous orders stays invisible. That needs a discrete-event simulation (the lecture's Signavio example) or real event data (process mining).</span></p>
+    </div>
+  </section>
+
+  <section class="section-block" id="uebungen">
+    <h2><span lang="de">Übungen</span><span lang="en">Exercises</span></h2>
+    <p><span lang="de">Fünf Übungen: Ist lesen, Heuristiken zuordnen, Soll lesen, in Adonis simulieren und zuletzt ein eigenes Soll aus dem Ist bauen. Die Adonis-Übung findet außerhalb des Browsers statt; die Fragen prüfen, was Sie dort gesehen haben.</span><span lang="en">Five exercises: read as-is, assign heuristics, read to-be, simulate in Adonis and finally build your own to-be from the as-is. The Adonis exercise takes place outside the browser; the questions check what you saw there.</span></p>
+    <div data-uebung="P09-01"></div>
+    <div data-uebung="P09-02"></div>
+    <div data-uebung="P09-03"></div>
+    <div data-uebung="P09-04"></div>
+    <div data-uebung="P09-05"></div>
+  </section>
+
+  <section class="section-block" id="zusammenfassung">
+    <h2><span lang="de">Zusammenfassung</span><span lang="en">Summary</span></h2>
+    <ul>
+      <li><span lang="de">Das Ist beschreibt ohne Beschönigung; das Soll wendet begründete Heuristiken an und bleibt regelkonform.</span><span lang="en">The as-is describes without embellishment; the to-be applies justified heuristics and stays rule-compliant.</span></li>
+      <li><span lang="de">Jede Heuristik hat einen Preis (Teufelsquadrat); Redesign ist eine Entscheidung.</span><span lang="en">Every heuristic has a price (devil's quadrangle); redesign is a decision.</span></li>
+      <li><span lang="de">Die Durchlaufzeit wird von Liege- und Wartezeiten dominiert; dort greift der Umbau.</span><span lang="en">Cycle time is dominated by resting and waiting times; that is where the redesign takes effect.</span></li>
+      <li><span lang="de">Die Prozessschrittanalyse in Adonis belegt den Unterschied mit Zahlen, kennt aber keine Auslastung.</span><span lang="en">The process step analysis in Adonis substantiates the difference with numbers but knows no utilisation.</span></li>
+    </ul>
+    <nav class="nav-bottom"></nav>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <span lang="de">THWS Business School · PROM-Lab · Prof. Dr. Robert Butscher · Diagramme mit <a href="https://bpmn.io" rel="noopener">bpmn.io</a></span>
+  <span lang="en">THWS Business School · PROM-Lab · Prof. Dr. Robert Butscher · Diagrams with <a href="https://bpmn.io" rel="noopener">bpmn.io</a></span>
+</footer>
+
+<script type="module">
+  import { starteLab } from './assets/prom.js'
+  starteLab({ lab: 'lab-09', basis: '.' })
+</script>
+</body>
+</html>

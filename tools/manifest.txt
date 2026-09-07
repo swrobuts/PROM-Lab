@@ -14,6 +14,7 @@ uc09-ersatzteil-fehlerhaft.bpmn
 uc09-ersatzteil.bpmn
 uc10-anlagenstoerung.bpmn
 uc11-rezeptanfrage.bpmn
+uc12-tischreservierung-fehlerhaft.bpmn
 uc12-tischreservierung.bpmn
 uc13-wareneingang.bpmn
 uc14-facharztueberweisung.bpmn

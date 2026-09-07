@@ -62,7 +62,11 @@ def zusammenfassung(punkte):
 
 def tabelle(kopf, zeilen):
     th = "".join(f'<th><span lang="de">{a}</span><span lang="en">{b}</span></th>' for a, b in kopf)
-    tr = "".join('<tr>' + "".join(f'<td><span lang="de">{a}</span><span lang="en">{b}</span></td>' if isinstance(z, tuple) else f'<td>{z}</td>' for z in zeile) + '</tr>\n' for zeile in zeilen)
+    def zelle(z):
+        if isinstance(z, tuple):
+            return f'<td><span lang="de">{z[0]}</span><span lang="en">{z[1]}</span></td>'
+        return f'<td>{z}</td>'
+    tr = "".join('<tr>' + "".join(zelle(z) for z in zeile) + '</tr>\n' for zeile in zeilen)
     return f'    <table>\n      <thead><tr>{th}</tr></thead>\n      <tbody>\n{tr}      </tbody>\n    </table>\n'
 
 # Symbole

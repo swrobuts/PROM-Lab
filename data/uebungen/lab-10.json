@@ -1,0 +1,143 @@
+[
+  {
+    "id": "P10-01",
+    "typ": "erkunden",
+    "modell": "modelle/ki/uc21-entlassmanagement-ki-rohfassung.bpmn",
+    "modellName": "UC21 · Entlassmanagement, KI-Rohfassung (unverändert)",
+    "hoch": true,
+    "titel": { "de": "Das Modell, das die KI geliefert hat", "en": "The model the AI delivered" },
+    "aufgabe": {
+      "de": "<p>Diese Datei hat ein Sprachmodell in einem Durchgang aus der Prozessbeschreibung oben erzeugt; sie wurde nicht angefasst. Sie importiert fehlerfrei. Lassen Sie eine Marke laufen, lösen Sie den Timer an „Auf Lieferbestätigung warten“ aus und beobachten Sie, was passiert. Klicken Sie außerdem auf die Aufgabe „Entlassung um einen Tag verschieben“ und folgen Sie ihrem Pfeil.</p>",
+      "en": "<p>A language model produced this file in one go from the process description above; it has not been touched. It imports without error. Run a token, trigger the timer on “Auf Lieferbestätigung warten” and watch what happens. Also click the task “Entlassung um einen Tag verschieben” and follow its arrow.</p>"
+    },
+    "fragen": [
+      {
+        "frage": { "de": "Der Timer an „Auf Lieferbestätigung warten“ ist nicht unterbrechend, und „Telefonisch nachfassen“ führt in die Warteaufgabe zurück. Was folgt daraus?", "en": "The timer on “Auf Lieferbestätigung warten” is non-interrupting, and “Telefonisch nachfassen” leads back into the waiting task. What follows?" },
+        "optionen": [
+          { "de": "Die Warteaufgabe läuft weiter und erhält eine zweite Marke; beide passieren später die Zusammenführungen, und der Prozess läuft doppelt weiter oder blockiert.", "en": "The waiting task keeps running and receives a second token; both later pass the joins, and the process continues twice or blocks." },
+          { "de": "Nichts, das ist die übliche Art, eine Erinnerung zu modellieren.", "en": "Nothing, that is the usual way to model a reminder." },
+          { "de": "Der Timer beendet das Warten.", "en": "The timer ends the waiting." }
+        ],
+        "richtig": [0],
+        "erklaerung": { "de": "Regel R10. Richtig wäre ein ereignisbasiertes Gateway mit Nachricht und Timer, dessen Timer-Pfad nach dem Nachfassen zum Gateway zurückkehrt.", "en": "Rule R10. Correct would be an event-based gateway with message and timer whose timer path returns to the gateway after following up." }
+      },
+      {
+        "frage": { "de": "„Entlassung um einen Tag verschieben“ führt zurück in die parallele Verzweigung nach dem Start. Was stimmt daran nicht?", "en": "“Entlassung um einen Tag verschieben” leads back into the parallel split after the start. What is wrong with that?" },
+        "optionen": [
+          { "de": "Der Entlassbrief würde ein zweites Mal erstellt, und die Visite, mit der es laut Beschreibung „von vorn“ beginnt, ist im Modell kein Schritt. Richtig: die Instanz beenden; die Visite am Folgetag startet eine neue.", "en": "The discharge letter would be created a second time, and the ward round with which it starts “from the beginning” is not a step in the model. Correct: end the instance; the next day's ward round starts a new one." },
+          { "de": "Rückschleifen sind in BPMN verboten.", "en": "Loops are forbidden in BPMN." },
+          { "de": "Nichts, die Beschreibung verlangt genau das.", "en": "Nothing, the description asks for exactly that." }
+        ],
+        "richtig": [0],
+        "erklaerung": { "de": "Die KI hat „von vorn“ wörtlich als Rücksprung gelesen. Ein Mensch fragt: Was löst den Neuanfang aus? Eine neue Visite, also eine neue Instanz.", "en": "The AI read “from the beginning” literally as a jump back. A human asks: what triggers the restart? A new ward round, hence a new instance." }
+      }
+    ]
+  },
+  {
+    "id": "P10-02",
+    "typ": "fehler",
+    "modell": "modelle/ki/uc21-entlassmanagement-ki-rohfassung.bpmn",
+    "modellName": "UC21 · KI-Rohfassung",
+    "hoch": true,
+    "titel": { "de": "Das KI-Modell abnehmen", "en": "Accepting the AI model" },
+    "aufgabe": {
+      "de": "<p>Markieren Sie im KI-Modell die <strong>zwei</strong> Stellen, die der Regelprüfer beanstandet: die Marken-Verdopplung am Timer und ein Gateway, das zugleich zusammenführt und verzweigt.</p>",
+      "en": "<p>Mark in the AI model the <strong>two</strong> spots the rule checker objects to: the token duplication at the timer and a gateway that merges and splits at the same time.</p>"
+    },
+    "fehler": [
+      { "element": "BoundaryEvent_Timer1", "regel": "R10" },
+      { "element": "Gateway_ParallelSplit1", "regel": "R04" }
+    ],
+    "hinweis": { "de": "Das erste parallele Gateway hat zwei Eingänge (Start und Rücksprung) und zwei Ausgänge: R04. Der Timer: R10.", "en": "The first parallel gateway has two entries (start and jump back) and two exits: R04. The timer: R10." },
+    "rueckmeldung": { "de": "Zwei Befunde des Prüfers, aber fünf Befunde eines Menschen: Die stille Annahme zur Transportfähigkeit und die Doppelaufgabe „Entlassgespräch führen, Brief übergeben“ findet kein Regelwerk.", "en": "Two findings by the checker, but five by a human: no rule set finds the silent assumption about transportability and the double task “conduct discharge talk, hand over letter”." }
+  },
+  {
+    "id": "P10-03",
+    "typ": "quiz",
+    "titel": { "de": "Chancen und Grenzen", "en": "Chances and limits" },
+    "aufgabe": { "de": "<p>Was belegt der Versuch?</p>", "en": "<p>What does the experiment show?</p>" },
+    "fragen": [
+      {
+        "frage": { "de": "Welche Aussagen belegt die KI-Rohfassung? (mehrere)", "en": "Which statements does the AI raw version support? (several)" },
+        "mehrfach": true,
+        "optionen": [
+          { "de": "Rollen, Aufgaben und Nachrichten wurden vollständig aus dem Text extrahiert.", "en": "Roles, tasks and messages were fully extracted from the text." },
+          { "de": "Die Notation ist fehlerfrei: Pools, Bahnen, Send-/Receive-Tasks, Nachrichtenflüsse an Poolkanten.", "en": "The notation is flawless: pools, lanes, send/receive tasks, message flows to pool edges." },
+          { "de": "Die Marken-Semantik wurde durchgerechnet.", "en": "The token semantics were worked through." },
+          { "de": "Lücken der Beschreibung wurden gekennzeichnet.", "en": "Gaps in the description were flagged." },
+          { "de": "Die Datei ließ sich sofort importieren; das Layout ist brauchbar.", "en": "The file imported at once; the layout is usable." }
+        ],
+        "richtig": [0, 1, 4],
+        "erklaerung": { "de": "Extraktion, Notation, Layout: stark. Semantik und Annahmen: schwach. Beides zusammen ist das Bild, das die Vorlesung zeichnet: „Gute Notation, aber mit der Gefahr, den PC zu ruinieren.“", "en": "Extraction, notation, layout: strong. Semantics and assumptions: weak. Together that is the picture the lecture draws." }
+      },
+      {
+        "frage": { "de": "Woran erkennt man die semantischen Fehler eines KI-Modells am zuverlässigsten?", "en": "How can the semantic errors of an AI model be recognised most reliably?" },
+        "optionen": [
+          { "de": "Am Bild allein nicht. Durch Marken laufen lassen, den Regelprüfer und die Frage, welche Annahme das Modell trifft, die im Text nicht steht.", "en": "Not from the picture alone. By running tokens, the rule checker and the question which assumption the model makes that is not in the text." },
+          { "de": "Am Layout: Schöne Modelle sind richtig.", "en": "From the layout: pretty models are correct." },
+          { "de": "Daran, dass das Werkzeug den Import verweigert.", "en": "From the tool refusing the import." }
+        ],
+        "richtig": [0],
+        "erklaerung": { "de": "Keiner der drei Fehler war im Bild auffällig. Die Prüfpflicht bleibt beim Menschen.", "en": "None of the three errors was conspicuous in the picture. The duty to check stays with the human." }
+      },
+      {
+        "frage": { "de": "Wofür ist ein KI-generiertes Modell nach diesem Befund gut geeignet? (mehrere)", "en": "What is an AI-generated model well suited for after this finding? (several)" },
+        "mehrfach": true,
+        "optionen": [
+          { "de": "Als Entwurf und Diskussionsgrundlage für eine Erhebung mit den Beteiligten.", "en": "As a draft and discussion basis for an elicitation with the participants." },
+          { "de": "Als Prüfliste, welche Rollen und Nachrichten der Text erwähnt.", "en": "As a checklist of which roles and messages the text mentions." },
+          { "de": "Als fertige Abgabe ohne Durchsicht.", "en": "As a finished submission without review." },
+          { "de": "Als Grundlage für eine Simulation, ohne die Semantik zu prüfen.", "en": "As a basis for simulation without checking the semantics." }
+        ],
+        "richtig": [0, 1],
+        "erklaerung": { "de": "Assistenz statt Autonomie: Die KI liefert den Rohling, der Mensch nimmt ab.", "en": "Assistance instead of autonomy: the AI delivers the blank, the human accepts." }
+      }
+    ]
+  },
+  {
+    "id": "P10-04",
+    "typ": "modell",
+    "modell": "modelle/uc21-entlassmanagement-geprueft.bpmn",
+    "modellName": "Entlassmanagement (Ihre KI-Fassung)",
+    "hoch": true,
+    "titel": { "de": "Ihr eigener KI-Versuch", "en": "Your own AI experiment" },
+    "aufgabe": {
+      "de": "<p>Geben Sie die Prozessbeschreibung oben einem Sprachmodell Ihrer Wahl mit der Bitte um eine BPMN-2.0-XML-Datei mit Layout (Pools, Bahnen, Nachrichtenflüsse). Speichern Sie die Antwort als <code>.bpmn</code>, importieren Sie sie hier über „.bpmn importieren“ und drücken Sie „Prüfen“. Beheben Sie die Befunde im Editor, bis kein Fehler mehr gemeldet wird. Vergleichen Sie zuletzt mit der geprüften Fassung.</p>",
+      "en": "<p>Give the process description above to a language model of your choice, asking for a BPMN 2.0 XML file with layout (pools, lanes, message flows). Save the reply as <code>.bpmn</code>, import it here via “Import .bpmn” and press “Check”. Fix the findings in the editor until no error is reported. Finally compare with the checked version.</p>"
+    },
+    "pruefung": { "starts": [1, 2], "pools": ["Krankenhaus"], "bahnen": ["Sozialdienst"], "nachrichten": [3, 6], "aufgaben": ["Entlassbrief", "Hilfsmittel", "Entlassgespräch"] },
+    "hinweis": { "de": "Lässt sich die Datei nicht importieren, fehlt meist der DI-Teil oder ein Namensraum. Bitten Sie das Modell um „vollständiges BPMN DI mit Koordinaten“. Bleibt der Editor leer, hat die Datei keine Formen.", "en": "If the file cannot be imported, the DI part or a namespace is usually missing. Ask the model for “complete BPMN DI with coordinates”. If the editor stays empty, the file has no shapes." },
+    "rueckmeldung": { "de": "Sie haben ein KI-Modell abgenommen. Notieren Sie, welche Befunde der Prüfer fand und welche nur Sie gefunden haben.", "en": "You have accepted an AI model. Note which findings the checker made and which only you found." }
+  },
+  {
+    "id": "P10-05",
+    "typ": "quiz",
+    "titel": { "de": "Der bessere Prompt ist eine Prozessabgrenzung", "en": "The better prompt is a process scoping" },
+    "aufgabe": { "de": "<p>Die Vorlesung sagt: „Es lag am Prompt“ stimmt, und der bessere Prompt ist eine Prozessabgrenzung. Was gehört hinein?</p>", "en": "<p>The lecture says: “it was the prompt” is true, and the better prompt is a process scoping. What belongs in it?</p>" },
+    "fragen": [
+      {
+        "frage": { "de": "Welche Angaben hätten die drei Fehler der Rohfassung verhindert oder sichtbar gemacht? (mehrere)", "en": "Which statements would have prevented or exposed the three errors of the raw version? (several)" },
+        "mehrfach": true,
+        "optionen": [
+          { "de": "Auslöser und Ende: „Eine Instanz beginnt mit der Visite und endet mit Entlassung oder Verschiebung; die nächste Visite ist eine neue Instanz.“", "en": "Trigger and end: “An instance begins with the ward round and ends with discharge or postponement; the next ward round is a new instance.”" },
+          { "de": "Beteiligte und Grenze: „Innerhalb des Krankenhauses: Ärztin, Pflege, Sozialdienst, Abrechnung. Außerhalb: Sanitätshaus, Hausarzt, Kasse, Patient.“", "en": "Participants and boundary: “Inside the hospital: physician, nursing, social service, billing. Outside: medical supplier, family doctor, insurer, patient.”" },
+          { "de": "Prüfauftrag: „Nenne jede Annahme, die du triffst, weil der Text sie offenlässt.“", "en": "Check instruction: “Name every assumption you make because the text leaves it open.”" },
+          { "de": "Konventionen: „Substantiv + Verb je Aufgabe, eine Tätigkeit je Aufgabe, Fristen als ereignisbasiertes Gateway.“", "en": "Conventions: “Verb + object per task, one activity per task, deadlines as event-based gateway.”" },
+          { "de": "Die Bitte um ein besonders schönes Layout.", "en": "The request for an especially pretty layout." }
+        ],
+        "richtig": [0, 1, 2, 3],
+        "erklaerung": { "de": "Abgrenzung, Beteiligte, Annahmen, Konventionen: Das ist der Inhalt einer Prozessabgrenzung, mit oder ohne KI.", "en": "Scoping, participants, assumptions, conventions: that is the content of a process scoping, with or without AI." }
+      },
+      {
+        "frage": { "de": "Was bleibt auch mit dem besten Prompt beim Menschen?", "en": "What stays with the human even with the best prompt?" },
+        "optionen": [
+          { "de": "Die Abnahme: Marken laufen lassen, Regeln prüfen, Annahmen mit den Beteiligten klären, Verantwortung für das Modell übernehmen.", "en": "Acceptance: run tokens, check rules, clarify assumptions with the participants, take responsibility for the model." },
+          { "de": "Nichts, der Prompt löst alles.", "en": "Nothing, the prompt solves everything." },
+          { "de": "Nur das Speichern der Datei.", "en": "Only saving the file." }
+        ],
+        "richtig": [0],
+        "erklaerung": { "de": "Das Spektrum der Zusammenarbeit: Die KI erweitert die Reichweite, der Mensch setzt die Grenzen und trägt die Verantwortung.", "en": "The spectrum of collaboration: AI extends the reach, the human sets the limits and bears the responsibility." }
+      }
+    ]
+  }
+]

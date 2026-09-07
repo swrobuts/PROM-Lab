@@ -1,0 +1,151 @@
+[
+  {
+    "id": "P07-01",
+    "typ": "erkunden",
+    "modell": "modelle/uc15-instandhaltung.bpmn",
+    "modellName": "UC15 · Instandhaltungsauftrag an einer Abfüllanlage",
+    "hoch": true,
+    "titel": { "de": "Ein Teilprozess und seine Daten", "en": "A subprocess and its data" },
+    "aufgabe": {
+      "de": "<p>Klicken Sie auf den Rahmen „Störung diagnostizieren“, auf die Datenobjekte und auf den Datenspeicher. Lassen Sie eine Marke laufen und beobachten Sie, wie sie in den Teilprozess hinein- und wieder herausläuft.</p>",
+      "en": "<p>Click the frame “Störung diagnostizieren”, the data objects and the data store. Run a token and watch how it enters and leaves the subprocess.</p>"
+    },
+    "fragen": [
+      {
+        "frage": { "de": "Warum hat der aufgeklappte Teilprozess ein eigenes Start- und Endereignis?", "en": "Why does the expanded subprocess have its own start and end event?" },
+        "optionen": [
+          { "de": "Weil er ein Prozess im Prozess ist: Die Marke tritt am Rahmen ein, durchläuft ihn von seinem Start bis zu seinem Ende und verlässt ihn erst dann.", "en": "Because it is a process within the process: the token enters at the frame, runs through it from its start to its end and only then leaves it." },
+          { "de": "Weil jedes Rechteck ein Startereignis braucht.", "en": "Because every rectangle needs a start event." },
+          { "de": "Damit man ihn separat drucken kann.", "en": "So that it can be printed separately." }
+        ],
+        "richtig": [0],
+        "erklaerung": { "de": "Kein Sequenzfluss darf den Rahmen kreuzen. Der Teilprozess ist außen eine Aufgabe und innen ein Ablauf.", "en": "No sequence flow may cross the frame. The subprocess is a task on the outside and a flow on the inside." }
+      },
+      {
+        "frage": { "de": "Was unterscheidet das Datenobjekt „Störmeldung“ vom Datenspeicher „Instandhaltungssystem“?", "en": "What distinguishes the data object “Störmeldung” from the data store “Instandhaltungssystem”?" },
+        "optionen": [
+          { "de": "Das Datenobjekt lebt nur in dieser Instanz (diese eine Meldung), der Datenspeicher überdauert alle Instanzen (das System mit allen Aufträgen).", "en": "The data object lives only in this instance (this one report), the data store outlives all instances (the system with all orders)." },
+          { "de": "Das Datenobjekt ist Papier, der Speicher digital.", "en": "The data object is paper, the store is digital." },
+          { "de": "Kein Unterschied, nur die Form.", "en": "No difference, only the shape." }
+        ],
+        "richtig": [0],
+        "erklaerung": { "de": "Instanzdaten gegen Bestandsdaten. Ob Papier oder digital, sagt das Symbol nicht; das gehört in den Namen.", "en": "Instance data versus persistent data. Whether paper or digital the symbol does not say; that belongs in the name." }
+      }
+    ]
+  },
+  {
+    "id": "P07-02",
+    "typ": "erkunden",
+    "modell": "modelle/uc16-serienfertigung.bpmn",
+    "modellName": "UC16 · Qualitätsprüfung je Fertigungslos",
+    "titel": { "de": "Drei Striche, ein Pfeil im Kreis, ein Plus", "en": "Three bars, a circular arrow, a plus" },
+    "aufgabe": {
+      "de": "<p>Drei Aufgaben tragen kleine Markierungen am unteren Rand: „Stichprobenteil prüfen“ (drei senkrechte Striche), „Los nacharbeiten“ (Pfeil im Kreis) und „Los verpacken und etikettieren“ (Plus). Klicken Sie sie an.</p>",
+      "en": "<p>Three tasks carry small markers at the bottom edge: “Stichprobenteil prüfen” (three vertical bars), “Los nacharbeiten” (circular arrow) and “Los verpacken und etikettieren” (plus). Click them.</p>"
+    },
+    "fragen": [
+      {
+        "frage": { "de": "Was bedeuten die drei senkrechten Striche an „Stichprobenteil prüfen“?", "en": "What do the three vertical bars on “Stichprobenteil prüfen” mean?" },
+        "optionen": [
+          { "de": "Parallele Mehrfachinstanz: Die Aufgabe wird je Teil der Stichprobe einmal ausgeführt, alle gleichzeitig; die Anzahl steht erst zur Laufzeit fest.", "en": "Parallel multi-instance: the task is executed once per part of the sample, all at the same time; the number is only known at runtime." },
+          { "de": "Die Aufgabe dauert dreimal so lang.", "en": "The task takes three times as long." },
+          { "de": "Drei Personen arbeiten daran.", "en": "Three people work on it." }
+        ],
+        "richtig": [0],
+        "erklaerung": { "de": "Waagerechte Striche hießen: nacheinander (sequenziell). Die Alternative wäre ein paralleles Gateway mit so vielen Pfaden wie Teile, was bei unbekannter Anzahl unmöglich ist.", "en": "Horizontal bars would mean one after another (sequential). The alternative would be a parallel gateway with as many paths as parts, which is impossible with an unknown number." }
+      },
+      {
+        "frage": { "de": "„Los nacharbeiten“ trägt einen Schleifenpfeil, und es gibt trotzdem eine Nachprüfung danach. Wann ist der Schleifenmarker einer Rückschleife über ein Gateway vorzuziehen?", "en": "“Los nacharbeiten” carries a loop arrow, and there is still a re-inspection afterwards. When is the loop marker preferable to a loop via a gateway?" },
+        "optionen": [
+          { "de": "Wenn sich nur eine einzelne Aufgabe wiederholt und die Abbruchbedingung zu ihr gehört; die Gateway-Schleife ist besser, wenn mehrere Schritte wiederholt werden.", "en": "When only a single task repeats and the exit condition belongs to it; the gateway loop is better when several steps are repeated." },
+          { "de": "Immer, der Marker ist kürzer.", "en": "Always, the marker is shorter." },
+          { "de": "Nie, Marker sind veraltet.", "en": "Never, markers are outdated." }
+        ],
+        "richtig": [0],
+        "erklaerung": { "de": "Der Marker versteckt die Bedingung im Element; das Gateway zeigt sie. Beides ist erlaubt; die Lesbarkeit entscheidet.", "en": "The marker hides the condition in the element; the gateway shows it. Both are allowed; readability decides." }
+      }
+    ]
+  },
+  {
+    "id": "P07-03",
+    "typ": "erkunden",
+    "modell": "modelle/uc17-visite.bpmn",
+    "modellName": "UC17 · Ärztliche Visite auf der Station",
+    "titel": { "de": "Der aufgerufene Prozess", "en": "The called process" },
+    "aufgabe": {
+      "de": "<p>„Medikation anpassen“ hat einen dicken Rahmen: eine Aufrufaktivität. Und „Patient visitieren“ trägt drei waagerechte Striche. Klicken Sie beide an, dann das Startereignis.</p>",
+      "en": "<p>“Medikation anpassen” has a thick border: a call activity. And “Patient visitieren” carries three horizontal bars. Click both, then the start event.</p>"
+    },
+    "fragen": [
+      {
+        "frage": { "de": "Wann ist eine Aufrufaktivität einem eingebetteten Teilprozess vorzuziehen?", "en": "When is a call activity preferable to an embedded subprocess?" },
+        "optionen": [
+          { "de": "Wenn der Ablauf an mehreren Stellen oder in mehreren Prozessen gebraucht wird: Er wird einmal modelliert und überall aufgerufen.", "en": "When the flow is needed in several places or several processes: it is modelled once and called everywhere." },
+          { "de": "Wenn der Ablauf sehr kurz ist.", "en": "When the flow is very short." },
+          { "de": "Wenn er in einer anderen Bahn liegt.", "en": "When it lies in a different lane." }
+        ],
+        "richtig": [0],
+        "erklaerung": { "de": "„Medikation anpassen“ nutzt auch die Notaufnahme. Ein eingebetteter Teilprozess gehört nur zu seinem Elternprozess.", "en": "“Medikation anpassen” is also used by the emergency room. An embedded subprocess belongs only to its parent process." }
+      },
+      {
+        "frage": { "de": "Das Startereignis ist ein Timer „Täglich 8:00 Uhr“. Wie viele Instanzen entstehen in einer Woche?", "en": "The start event is a timer “Täglich 8:00 Uhr”. How many instances arise in a week?" },
+        "optionen": [ { "de": "Eine, die ganze Woche läuft.", "en": "One that runs the whole week." }, { "de": "Sieben, jeden Tag eine neue.", "en": "Seven, a new one every day." }, { "de": "So viele wie Patienten.", "en": "As many as patients." } ],
+        "richtig": [1],
+        "erklaerung": { "de": "Ein Timer-Start im Rhythmus erzeugt je Auslösung eine Instanz. Die Patienten sind die Instanzen der Mehrfachinstanz innerhalb der Visite.", "en": "A timer start on a schedule creates one instance per trigger. The patients are the instances of the multi-instance inside the ward round." }
+      }
+    ]
+  },
+  {
+    "id": "P07-04",
+    "typ": "quiz",
+    "titel": { "de": "Welches Strukturelement?", "en": "Which structural element?" },
+    "aufgabe": { "de": "<p>Ordnen Sie jeder Situation das passende Element zu.</p>", "en": "<p>Assign the fitting element to each situation.</p>" },
+    "fragen": [
+      {
+        "frage": { "de": "„Der Prüfbericht wird erstellt und im Qualitätsmanagementsystem abgelegt.“ Welche Datensymbole?", "en": "“The inspection report is created and filed in the quality management system.” Which data symbols?" },
+        "optionen": [
+          { "de": "Ein Datenobjekt (Prüfbericht) als Ausgabe der Aufgabe und ein Datenspeicher (QM-System), in den er geschrieben wird.", "en": "A data object (report) as output of the task and a data store (QM system) it is written to." },
+          { "de": "Zwei Datenspeicher.", "en": "Two data stores." },
+          { "de": "Zwei Datenobjekte.", "en": "Two data objects." }
+        ],
+        "richtig": [0],
+        "erklaerung": { "de": "Der Bericht ist Instanzdatum, das System Bestand.", "en": "The report is instance data, the system is persistent." }
+      },
+      {
+        "frage": { "de": "„Für jede Position der Bestellung wird die Verfügbarkeit geprüft.“ Welche Darstellung?", "en": "“For every line of the order availability is checked.” Which representation?" },
+        "optionen": [
+          { "de": "Mehrfachinstanz an „Verfügbarkeit prüfen“ (parallel, wenn die Reihenfolge egal ist).", "en": "Multi-instance on “check availability” (parallel if order does not matter)." },
+          { "de": "Ein paralleles Gateway mit einem Pfad je Position.", "en": "A parallel gateway with one path per line." },
+          { "de": "Eine Rückschleife über ein XOR-Gateway.", "en": "A loop via an XOR gateway." }
+        ],
+        "richtig": [0],
+        "erklaerung": { "de": "Die Positionszahl ist je Instanz verschieden; ein Gateway mit fester Pfadzahl kann das nicht. Die Gateway-Schleife ginge, ist aber sequenziell und unübersichtlich.", "en": "The number of lines differs per instance; a gateway with a fixed number of paths cannot do that. The gateway loop would work but is sequential and cluttered." }
+      },
+      {
+        "frage": { "de": "Ein Modell hat 60 Aufgaben auf einer Ebene. Was hilft?", "en": "A model has 60 tasks on one level. What helps?" },
+        "optionen": [
+          { "de": "Zusammengehörige Schritte in Teilprozesse fassen, wiederverwendete Abläufe in Aufrufaktivitäten auslagern; die oberste Ebene zeigt dann zehn bis fünfzehn Elemente.", "en": "Group related steps into subprocesses, move reused flows into call activities; the top level then shows ten to fifteen elements." },
+          { "de": "Kleinere Schrift.", "en": "Smaller font." },
+          { "de": "Das Modell in zwei Pools teilen.", "en": "Split the model into two pools." }
+        ],
+        "richtig": [0],
+        "erklaerung": { "de": "Pools sind für Beteiligte da, nicht für Platzprobleme. Hierarchie schafft der Teilprozess.", "en": "Pools are for participants, not for space problems. Hierarchy is created by the subprocess." }
+      }
+    ]
+  },
+  {
+    "id": "P07-05",
+    "typ": "modell",
+    "modell": "modelle/uc16-serienfertigung.bpmn",
+    "modellName": "Qualitätsprüfung je Los",
+    "hoch": true,
+    "titel": { "de": "Die Losprüfung mit Mehrfachinstanz und Teilprozess", "en": "The lot inspection with multi-instance and subprocess" },
+    "aufgabe": {
+      "de": "<p>Ein Los wird aus der Fertigung gemeldet. Der Prüfer lädt den Prüfplan aus dem MES und prüft jedes Teil der Stichprobe (parallel). Er wertet aus. Ist das Los nicht in Ordnung, wird nachgearbeitet (so oft wie nötig) und nachgeprüft. Ein in Ordnung befundenes Los wird verpackt und etikettiert (zugeklappter Teilprozess) und mit Freigabeprotokoll für den Versand freigegeben.</p><p>Modellieren Sie mit: einem Datenspeicher MES, einer parallelen Mehrfachinstanz, einem Schleifenmarker, einem zugeklappten Teilprozess und einem Datenobjekt Freigabeprotokoll. Marker und Teilprozess setzen Sie im Editor über den Schraubenschlüssel der Aufgabe.</p>",
+      "en": "<p>A lot is reported from production. The inspector loads the inspection plan from the MES and checks every part of the sample (in parallel). He evaluates. If the lot is not OK, it is reworked (as often as necessary) and re-inspected. A lot found OK is packed and labelled (collapsed subprocess) and released for dispatch with a release record.</p><p>Model with: a data store MES, a parallel multi-instance, a loop marker, a collapsed subprocess and a data object release record. Set markers and subprocess in the editor via the task's wrench.</p>"
+    },
+    "pruefung": { "starts": 1, "enden": 1, "gateways": { "exclusiveGateway": 1 }, "teilprozesse": 1, "mehrfachinstanz": [1, 2], "daten": 2, "aufgaben": ["Prüfplan", "prüfen", "auswerten", "nacharbeiten", "freigeben"] },
+    "hinweis": { "de": "Der Prüfer zählt Teilprozesse, Elemente mit Schleifen- oder Mehrfachinstanzmarker und Datensymbole. Die Zusammenführung vor dem Verpacken darf ein XOR sein oder entfallen.", "en": "The checker counts subprocesses, elements with loop or multi-instance markers and data symbols. The merge before packing may be an XOR or be omitted." },
+    "rueckmeldung": { "de": "Struktur, Daten und Wiederholung in einem Modell: Das ist die Ausdruckskraft, die ein Zeichenprogramm nicht hat.", "en": "Structure, data and repetition in one model: that is the expressiveness a drawing program lacks." }
+  }
+]

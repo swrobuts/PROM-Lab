@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="de" data-lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lab 06 · Beteiligte: Pools, Bahnen, Nachrichten · PROM-Lab</title>
+  <meta name="prom:titel-en" content="Lab 06 · Participants: pools, lanes, messages · PROM-Lab" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/bpmn/diagram-js.css" />
+  <link rel="stylesheet" href="assets/bpmn/bpmn-js.css" />
+  <link rel="stylesheet" href="assets/bpmn/bpmn-font/css/bpmn.css" />
+  <link rel="stylesheet" href="assets/bpmn/bpmn-js-token-simulation.css" />
+  <link rel="stylesheet" href="assets/prom.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%2300595C'/><text x='16' y='23' font-family='sans-serif' font-size='18' font-weight='bold' text-anchor='middle' fill='%2390D033'>P</text></svg>" />
+</head>
+<body class="lab-page">
+
+<header class="header">
+  <div class="header-left">
+    <a class="header-logo" href="index.html" data-lab-link><span class="mark">PROM</span>-Lab</a>
+    <a class="header-back" href="index.html" data-lab-link>
+      <span lang="de">← Zur Übersicht</span><span lang="en">← Back to overview</span>
+    </a>
+  </div>
+  <div class="header-right">
+    <button class="lang-btn active" data-lang-btn="de" aria-pressed="true">DE</button>
+    <button class="lang-btn" data-lang-btn="en" aria-pressed="false">EN</button>
+  </div>
+</header>
+
+<nav class="sidebar" aria-label="Lab-Navigation">
+  <div class="sidebar-title"><span lang="de">Abschnitte</span><span lang="en">Sections</span></div>
+  <a class="sidebar-link" href="#pools"><span lang="de">Pools und Bahnen</span><span lang="en">Pools and lanes</span></a>
+  <a class="sidebar-link" href="#nachrichten"><span lang="de">Der Nachrichtenfluss</span><span lang="en">The message flow</span></a>
+  <a class="sidebar-link" href="#beispiele"><span lang="de">Drei Beteiligte, drei Pools</span><span lang="en">Three participants, three pools</span></a>
+  <a class="sidebar-link" href="#uebungen"><span lang="de">Übungen</span><span lang="en">Exercises</span></a>
+  <a class="sidebar-link" href="#zusammenfassung"><span lang="de">Zusammenfassung</span><span lang="en">Summary</span></a>
+</nav>
+
+<div class="lab-header">
+  <div class="lab-num-big">06</div>
+  <h1 class="lab-title">
+    <span lang="de">Beteiligte: Pools, Bahnen, Nachrichten</span>
+    <span lang="en">Participants: pools, lanes, messages</span>
+  </h1>
+  <p class="lab-intro">
+    <span lang="de">Wer tut was, und wo endet die eigene Organisation? Ein Restaurant kann seinem Service Aufgaben zuweisen, dem Gast nicht. Diese Grenze macht BPMN sichtbar: Bahnen für Zuständigkeiten innerhalb, Pools für Beteiligte außerhalb, Nachrichtenflüsse für alles, was die Grenze überquert. Das Lab führt die Kollaboration an einer Tischreservierung, einem Wareneingang und einer Facharztüberweisung ein.</span>
+    <span lang="en">Who does what, and where does your own organisation end? A restaurant can assign tasks to its service, not to the guest. BPMN makes this boundary visible: lanes for responsibilities inside, pools for participants outside, message flows for everything that crosses the boundary. The lab introduces collaboration with a table reservation, a goods receipt and a specialist referral.</span>
+  </p>
+  <div class="lernziele">
+    <span class="lernziel-chip"><span lang="de">Pool</span><span lang="en">Pool</span></span>
+    <span class="lernziel-chip"><span lang="de">Bahn</span><span lang="en">Lane</span></span>
+    <span class="lernziel-chip"><span lang="de">Nachrichtenfluss</span><span lang="en">Message flow</span></span>
+    <span class="lernziel-chip"><span lang="de">Black Box</span><span lang="en">Black box</span></span>
+    <span class="lernziel-chip"><span lang="de">Kollaboration</span><span lang="en">Collaboration</span></span>
+  </div>
+</div>
+
+<main class="main-content">
+
+  <section class="section-block" id="pools">
+    <h2><span lang="de">Pools und Bahnen</span><span lang="en">Pools and lanes</span></h2>
+    <p>
+      <span lang="de">Bisher stand nie im Modell, <em>wer</em> etwas tut. Für die Zuständigkeit hat BPMN zwei Behälter. Der Pool ist ein Beteiligter mit eigenem Prozess: ein Unternehmen, ein Kunde, ein System. Die Bahn teilt einen Pool unter Rollen oder Abteilungen auf, die derselben Steuerung unterliegen.</span>
+      <span lang="en">So far the model never said <em>who</em> does something. For responsibility BPMN has two containers. The pool is a participant with its own process: a company, a customer, a system. The lane divides a pool among roles or departments under the same control.</span>
+    </p>
+    <div class="symbolkarte">
+      <div class="symbolkarte-kopf">
+        <span class="symbolkarte-name"><span lang="de">Pool und Bahn</span><span lang="en">Pool and lane</span></span>
+        <span class="symbolkarte-was"><span lang="de">wer beteiligt ist und wer zuständig</span><span lang="en">who participates and who is responsible</span></span>
+      </div>
+      <div class="symbolkarte-koerper">
+        <div class="symbolkarte-bild" aria-hidden="true"><svg viewBox="0 0 140 90" width="140" height="90"><rect x="8" y="12" width="124" height="66" fill="#fff" stroke="#10201C" stroke-width="2"/><line x1="26" y1="12" x2="26" y2="78" stroke="#10201C" stroke-width="2"/><line x1="26" y1="45" x2="132" y2="45" stroke="#10201C" stroke-width="1"/><text x="17" y="45" font-family="Space Grotesk, sans-serif" font-size="8" text-anchor="middle" transform="rotate(-90 17 45)" fill="#10201C">Pool</text><text x="80" y="32" font-family="Space Grotesk, sans-serif" font-size="8" text-anchor="middle" fill="#4C5C57">Bahn A</text><text x="80" y="65" font-family="Space Grotesk, sans-serif" font-size="8" text-anchor="middle" fill="#4C5C57">Bahn B</text></svg></div>
+        <div class="symbolkarte-text">
+          <ul class="symbolkarte-teile">
+            <li><span><span lang="de">Pool</span><span lang="en">Pool</span></span><span><span lang="de">Ein eigenständiger Prozess mit eigenem Start und Ende. Zwischen Pools gibt es keine Sequenzflüsse, nur Nachrichten.</span><span lang="en">An independent process with its own start and end. Between pools there are no sequence flows, only messages.</span></span></li>
+            <li><span><span lang="de">Bahn</span><span lang="en">Lane</span></span><span><span lang="de">Eine Zuständigkeit im Pool. Sequenzflüsse laufen frei über Bahngrenzen; ein Bahnwechsel ist eine Übergabe.</span><span lang="en">A responsibility inside the pool. Sequence flows run freely across lane boundaries; a lane change is a handover.</span></span></li>
+            <li><span><span lang="de">Black Box</span><span lang="en">Black box</span></span><span><span lang="de">Ein Pool ohne Inhalt: Der Beteiligte ist da, sein Ablauf interessiert nicht. Nachrichten enden an seiner Kante.</span><span lang="en">A pool without content: the participant is there, its flow does not matter. Messages end at its edge.</span></span></li>
+            <li><span><span lang="de">Zuordnung</span><span lang="en">Assignment</span></span><span><span lang="de">Jede Aufgabe liegt in genau einer Bahn, nie auf der Grenze.</span><span lang="en">Every task lies in exactly one lane, never on the boundary.</span></span></li>
+          </ul>
+          <p class="symbolkarte-falle"><strong><span lang="de">Stolperfalle:</span><span lang="en">Pitfall:</span></strong>
+            <span lang="de">Der Kunde ist nie eine Bahn des Unternehmens: Das Unternehmen kann ihm keine Aufgabe zuweisen. Er ist ein eigener Pool.</span>
+            <span lang="en">The customer is never a lane of the company: the company cannot assign him a task. He is a separate pool.</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-block" id="nachrichten">
+    <h2><span lang="de">Der Nachrichtenfluss</span><span lang="en">The message flow</span></h2>
+    <p>
+      <span lang="de">Zwei Pools sind zwei Prozesse; zwischen ihnen gibt es keine Reihenfolge, die man vorschreiben könnte. Was es gibt, ist Kommunikation: Der Gast fragt an, das Restaurant antwortet. Diese Kommunikation ist der Nachrichtenfluss. Er beginnt an einer Aufgabe oder einem auslösenden Ereignis, endet an einer Aufgabe, einem eintretenden Ereignis oder an der Kante eines leeren Pools.</span>
+      <span lang="en">Two pools are two processes; between them there is no order one could prescribe. What there is, is communication: the guest asks, the restaurant replies. This communication is the message flow. It starts at a task or a throwing event, ends at a task, a catching event or at the edge of an empty pool.</span>
+    </p>
+    <div class="symbolkarte">
+      <div class="symbolkarte-kopf">
+        <span class="symbolkarte-name"><span lang="de">Nachrichtenfluss</span><span lang="en">Message flow</span></span>
+        <span class="symbolkarte-was"><span lang="de">Kommunikation über die Poolgrenze</span><span lang="en">communication across the pool boundary</span></span>
+      </div>
+      <div class="symbolkarte-koerper">
+        <div class="symbolkarte-bild" aria-hidden="true"><svg viewBox="0 0 140 90" width="140" height="90"><rect x="10" y="10" width="50" height="30" rx="5" fill="#fff" stroke="#10201C" stroke-width="2"/><rect x="80" y="50" width="50" height="30" rx="5" fill="#fff" stroke="#10201C" stroke-width="2"/><line x1="35" y1="40" x2="35" y2="55" stroke="#10201C" stroke-width="1.5" stroke-dasharray="4 3"/><line x1="35" y1="55" x2="72" y2="55" stroke="#10201C" stroke-width="1.5" stroke-dasharray="4 3"/><circle cx="35" cy="40" r="3" fill="#fff" stroke="#10201C" stroke-width="1.5"/><polygon points="72,50 80,55 72,60" fill="#fff" stroke="#10201C" stroke-width="1.5"/></svg></div>
+        <div class="symbolkarte-text">
+          <ul class="symbolkarte-teile">
+            <li><span><span lang="de">Darstellung</span><span lang="en">Appearance</span></span><span><span lang="de">Gestrichelt, leere Spitze, kleiner Kreis am Anfang. Unverwechselbar gegenüber dem Sequenzfluss.</span><span lang="en">Dashed, open arrowhead, small circle at the start. Unmistakable compared to the sequence flow.</span></span></li>
+            <li><span><span lang="de">Regel</span><span lang="en">Rule</span></span><span><span lang="de">Nur zwischen verschiedenen Pools. Nie innerhalb eines Pools, auch nicht zwischen Bahnen.</span><span lang="en">Only between different pools. Never inside a pool, not even between lanes.</span></span></li>
+            <li><span><span lang="de">Auslöser</span><span lang="en">Trigger</span></span><span><span lang="de">Ein Nachrichtenfluss auf ein Nachrichten-Startereignis sagt: Dieser Prozess wird von außen gestartet.</span><span lang="en">A message flow onto a message start event says: this process is started from outside.</span></span></li>
+          </ul>
+          <p class="symbolkarte-falle"><strong><span lang="de">Stolperfalle:</span><span lang="en">Pitfall:</span></strong>
+            <span lang="de">Der häufigste Fehler in Kollaborationen: ein Sequenzfluss, der von einem Pool in den anderen läuft. Das Werkzeug lässt es oft zu, die Bedeutung ist trotzdem falsch. Regel R06.</span>
+            <span lang="en">The most frequent error in collaborations: a sequence flow running from one pool into the other. The tool often allows it, the meaning is still wrong. Rule R06.</span></p>
+        </div>
+      </div>
+    </div>
+    <div data-modell="modelle/uc12-tischreservierung.bpmn" data-name="UC12 · Tischreservierung im Restaurant" data-hoch></div>
+  </section>
+
+  <section class="section-block" id="beispiele">
+    <h2><span lang="de">Drei Beteiligte, drei Pools</span><span lang="en">Three participants, three pools</span></h2>
+    <p>
+      <span lang="de">Der Wareneingang zeigt einen Pool mit drei Bahnen und den Spediteur als Black Box. Die Facharztüberweisung zeigt drei Pools mit je eigenem Ablauf, die ausschließlich über Nachrichten zusammenhängen. Beachten Sie in beiden Modellen, wo die Marke wartet: Jedes eintretende Nachrichtenereignis ist eine Stelle, an der ein Beteiligter auf einen anderen angewiesen ist.</span>
+      <span lang="en">Goods receipt shows one pool with three lanes and the carrier as a black box. The specialist referral shows three pools each with its own flow, linked exclusively via messages. Note in both models where the token waits: every catching message event is a point where one participant depends on another.</span>
+    </p>
+    <div data-modell="modelle/uc13-wareneingang.bpmn" data-name="UC13 · Wareneingang im Logistikzentrum" data-hoch></div>
+    <div data-modell="modelle/uc14-facharztueberweisung.bpmn" data-name="UC14 · Überweisung an den Facharzt" data-hoch></div>
+    <div class="tip-box">
+      <p><strong><span lang="de">Lesetechnik.</span><span lang="en">Reading technique.</span></strong> <span lang="de">Fragen Sie bei jedem Substantiv der Beschreibung: Gehört es zur Organisation, die ich modelliere? Ja: Bahn. Nein: Pool. Fragen Sie bei jedem Verb wie „senden“, „mitteilen“, „erhalten“: Überquert es eine Poolgrenze? Ja: Nachrichtenfluss.</span><span lang="en">Ask for every noun in the description: does it belong to the organisation I am modelling? Yes: lane. No: pool. Ask for every verb like “send”, “inform”, “receive”: does it cross a pool boundary? Yes: message flow.</span></p>
+    </div>
+  </section>
+
+  <section class="section-block" id="uebungen">
+    <h2><span lang="de">Übungen</span><span lang="en">Exercises</span></h2>
+    <p><span lang="de">Sechs Übungen. Im Editor ziehen Sie den Pool aus der Palette; Bahnen fügen Sie über das Kontextmenü des Pools hinzu. Ein Pfeil über die Poolgrenze wird von selbst zum Nachrichtenfluss.</span><span lang="en">Six exercises. In the editor, drag the pool from the palette; add lanes via the pool's context menu. An arrow across the pool boundary becomes a message flow automatically.</span></p>
+    <div data-uebung="P06-01"></div>
+    <div data-uebung="P06-02"></div>
+    <div data-uebung="P06-03"></div>
+    <div data-uebung="P06-04"></div>
+    <div data-uebung="P06-05"></div>
+    <div data-uebung="P06-06"></div>
+  </section>
+
+  <section class="section-block" id="zusammenfassung">
+    <h2><span lang="de">Zusammenfassung</span><span lang="en">Summary</span></h2>
+    <ul>
+      <li><span lang="de">Pool: eigener Prozess, eigener Beteiligter. Bahn: Zuständigkeit innerhalb des Pools.</span><span lang="en">Pool: own process, own participant. Lane: responsibility inside the pool.</span></li>
+      <li><span lang="de">Sequenzfluss bleibt im Pool, Nachrichtenfluss verbindet Pools; nie umgekehrt.</span><span lang="en">Sequence flow stays in the pool, message flow connects pools; never the other way round.</span></li>
+      <li><span lang="de">Ein leerer Pool ist eine Black Box: Nachrichten enden an seiner Kante.</span><span lang="en">An empty pool is a black box: messages end at its edge.</span></li>
+      <li><span lang="de">Jede Aufgabe liegt in genau einer Bahn; Endereignisse folgen Ergebnissen, nicht Bahnen.</span><span lang="en">Every task lies in exactly one lane; end events follow results, not lanes.</span></li>
+    </ul>
+    <nav class="nav-bottom"></nav>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <span lang="de">THWS Business School · PROM-Lab · Prof. Dr. Robert Butscher · Diagramme mit <a href="https://bpmn.io" rel="noopener">bpmn.io</a></span>
+  <span lang="en">THWS Business School · PROM-Lab · Prof. Dr. Robert Butscher · Diagrams with <a href="https://bpmn.io" rel="noopener">bpmn.io</a></span>
+</footer>
+
+<script type="module">
+  import { starteLab } from './assets/prom.js'
+  starteLab({ lab: 'lab-06', basis: '.' })
+</script>
+</body>
+</html>

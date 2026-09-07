@@ -1,0 +1,182 @@
+[
+  {
+    "id": "P08-01",
+    "typ": "quiz",
+    "titel": { "de": "Welche Regel ist verletzt?", "en": "Which rule is violated?" },
+    "aufgabe": { "de": "<p>Ordnen Sie jedem Befund die Regel aus dem Katalog oben zu.</p>", "en": "<p>Assign the rule from the catalogue above to each finding.</p>" },
+    "fragen": [
+      {
+        "frage": { "de": "Ein Sequenzfluss läuft von der Aufgabe „Angebot senden“ im Pool Lieferant zur Aufgabe „Angebot prüfen“ im Pool Kunde.", "en": "A sequence flow runs from task “send offer” in pool supplier to task “check offer” in pool customer." },
+        "optionen": [ { "de": "R03", "en": "R03" }, { "de": "R06", "en": "R06" }, { "de": "R08", "en": "R08" } ],
+        "richtig": [1],
+        "erklaerung": { "de": "Über Poolgrenzen nur Nachrichtenflüsse (R06).", "en": "Across pool boundaries only message flows (R06)." }
+      },
+      {
+        "frage": { "de": "Ein exklusives Gateway verzweigt in „Rabatt gewähren“ und „Vollpreis berechnen“; beide Pfeile sind unbeschriftet, keiner ist Standardfluss.", "en": "An exclusive gateway splits into “grant discount” and “charge full price”; both arrows are unlabelled, neither is default flow." },
+        "optionen": [ { "de": "R03", "en": "R03" }, { "de": "R05", "en": "R05" }, { "de": "R11", "en": "R11" } ],
+        "richtig": [0],
+        "erklaerung": { "de": "Jeder ausgehende Pfad eines XOR trägt eine Bedingung oder ist Standardfluss (R03).", "en": "Every outgoing XOR path carries a condition or is the default flow (R03)." }
+      },
+      {
+        "frage": { "de": "Ein paralleles Gateway teilt in drei Pfade; sie werden von einem exklusiven Gateway zusammengeführt.", "en": "A parallel gateway splits into three paths; they are merged by an exclusive gateway." },
+        "optionen": [ { "de": "R04", "en": "R04" }, { "de": "R05", "en": "R05" }, { "de": "R09", "en": "R09" } ],
+        "richtig": [1],
+        "erklaerung": { "de": "Verzweigung und Zusammenführung eines Blocks haben denselben Typ (R05); hier läuft der Rest dreimal.", "en": "Split and join of a block have the same type (R05); here the rest runs three times." }
+      },
+      {
+        "frage": { "de": "Ein nicht unterbrechender Timer an „Auf Antwort warten“ führt über „Erinnerung senden“ zurück in „Auf Antwort warten“.", "en": "A non-interrupting timer on “wait for reply” leads via “send reminder” back into “wait for reply”." },
+        "optionen": [ { "de": "R02", "en": "R02" }, { "de": "R10", "en": "R10" }, { "de": "R12", "en": "R12" } ],
+        "richtig": [1],
+        "erklaerung": { "de": "Der Ausnahmepfad eines Randereignisses führt nicht in seine Aufgabe zurück (R10): Die Aufgabe läuft noch und erhält eine zweite Marke.", "en": "The exception path of a boundary event does not lead back into its task (R10): the task is still running and gets a second token." }
+      }
+    ]
+  },
+  {
+    "id": "P08-02",
+    "typ": "fehler",
+    "modell": "modelle/uc18-reklamation-fehlerhaft.bpmn",
+    "modellName": "UC18 · Gästereklamation (fehlerhaft)",
+    "hoch": true,
+    "titel": { "de": "Acht Fehler in der Reklamation", "en": "Eight errors in the complaint" },
+    "aufgabe": {
+      "de": "<p>Dieses Modell einer Gästereklamation lässt sich importieren und zeichnen, ist aber in <strong>acht</strong> Punkten falsch: zwei Flüsse an der falschen Stelle, zwei unbeschriftete Gatewaypfade, ein offenes Ende, zwei Benennungen und ein unbeschriftetes Startereignis. Finden Sie alle und ordnen Sie die Regel zu.</p>",
+      "en": "<p>This model of a guest complaint can be imported and drawn but is wrong in <strong>eight</strong> points: two flows in the wrong place, two unlabelled gateway paths, an open end, two names and an unlabelled start event. Find all and assign the rule.</p>"
+    },
+    "fehler": [
+      { "element": "Flow_gt1_rs", "regel": "R06" },
+      { "element": "Msg_rt4_rt2", "regel": "R06" },
+      { "element": "Flow_rg1_rt4", "regel": "R03" },
+      { "element": "Flow_rg1_rt3", "regel": "R03" },
+      { "element": "rt3", "regel": "R02" },
+      { "element": "gt1", "regel": "R07" },
+      { "element": "rt1", "regel": "R07" },
+      { "element": "rs", "regel": "R11" }
+    ],
+    "hinweis": { "de": "Sequenzfluss über die Poolgrenze und Nachrichtenfluss innerhalb des Pools: beides R06. „Reklamation“ (nur Substantiv) und „Wird geprüft“ (Passiv): R07. „Gutschein ausstellen“ führt nirgendwohin: R02. Der dritte Gatewaypfad (zur Küche) ist ebenfalls unbeschriftet, zählt hier aber nicht, weil ohnehin der Nachrichtenfluss dorthin falsch ist; markieren Sie ihn ruhig zusätzlich mit R03, das gilt als richtig.", "en": "Sequence flow across the pool boundary and message flow inside the pool: both R06. “Reklamation” (noun only) and “Wird geprüft” (passive): R07. “Gutschein ausstellen” leads nowhere: R02. The third gateway path (to the kitchen) is also unlabelled but not counted here because the message flow to it is wrong anyway; marking it with R03 additionally counts as correct." },
+    "rueckmeldung": { "de": "Die parallele Zusammenführung hinter einem XOR ist der neunte Fehler: ein Deadlock, den der Prüfer hier nicht erkennt, weil der dritte Pfad nie ankommt. Die Simulation zeigt ihn.", "en": "The parallel join after an XOR is the ninth error: a deadlock the checker does not detect here because the third path never arrives. The simulation shows it." }
+  },
+  {
+    "id": "P08-03",
+    "typ": "erkunden",
+    "modell": "modelle/uc18-reklamation-korrigiert.bpmn",
+    "modellName": "UC18 · Gästereklamation (korrigiert)",
+    "hoch": true,
+    "titel": { "de": "Die korrigierte Fassung lesen", "en": "Reading the corrected version" },
+    "aufgabe": {
+      "de": "<p>So sieht die Reklamation aus, wenn alle Regeln eingehalten sind. Vergleichen Sie mit dem fehlerhaften Modell darüber.</p>",
+      "en": "<p>This is what the complaint looks like when all rules are followed. Compare with the faulty model above.</p>"
+    },
+    "fragen": [
+      {
+        "frage": { "de": "Wie erreicht die Reklamation des Gastes nun das Restaurant?", "en": "How does the guest's complaint now reach the restaurant?" },
+        "optionen": [
+          { "de": "Über einen Nachrichtenfluss von der Sendeaufgabe des Gastes auf ein Nachrichten-Startereignis des Restaurants.", "en": "Via a message flow from the guest's send task onto a message start event of the restaurant." },
+          { "de": "Über einen Sequenzfluss.", "en": "Via a sequence flow." },
+          { "de": "Gar nicht, der Gast wurde entfernt.", "en": "Not at all, the guest was removed." }
+        ],
+        "richtig": [0],
+        "erklaerung": { "de": "Beide Prozesse haben eigenen Start und eigenes Ende; nur Nachrichten verbinden sie.", "en": "Both processes have their own start and end; only messages connect them." }
+      },
+      {
+        "frage": { "de": "Was ersetzt in der korrigierten Fassung die parallele Zusammenführung?", "en": "What replaces the parallel join in the corrected version?" },
+        "optionen": [
+          { "de": "Eine exklusive Zusammenführung, weil nur einer der drei Pfade beschritten wird.", "en": "An exclusive merge, because only one of the three paths is taken." },
+          { "de": "Nichts, die Pfade enden einzeln.", "en": "Nothing, the paths end individually." },
+          { "de": "Ein inklusives Gateway.", "en": "An inclusive gateway." }
+        ],
+        "richtig": [0],
+        "erklaerung": { "de": "Was mit XOR öffnet, schließt mit XOR.", "en": "What opens with XOR closes with XOR." }
+      }
+    ]
+  },
+  {
+    "id": "P08-04",
+    "typ": "erkunden",
+    "modell": "modelle/uc19-laborbedarf-ist.bpmn",
+    "modellName": "UC19 · Bestellung von Laborbedarf (Ist)",
+    "hoch": true,
+    "titel": { "de": "Fünf Muster in einem Modell", "en": "Five patterns in one model" },
+    "aufgabe": {
+      "de": "<p>Dieses Ist-Modell ist regelkonform und trotzdem ein schlechter Prozess. Suchen Sie die fünf Schwachstellenmuster: Medienbruch, Doppelarbeit, Pingpong, Rückschleife, Wartestelle. Lassen Sie eine Marke laufen und zählen Sie die Bahnwechsel.</p>",
+      "en": "<p>This as-is model is rule-compliant and still a bad process. Look for the five weakness patterns: media break, double work, ping-pong, loop, waiting point. Run a token and count the lane changes.</p>"
+    },
+    "fragen": [
+      {
+        "frage": { "de": "Wo liegt der Medienbruch?", "en": "Where is the media break?" },
+        "optionen": [
+          { "de": "Zwischen „Bestellformular ausfüllen“ (Papier) und „Formular ins Bestellsystem abtippen“ (Datensatz): dieselbe Information wird zweimal erfasst.", "en": "Between “Bestellformular ausfüllen” (paper) and “Formular ins Bestellsystem abtippen” (record): the same information is entered twice." },
+          { "de": "Beim Timer der Freigaberunde.", "en": "At the timer of the approval round." },
+          { "de": "Beim Versand an den Lieferanten.", "en": "At sending to the supplier." }
+        ],
+        "richtig": [0],
+        "erklaerung": { "de": "Zwei Datenobjekte für dieselbe Information und ein Verb wie „abtippen“ sind die Prüffrage: Wird etwas mehr als einmal eingegeben?", "en": "Two data objects for the same information and a verb like “retype” are the test question: is something entered more than once?" }
+      },
+      {
+        "frage": { "de": "Welche Aufgaben bilden die Doppelarbeit?", "en": "Which tasks form the double work?" },
+        "optionen": [
+          { "de": "„Artikelnummern prüfen“ (Einkauf) und „Bestellung nochmals prüfen“ (Station).", "en": "“Artikelnummern prüfen” (purchasing) and “Bestellung nochmals prüfen” (ward)." },
+          { "de": "„Freigabe anfordern“ und „Bestellung freigeben oder ablehnen“.", "en": "“Freigabe anfordern” and “Bestellung freigeben oder ablehnen”." },
+          { "de": "„Formular per Hauspost senden“ und „Bestellung an Lieferanten senden“.", "en": "“Formular per Hauspost senden” and “Bestellung an Lieferanten senden”." }
+        ],
+        "richtig": [0],
+        "erklaerung": { "de": "Dieselbe Prüfung in zwei Bahnen, ohne dass die zweite ein anderes Ergebnis liefern könnte.", "en": "The same check in two lanes without the second being able to yield a different result." }
+      },
+      {
+        "frage": { "de": "Wo entsteht die längste Liegezeit?", "en": "Where does the longest idle time arise?" },
+        "optionen": [
+          { "de": "Am Zeitereignis „Wöchentliche Freigaberunde“: Der Fall wartet bis zu sieben Tage auf eine Entscheidung.", "en": "At the timer “Wöchentliche Freigaberunde”: the case waits up to seven days for a decision." },
+          { "de": "Beim Abtippen.", "en": "At retyping." },
+          { "de": "Am Startereignis.", "en": "At the start event." }
+        ],
+        "richtig": [0],
+        "erklaerung": { "de": "Das Muster Wartestelle: ein Zwischenereignis oder eine Bahn mit einer einzigen Ressource hält den Fall an.", "en": "The pattern waiting point: an intermediate event or a lane with a single resource holds the case." }
+      }
+    ]
+  },
+  {
+    "id": "P08-05",
+    "typ": "quiz",
+    "titel": { "de": "Muster erkennen", "en": "Recognising patterns" },
+    "aufgabe": { "de": "<p>Welches Schwachstellenmuster beschreibt die Beobachtung?</p>", "en": "<p>Which weakness pattern describes the observation?</p>" },
+    "fragen": [
+      {
+        "frage": { "de": "Ein Fall wechselt in zwölf Schritten sechsmal zwischen Vertrieb und Finanzabteilung.", "en": "A case switches six times between sales and finance in twelve steps." },
+        "optionen": [ { "de": "Pingpong-Übergaben", "en": "Ping-pong handovers" }, { "de": "Rückschleife", "en": "Loop" }, { "de": "Medienbruch", "en": "Media break" } ],
+        "richtig": [0],
+        "erklaerung": { "de": "Jeder Wechsel kostet Transport- und Rüstzeit. Prüffrage: Wie oft wechselt ein Fall den Bearbeiter?", "en": "Every switch costs transport and set-up time. Test question: how often does a case change handler?" }
+      },
+      {
+        "frage": { "de": "Ein Gateway „Unterlagen vollständig?“ führt mit „nein“ zurück zu „Unterlagen anfordern“; 40 Prozent der Fälle laufen die Schleife.", "en": "A gateway “documents complete?” leads with “no” back to “request documents”; 40 percent of cases run the loop." },
+        "optionen": [ { "de": "Wartestelle", "en": "Waiting point" }, { "de": "Rückschleife", "en": "Loop" }, { "de": "Doppelarbeit", "en": "Double work" } ],
+        "richtig": [1],
+        "erklaerung": { "de": "Nacharbeit, weil etwas fehlte. Prüffrage: Wie viele Fälle laufen die Schleife, und warum?", "en": "Rework because something was missing. Test question: how many cases run the loop, and why?" }
+      },
+      {
+        "frage": { "de": "Der Prüfer der Lernumgebung meldet für das Modell mit den fünf Mustern keinen einzigen Fehler. Warum?", "en": "The checker of the learning environment reports no error at all for the model with the five patterns. Why?" },
+        "optionen": [
+          { "de": "Weil die Muster keine Verstöße gegen die Notation sind, sondern Befunde über den Prozess. Ein regelkonformes Modell kann einen schlechten Prozess zeigen.", "en": "Because the patterns are not violations of the notation but findings about the process. A rule-compliant model can show a bad process." },
+          { "de": "Weil der Prüfer nur Gateways prüft.", "en": "Because the checker only checks gateways." },
+          { "de": "Weil das Modell keine Pools hat.", "en": "Because the model has no pools." }
+        ],
+        "richtig": [0],
+        "erklaerung": { "de": "Syntax, Konvention und Prozessqualität sind drei Ebenen. Der Prüfer deckt die ersten beiden ab; die dritte ist Ihre Analyse.", "en": "Syntax, convention and process quality are three levels. The checker covers the first two; the third is your analysis." }
+      }
+    ]
+  },
+  {
+    "id": "P08-06",
+    "typ": "modell",
+    "modell": "modelle/uc18-reklamation-korrigiert.bpmn",
+    "geruest": "modelle/uc18-reklamation-fehlerhaft.bpmn",
+    "modellName": "Gästereklamation",
+    "hoch": true,
+    "titel": { "de": "Die Reklamation reparieren", "en": "Repairing the complaint" },
+    "aufgabe": {
+      "de": "<p>Der Editor enthält das fehlerhafte Modell aus P08-02. Beheben Sie alle Verstöße, bis „Prüfen“ keinen Fehler mehr meldet: Nachrichtenfluss statt Sequenzfluss über die Poolgrenze, Sequenzfluss statt Nachricht zur Küche, Bedingungen an den Gatewaypfaden, ein Ende für den Gutschein, Benennungen, exklusive statt paralleler Zusammenführung, ein eigenes Startereignis mit Namen im Restaurant und ein Ende für den Gast.</p>",
+      "en": "<p>The editor contains the faulty model from P08-02. Fix all violations until “Check” reports no error: message flow instead of sequence flow across the pool boundary, sequence flow instead of message to the kitchen, conditions on the gateway paths, an end for the voucher, names, exclusive instead of parallel join, a named start event in the restaurant and an end for the guest.</p>"
+    },
+    "pruefung": { "starts": 2, "enden": [2, 4], "pools": ["Gast", "Restaurant"], "bahnen": ["Service", "Küche"], "nachrichten": [1, 3], "gateways": { "exclusiveGateway": [1, 3], "parallelGateway": 0 } },
+    "hinweis": { "de": "Löschen Sie den falschen Sequenzfluss und ziehen Sie einen neuen Pfeil vom Gast auf das Startereignis des Restaurants: Über die Poolgrenze wird er automatisch zum Nachrichtenfluss. Den Gatewaytyp ändern Sie über den Schraubenschlüssel.", "en": "Delete the wrong sequence flow and draw a new arrow from the guest onto the restaurant's start event: across the pool boundary it becomes a message flow automatically. Change the gateway type via the wrench." },
+    "rueckmeldung": { "de": "Ein fremdes Modell zu reparieren ist die realistischste Übung dieses Kurses: So sieht Prozessarbeit meistens aus.", "en": "Repairing someone else's model is the most realistic exercise of this course: that is what process work usually looks like." }
+  }
+]

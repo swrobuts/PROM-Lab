@@ -1,0 +1,155 @@
+[
+  {
+    "id": "P09-01",
+    "typ": "erkunden",
+    "modell": "modelle/uc20-auftragsabwicklung-ist.bpmn",
+    "modellName": "UC20 · Auftragsabwicklung im Zerspanungsbetrieb (Ist)",
+    "hoch": true,
+    "titel": { "de": "Den Ist-Prozess lesen", "en": "Reading the as-is process" },
+    "aufgabe": {
+      "de": "<p>Vier Bahnen, ein Kunde als Black Box, siebzehn Schritte in Reihe. Lassen Sie eine Marke laufen und notieren Sie, wo die fünf Schwachstellenmuster aus Lab 08 auftauchen.</p>",
+      "en": "<p>Four lanes, a customer as a black box, seventeen steps in a row. Run a token and note where the five weakness patterns from lab 08 appear.</p>"
+    },
+    "fragen": [
+      {
+        "frage": { "de": "Welche Muster zeigt das Ist-Modell? (mehrere)", "en": "Which patterns does the as-is model show? (several)" },
+        "mehrfach": true,
+        "optionen": [
+          { "de": "Medienbruch: Anfrage per Fax, Excel-Liste, Auftrag ins ERP abtippen, Lieferschein von Hand.", "en": "Media break: request by fax, Excel list, order retyped into ERP, delivery note by hand." },
+          { "de": "Doppelarbeit: „Maße prüfen“ in der Fertigung und „Maße nochmals prüfen“ im Versand.", "en": "Double work: “Maße prüfen” in production and “Maße nochmals prüfen” in dispatch." },
+          { "de": "Wartestelle: Warten auf Auftragsbestätigung und auf Material.", "en": "Waiting point: waiting for order confirmation and for material." },
+          { "de": "Rückschleife: Der Prozess kehrt zur Kalkulation zurück.", "en": "Loop: the process returns to calculation." }
+        ],
+        "richtig": [0, 1, 2],
+        "erklaerung": { "de": "Eine Rückschleife gibt es nicht; dafür läuft alles streng nacheinander, auch was parallel laufen könnte (Arbeitsplan und Materialbeschaffung).", "en": "There is no loop; instead everything runs strictly in sequence, even what could run in parallel (work plan and material procurement)." }
+      },
+      {
+        "frage": { "de": "Warum ist das Warten auf Material hier eine Wartestelle, obwohl es unvermeidlich scheint?", "en": "Why is waiting for material a waiting point here, although it seems unavoidable?" },
+        "optionen": [
+          { "de": "Weil es erst nach dem Arbeitsplan beginnt: Die Bestellung könnte parallel zur Arbeitsvorbereitung laufen, und bei vorrätigem Material entfiele sie ganz.", "en": "Because it only starts after the work plan: the order could run in parallel with work preparation, and with material in stock it would be dropped entirely." },
+          { "de": "Weil Lieferanten immer zu langsam sind.", "en": "Because suppliers are always too slow." },
+          { "de": "Weil Warten in BPMN verboten ist.", "en": "Because waiting is forbidden in BPMN." }
+        ],
+        "richtig": [0],
+        "erklaerung": { "de": "Die Liegezeit ist nicht das Warten selbst, sondern seine Lage im Ablauf.", "en": "The idle time is not the waiting itself but its position in the flow." }
+      }
+    ]
+  },
+  {
+    "id": "P09-02",
+    "typ": "quiz",
+    "titel": { "de": "Sieben Umbauvarianten", "en": "Seven redesign options" },
+    "aufgabe": { "de": "<p>Welche Heuristik nach Reijers und Liman Mansar beschreibt den Eingriff, und was ist sein Preis?</p>", "en": "<p>Which heuristic after Reijers and Liman Mansar describes the intervention, and what is its price?</p>" },
+    "fragen": [
+      {
+        "frage": { "de": "„Maße nochmals prüfen“ im Versand wird gestrichen; die Fertigung legt ein Messprotokoll ab.", "en": "“Maße nochmals prüfen” in dispatch is dropped; production files a measurement record." },
+        "optionen": [ { "de": "Eliminierung (Aufgabe streichen)", "en": "Elimination (drop task)" }, { "de": "Parallelisierung", "en": "Parallelisation" }, { "de": "Automatisierung", "en": "Automation" } ],
+        "richtig": [0],
+        "erklaerung": { "de": "Zeit und Kosten sinken; der Preis ist ein Qualitätsrisiko, das das Messprotokoll abfängt.", "en": "Time and cost drop; the price is a quality risk that the measurement record catches." }
+      },
+      {
+        "frage": { "de": "Arbeitsplan erstellen und Material prüfen laufen künftig gleichzeitig.", "en": "Creating the work plan and checking material run simultaneously in future." },
+        "optionen": [ { "de": "Zusammenfassung", "en": "Composition" }, { "de": "Parallelisierung", "en": "Parallelisation" }, { "de": "Triage", "en": "Triage" } ],
+        "richtig": [1],
+        "erklaerung": { "de": "Durchlaufzeit sinkt; der Preis ist Koordination und die Gefahr, dass eine Seite umsonst arbeitet, wenn die andere scheitert.", "en": "Lead time drops; the price is coordination and the risk that one side works in vain if the other fails." }
+      },
+      {
+        "frage": { "de": "Das Angebot wird aus Kalkulationsregeln erzeugt und nur noch freigegeben.", "en": "The offer is generated from calculation rules and only released." },
+        "optionen": [ { "de": "Automatisierung", "en": "Automation" }, { "de": "Bedingte Ausführung", "en": "Conditional execution" }, { "de": "Zentralisierung", "en": "Centralisation" } ],
+        "richtig": [0],
+        "erklaerung": { "de": "Bearbeitungszeit sinkt auf Minuten; der Preis ist die Investition in das Regelwerk und die Abhängigkeit von Stammdatenqualität. Das Teufelsquadrat: Eine Zielgröße gewinnt, eine andere zahlt.", "en": "Processing time drops to minutes; the price is the investment in the rule set and dependence on master data quality. The devil's quadrangle: one target gains, another pays." }
+      }
+    ]
+  },
+  {
+    "id": "P09-03",
+    "typ": "erkunden",
+    "modell": "modelle/uc20-auftragsabwicklung-soll.bpmn",
+    "modellName": "UC20 · Auftragsabwicklung im Zerspanungsbetrieb (Soll)",
+    "hoch": true,
+    "titel": { "de": "Den Soll-Prozess lesen", "en": "Reading the to-be process" },
+    "aufgabe": {
+      "de": "<p>Dasselbe Unternehmen nach dem Umbau. Vergleichen Sie Schritt für Schritt mit dem Ist-Modell und lassen Sie eine Marke laufen.</p>",
+      "en": "<p>The same company after the redesign. Compare step by step with the as-is model and run a token.</p>"
+    },
+    "fragen": [
+      {
+        "frage": { "de": "Welche Eingriffe erkennen Sie? (mehrere)", "en": "Which interventions do you recognise? (several)" },
+        "mehrfach": true,
+        "optionen": [
+          { "de": "Automatisierung: Angebot aus Regeln, Auftrag im ERP, Lieferschein aus dem ERP (Zahnrad-Aufgaben).", "en": "Automation: offer from rules, order in ERP, delivery note from ERP (cog tasks)." },
+          { "de": "Parallelisierung: Arbeitsplan und Materialprüfung.", "en": "Parallelisation: work plan and material check." },
+          { "de": "Bedingte Ausführung: Material nur bestellen, wenn nicht vorrätig.", "en": "Conditional execution: order material only if not in stock." },
+          { "de": "Zusammenfassung: Fräsen und Entgraten in einer Aufgabe.", "en": "Composition: milling and deburring in one task." },
+          { "de": "Neue Bahn: Ein Qualitätsmanagement wurde ergänzt.", "en": "New lane: a quality management was added." }
+        ],
+        "richtig": [0, 1, 2, 3],
+        "erklaerung": { "de": "Vier Heuristiken, keine neue Bahn: Das Soll kommt mit weniger Übergaben aus, nicht mit mehr.", "en": "Four heuristics, no new lane: the to-be gets by with fewer handovers, not more." }
+      },
+      {
+        "frage": { "de": "Wie unterscheiden sich Ist und Soll auf den ersten Blick, wie der Arbeitsauftrag es verlangt?", "en": "How do as-is and to-be differ at first glance, as the assignment requires?" },
+        "optionen": [
+          { "de": "Weniger Aufgaben, zwei Gateways statt keinem, Zahnrad-Symbole für automatisierte Schritte, und zwei Bahnen wurden entlastet.", "en": "Fewer tasks, two gateways instead of none, cog symbols for automated steps, and two lanes were relieved." },
+          { "de": "Andere Farben.", "en": "Different colours." },
+          { "de": "Gar nicht, nur die Namen sind anders.", "en": "Not at all, only the names differ." }
+        ],
+        "richtig": [0],
+        "erklaerung": { "de": "Der Unterschied liegt in der Struktur, nicht in der Gestaltung. Beschreiben Sie ihn im Arbeitsauftrag zusätzlich in Worten.", "en": "The difference lies in the structure, not the styling. In the assignment, additionally describe it in words." }
+      }
+    ]
+  },
+  {
+    "id": "P09-04",
+    "typ": "quiz",
+    "titel": { "de": "Die Prozessschrittanalyse in Adonis lesen", "en": "Reading the process step analysis in Adonis" },
+    "aufgabe": {
+      "de": "<p>Importieren Sie <a href=\"modelle/uc20-auftragsabwicklung-ist.bpmn\" download>das Ist-Modell</a> in Adonis CE, tragen Sie die Simulationsdaten aus der Tabelle oben ein und starten Sie die Prozessschrittanalyse. Beantworten Sie dann:</p>",
+      "en": "<p>Import <a href=\"modelle/uc20-auftragsabwicklung-ist.bpmn\" download>the as-is model</a> into Adonis CE, enter the simulation data from the table above and start the process step analysis. Then answer:</p>"
+    },
+    "fragen": [
+      {
+        "frage": { "de": "Aus welchen Zeitanteilen setzt Adonis die Durchlaufzeit zusammen?", "en": "From which time components does Adonis compose the cycle time?" },
+        "optionen": [
+          { "de": "Bearbeitungszeit, Wartezeit, Liegezeit, Transportzeit.", "en": "Processing time, waiting time, resting time, transport time." },
+          { "de": "Nur Bearbeitungszeit.", "en": "Processing time only." },
+          { "de": "Bearbeitungszeit und Kosten.", "en": "Processing time and cost." }
+        ],
+        "richtig": [0],
+        "erklaerung": { "de": "Vier Zeitanteile; in der Vorlesung: Die Durchlaufzeit wird von Liege- und Wartezeiten dominiert, nicht von der Bearbeitung.", "en": "Four components; in the lecture: cycle time is dominated by resting and waiting times, not by processing." }
+      },
+      {
+        "frage": { "de": "Welche Ansicht muss eine Aufgabe in Adonis haben, damit die Simulationsdaten erscheinen?", "en": "Which view must a task have in Adonis for the simulation data to appear?" },
+        "optionen": [ { "de": "„Standard mit Simulation“ statt „Kompakt“.", "en": "“Standard with simulation” instead of “Compact”." }, { "de": "„Kompakt“.", "en": "“Compact”." }, { "de": "Keine, die Daten stehen im Diagramm.", "en": "None, the data are in the diagram." } ],
+        "richtig": [0],
+        "erklaerung": { "de": "Doppelklick auf die Aufgabe, Ansicht umstellen, dann „Simulationsdaten“.", "en": "Double-click the task, switch the view, then “simulation data”." }
+      },
+      {
+        "frage": { "de": "Mit den Vorschlagswerten liegt die Bearbeitungszeit des Ist bei rund 10 Stunden, die Durchlaufzeit bei rund 100 Stunden. Welche Zeitart senkt der Umbau zum Soll am stärksten?", "en": "With the suggested values the as-is processing time is about 10 hours, the cycle time about 100 hours. Which time component does the redesign to the to-be reduce most?" },
+        "optionen": [
+          { "de": "Die Liegezeit: Parallelisierung, Wegfall der Doppelprüfung und Automatisierung entfernen vor allem Wartephasen zwischen den Schritten.", "en": "The resting time: parallelisation, dropping the double check and automation mainly remove waiting phases between steps." },
+          { "de": "Die Transportzeit.", "en": "The transport time." },
+          { "de": "Die Bearbeitungszeit, weil Fräsen schneller wird.", "en": "The processing time, because milling gets faster." }
+        ],
+        "richtig": [0],
+        "erklaerung": { "de": "Fräsen dauert im Soll genauso lang. Der Gewinn liegt zwischen den Aufgaben, nicht in ihnen.", "en": "Milling takes just as long in the to-be. The gain lies between the tasks, not inside them." }
+      }
+    ],
+    "hinweis": { "de": "Die Schritte in Adonis: Doppelklick auf eine Aufgabe, Ansicht „Standard mit Simulation“, Simulationsdaten eintragen, für alle Aufgaben wiederholen, dann im Menü mit den drei Punkten „Prozessschrittanalyse“ wählen, mit dem Play-Knopf starten, an XOR-Gateways den Standardfall wählen, Ergebnis nach Excel exportieren.", "en": "The steps in Adonis: double-click a task, view “Standard with simulation”, enter simulation data, repeat for all tasks, then choose “Process step analysis” in the three-dot menu, start with the play button, choose the standard case at XOR gateways, export the result to Excel." }
+  },
+  {
+    "id": "P09-05",
+    "typ": "modell",
+    "modell": "modelle/uc20-auftragsabwicklung-soll.bpmn",
+    "geruest": "modelle/uc20-auftragsabwicklung-ist.bpmn",
+    "modellName": "Auftragsabwicklung (Soll)",
+    "hoch": true,
+    "titel": { "de": "Ihr eigener Soll-Prozess", "en": "Your own to-be process" },
+    "aufgabe": {
+      "de": "<p>Der Editor enthält das Ist-Modell. Bauen Sie es zu einem Soll-Prozess um: Beseitigen Sie Medienbrüche und die Doppelprüfung, parallelisieren Sie Arbeitsplan und Materialbeschaffung, machen Sie die Bestellung bedingt, automatisieren Sie, was Regeln erledigen können (Aufgabentyp „Service“ über den Schraubenschlüssel). Das Soll hat höchstens 14 Aufgaben und mindestens ein paralleles und ein exklusives Gateway.</p>",
+      "en": "<p>The editor contains the as-is model. Convert it into a to-be process: remove media breaks and the double check, parallelise work plan and material procurement, make the order conditional, automate what rules can do (task type “service” via the wrench). The to-be has at most 14 tasks and at least one parallel and one exclusive gateway.</p>"
+    },
+    "pruefung": { "starts": 1, "enden": 1, "pools": ["Zerspanungsbetrieb", "Kunde"], "bahnen": ["Vertrieb", "Arbeitsvorbereitung", "Fertigung", "Versand"], "minAufgaben": 8, "maxAufgaben": 14, "gateways": { "parallelGateway": [2, 4], "exclusiveGateway": [2, 4] }, "aufgaben": ["Arbeitsplan", "fräsen", "verpacken"] },
+    "hinweis": { "de": "Das Soll muss regelkonform bleiben: Blöcke schließen, Bedingungen beschriften, jede Aufgabe in einer Bahn. Die Musterlösung ist ein Vorschlag, nicht die einzige Antwort.", "en": "The to-be must stay rule-compliant: close blocks, label conditions, every task in a lane. The model solution is a suggestion, not the only answer." },
+    "rueckmeldung": { "de": "Laden Sie Ihr Soll als .bpmn herunter, importieren Sie es in Adonis und simulieren Sie beide Fassungen mit denselben Daten: Der Vergleich der Durchlaufzeiten ist Ihr Argument.", "en": "Download your to-be as .bpmn, import it into Adonis and simulate both versions with the same data: the comparison of cycle times is your argument." }
+  }
+]

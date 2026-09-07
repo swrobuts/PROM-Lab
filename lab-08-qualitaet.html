@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="de" data-lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lab 08 · Modellqualität · PROM-Lab</title>
+  <meta name="prom:titel-en" content="Lab 08 · Model quality · PROM-Lab" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/bpmn/diagram-js.css" />
+  <link rel="stylesheet" href="assets/bpmn/bpmn-js.css" />
+  <link rel="stylesheet" href="assets/bpmn/bpmn-font/css/bpmn.css" />
+  <link rel="stylesheet" href="assets/bpmn/bpmn-js-token-simulation.css" />
+  <link rel="stylesheet" href="assets/prom.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%2300595C'/><text x='16' y='23' font-family='sans-serif' font-size='18' font-weight='bold' text-anchor='middle' fill='%2390D033'>P</text></svg>" />
+</head>
+<body class="lab-page">
+
+<header class="header">
+  <div class="header-left">
+    <a class="header-logo" href="index.html" data-lab-link><span class="mark">PROM</span>-Lab</a>
+    <a class="header-back" href="index.html" data-lab-link>
+      <span lang="de">← Zur Übersicht</span><span lang="en">← Back to overview</span>
+    </a>
+  </div>
+  <div class="header-right">
+    <button class="lang-btn active" data-lang-btn="de" aria-pressed="true">DE</button>
+    <button class="lang-btn" data-lang-btn="en" aria-pressed="false">EN</button>
+  </div>
+</header>
+
+<nav class="sidebar" aria-label="Lab-Navigation">
+  <div class="sidebar-title"><span lang="de">Abschnitte</span><span lang="en">Sections</span></div>
+  <a class="sidebar-link" href="#regeln"><span lang="de">Zwölf Regeln</span><span lang="en">Twelve rules</span></a>
+  <a class="sidebar-link" href="#fehlersuche"><span lang="de">Fehler finden</span><span lang="en">Finding errors</span></a>
+  <a class="sidebar-link" href="#muster"><span lang="de">Fünf Schwachstellenmuster</span><span lang="en">Five weakness patterns</span></a>
+  <a class="sidebar-link" href="#uebungen"><span lang="de">Übungen</span><span lang="en">Exercises</span></a>
+  <a class="sidebar-link" href="#zusammenfassung"><span lang="de">Zusammenfassung</span><span lang="en">Summary</span></a>
+</nav>
+
+<div class="lab-header">
+  <div class="lab-num-big">08</div>
+  <h1 class="lab-title">
+    <span lang="de">Modellqualität</span>
+    <span lang="en">Model quality</span>
+  </h1>
+  <p class="lab-intro">
+    <span lang="de">Bis hierher ging es darum, Modelle zu bauen. Jetzt geht es darum, sie zu beurteilen: Hält ein Modell die Konventionen ein, die es für andere lesbar machen? Und zeigt es, regelkonform oder nicht, einen guten oder einen schlechten Prozess? Das Lab stellt den Regelkatalog des Prüfers vor, lässt Sie acht Fehler in einer Gästereklamation finden und fünf Schwachstellenmuster in einer Klinikbestellung.</span>
+    <span lang="en">Up to here it was about building models. Now it is about judging them: does a model follow the conventions that make it readable for others? And does it show, rule-compliant or not, a good or a bad process? The lab presents the checker's rule catalogue, lets you find eight errors in a guest complaint and five weakness patterns in a hospital order.</span>
+  </p>
+  <div class="lernziele">
+    <span class="lernziel-chip"><span lang="de">Zwölf Regeln</span><span lang="en">Twelve rules</span></span>
+    <span class="lernziel-chip"><span lang="de">Fehlersuche</span><span lang="en">Error hunt</span></span>
+    <span class="lernziel-chip"><span lang="de">Medienbruch · Doppelarbeit</span><span lang="en">Media break · double work</span></span>
+    <span class="lernziel-chip"><span lang="de">Pingpong · Rückschleife</span><span lang="en">Ping-pong · loop</span></span>
+    <span class="lernziel-chip"><span lang="de">Wartestelle</span><span lang="en">Waiting point</span></span>
+  </div>
+</div>
+
+<main class="main-content">
+
+  <section class="section-block" id="regeln">
+    <h2><span lang="de">Zwölf Regeln</span><span lang="en">Twelve rules</span></h2>
+    <p>
+      <span lang="de">Ein Diagramm kann jede Regel der Spezifikation einhalten und trotzdem unlesbar sein. Die Spezifikation legt fest, welche Symbole es gibt und wie Marken durch sie laufen; wie ein Modell benannt, gerichtet und gegliedert wird, regelt sie nicht. Dafür haben sich Konventionen durchgesetzt (Freund/Rücker, Silver, Camunda). Die Labs 02 bis 07 haben sie nebenbei eingeführt; hier stehen sie als Katalog, und der Prüfer dieser Umgebung wendet genau diesen Katalog an.</span>
+      <span lang="en">A diagram can follow every rule of the specification and still be unreadable. The specification defines which symbols exist and how tokens run through them; how a model is named, directed and structured it does not regulate. Conventions have established themselves for that (Freund/Rücker, Silver, Camunda). Labs 02 to 07 introduced them along the way; here they stand as a catalogue, and the checker of this environment applies exactly this catalogue.</span>
+    </p>
+    <table class="regeln">
+
+      <thead><tr><th><span lang="de">ID</span><span lang="en">ID</span></th><th><span lang="de">Regel</span><span lang="en">Rule</span></th><th><span lang="de">Stufe</span><span lang="en">Level</span></th></tr></thead>
+      <tbody>
+<tr><td>R01</td><td><span lang="de">Genau ein Startereignis je Prozess</span><span lang="en">Exactly one start event per process</span></td><td><span lang="de">Fehler oder Warnung</span><span lang="en">Error or warning</span></td></tr>
+<tr><td>R02</td><td><span lang="de">Jeder Pfad erreicht ein Endereignis; kein Element bleibt unverbunden</span><span lang="en">Every path reaches an end event; no element is left unconnected</span></td><td><span lang="de">Fehler</span><span lang="en">Error</span></td></tr>
+<tr><td>R03</td><td><span lang="de">Jeder ausgehende Pfad eines XOR/OR trägt eine Bedingung oder ist Standardfluss</span><span lang="en">Every outgoing XOR/OR path carries a condition or is the default flow</span></td><td><span lang="de">Fehler</span><span lang="en">Error</span></td></tr>
+<tr><td>R04</td><td><span lang="de">Ein Gateway verzweigt oder führt zusammen, nicht beides</span><span lang="en">A gateway splits or merges, not both</span></td><td><span lang="de">Warnung</span><span lang="en">Warning</span></td></tr>
+<tr><td>R05</td><td><span lang="de">Verzweigung und Zusammenführung eines Blocks haben denselben Typ</span><span lang="en">Split and join of a block have the same type</span></td><td><span lang="de">Fehler oder Warnung</span><span lang="en">Error or warning</span></td></tr>
+<tr><td>R06</td><td><span lang="de">Sequenzfluss bleibt im Pool, Nachrichtenfluss verbindet Pools</span><span lang="en">Sequence flow stays inside a pool, message flow connects pools</span></td><td><span lang="de">Fehler</span><span lang="en">Error</span></td></tr>
+<tr><td>R07</td><td><span lang="de">Aufgabe: Substantiv + Verb. Ereignis: eingetretener Zustand</span><span lang="en">Task: verb + object. Event: a state that has occurred</span></td><td><span lang="de">Warnung</span><span lang="en">Warning</span></td></tr>
+<tr><td>R08</td><td><span lang="de">Jede Aufgabe liegt in genau einer Bahn</span><span lang="en">Every task lies in exactly one lane</span></td><td><span lang="de">Fehler oder Warnung</span><span lang="en">Error or warning</span></td></tr>
+<tr><td>R09</td><td><span lang="de">Nach einem ereignisbasierten Gateway folgen nur eintretende Ereignisse</span><span lang="en">Only catching events follow an event-based gateway</span></td><td><span lang="de">Fehler</span><span lang="en">Error</span></td></tr>
+<tr><td>R10</td><td><span lang="de">Der Ausnahmepfad eines Randereignisses führt nicht in seine Aufgabe zurück</span><span lang="en">The exception path of a boundary event does not lead back into its task</span></td><td><span lang="de">Fehler</span><span lang="en">Error</span></td></tr>
+<tr><td>R11</td><td><span lang="de">Elemente sind beschriftet</span><span lang="en">Elements are labelled</span></td><td><span lang="de">Warnung</span><span lang="en">Warning</span></td></tr>
+<tr><td>R12</td><td><span lang="de">Der Fluss läuft von links nach rechts, Rücksprünge sind selten</span><span lang="en">Flow runs left to right, jumps back are rare</span></td><td><span lang="de">Warnung</span><span lang="en">Warning</span></td></tr>
+      </tbody>
+    </table>
+    <div class="info-box">
+      <p><strong><span lang="de">Drei Ebenen.</span><span lang="en">Three levels.</span></strong> <span lang="de"><em>Syntax</em>: Was die Spezifikation verbietet (ein Sequenzfluss aus einem Endereignis heraus); das Werkzeug verhindert es meist. <em>Konvention</em>: Was dieser Katalog verlangt; das Werkzeug lässt es zu, der Prüfer meldet es. <em>Prozessqualität</em>: Ob der Prozess gut ist; das sieht kein Prüfer, das ist Ihre Analyse (nächster Abschnitt).</span><span lang="en"><em>Syntax</em>: what the specification forbids (a sequence flow out of an end event); the tool usually prevents it. <em>Convention</em>: what this catalogue requires; the tool allows it, the checker reports it. <em>Process quality</em>: whether the process is good; no checker sees that, that is your analysis (next section).</span></p>
+    </div>
+  </section>
+
+  <section class="section-block" id="fehlersuche">
+    <h2><span lang="de">Fehler in fremden Modellen finden</span><span lang="en">Finding errors in other people's models</span></h2>
+    <p>
+      <span lang="de">Die realistischste Prozessarbeit ist das Lesen fremder Modelle: Abgaben, Altbestände, KI-Entwürfe. Die Reklamation unten ist syntaktisch importierbar und in acht Punkten falsch. Erst finden, dann reparieren.</span>
+      <span lang="en">The most realistic process work is reading other people's models: submissions, legacy stock, AI drafts. The complaint below imports syntactically and is wrong in eight points. Find first, then repair.</span>
+    </p>
+    <div data-modell="modelle/uc18-reklamation-fehlerhaft.bpmn" data-name="UC18 · Gästereklamation (fehlerhaft)" data-hoch></div>
+  </section>
+
+  <section class="section-block" id="muster">
+    <h2><span lang="de">Fünf Schwachstellenmuster</span><span lang="en">Five weakness patterns</span></h2>
+    <p>
+      <span lang="de">Ein Prozessmodell zeigt Schwachstellen, bevor eine einzige Zahl erhoben ist (Dumas et al., Kapitel 6). Die Muster sind wiederkehrend, und jedes hat eine Prüffrage, die sich am Modell beantworten lässt.</span>
+      <span lang="en">A process model shows weaknesses before a single number is collected (Dumas et al., chapter 6). The patterns recur, and each has a test question that can be answered from the model.</span>
+    </p>
+    <table>
+      <thead><tr><th><span lang="de">Muster</span><span lang="en">Pattern</span></th><th><span lang="de">Woran man es erkennt</span><span lang="en">How to recognise it</span></th><th><span lang="de">Prüffrage</span><span lang="en">Test question</span></th></tr></thead>
+      <tbody>
+<tr><td><span lang="de">Medienbruch</span><span lang="en">Media break</span></td><td><span lang="de">Ein Datenobjekt taucht zweimal auf, einmal als Formular, einmal als Datensatz; Aufgaben heißen „erfassen“, „abtippen“, „scannen“.</span><span lang="en">A data object appears twice, once as form, once as record; tasks are called “enter”, “retype”, “scan”.</span></td><td><span lang="de">Wird eine Information mehr als einmal eingegeben?</span><span lang="en">Is a piece of information entered more than once?</span></td></tr>
+<tr><td><span lang="de">Doppelarbeit</span><span lang="en">Double work</span></td><td><span lang="de">Dieselbe Prüfung oder Freigabe in zwei Bahnen, ohne dass die zweite ein anderes Ergebnis liefern könnte.</span><span lang="en">The same check or approval in two lanes without the second being able to yield a different result.</span></td><td><span lang="de">Welche Prüfung hat je einen Fehler gefunden?</span><span lang="en">Which check has ever found an error?</span></td></tr>
+<tr><td><span lang="de">Pingpong-Übergaben</span><span lang="en">Ping-pong handovers</span></td><td><span lang="de">Der Sequenzfluss wechselt mehrfach zwischen zwei Bahnen hin und her; jeder Wechsel kostet Transport- und Rüstzeit.</span><span lang="en">The sequence flow switches back and forth between two lanes several times; every switch costs transport and set-up time.</span></td><td><span lang="de">Wie oft wechselt ein Fall den Bearbeiter?</span><span lang="en">How often does a case change handler?</span></td></tr>
+<tr><td><span lang="de">Rückschleifen</span><span lang="en">Loops</span></td><td><span lang="de">Ein exklusives Gateway führt zu einer früheren Aufgabe zurück: Nacharbeit, weil Unterlagen fehlten oder eine Prüfung scheiterte.</span><span lang="en">An exclusive gateway leads back to an earlier task: rework because documents were missing or a check failed.</span></td><td><span lang="de">Wie viele Fälle laufen die Schleife, und warum?</span><span lang="en">How many cases run the loop, and why?</span></td></tr>
+<tr><td><span lang="de">Wartestellen</span><span lang="en">Waiting points</span></td><td><span lang="de">Ein Zwischenereignis (Timer, Nachricht) oder eine Bahn mit einer einzigen Ressource hält den Fall an; hier entsteht Liegezeit.</span><span lang="en">An intermediate event (timer, message) or a lane with a single resource holds the case; idle time arises here.</span></td><td><span lang="de">Wie lange liegt ein Fall im Mittel vor dieser Stelle?</span><span lang="en">How long does a case rest on average before this point?</span></td></tr>
+      </tbody>
+    </table>
+    <p>
+      <span lang="de">Die Bestellung von Laborbedarf hält alle zwölf Regeln ein und enthält alle fünf Muster. Lassen Sie eine Marke laufen und zählen Sie, wie oft sie die Bahn wechselt.</span>
+      <span lang="en">The lab supplies order follows all twelve rules and contains all five patterns. Run a token and count how often it changes lane.</span>
+    </p>
+    <div data-modell="modelle/uc19-laborbedarf-ist.bpmn" data-name="UC19 · Bestellung von Laborbedarf (Ist)" data-hoch></div>
+  </section>
+
+  <section class="section-block" id="uebungen">
+    <h2><span lang="de">Übungen</span><span lang="en">Exercises</span></h2>
+    <p><span lang="de">Sechs Übungen: Regeln zuordnen, acht Fehler finden, die Korrektur lesen, fünf Muster suchen, Muster erkennen und zuletzt das fehlerhafte Modell im Editor reparieren, bis der Prüfer schweigt.</span><span lang="en">Six exercises: assign rules, find eight errors, read the correction, look for five patterns, recognise patterns and finally repair the faulty model in the editor until the checker is silent.</span></p>
+    <div data-uebung="P08-01"></div>
+    <div data-uebung="P08-02"></div>
+    <div data-uebung="P08-03"></div>
+    <div data-uebung="P08-04"></div>
+    <div data-uebung="P08-05"></div>
+    <div data-uebung="P08-06"></div>
+  </section>
+
+  <section class="section-block" id="zusammenfassung">
+    <h2><span lang="de">Zusammenfassung</span><span lang="en">Summary</span></h2>
+    <ul>
+      <li><span lang="de">Syntax verhindert das Werkzeug, Konventionen prüft der Katalog, Prozessqualität prüfen Sie.</span><span lang="en">Syntax is prevented by the tool, conventions are checked by the catalogue, process quality is checked by you.</span></li>
+      <li><span lang="de">Die häufigsten Verstöße: Flüsse an der falschen Stelle (R06), Pfade ohne Bedingung (R03), falsch geschlossene Blöcke (R05), Benennung (R07).</span><span lang="en">The most frequent violations: flows in the wrong place (R06), paths without condition (R03), wrongly closed blocks (R05), naming (R07).</span></li>
+      <li><span lang="de">Medienbruch, Doppelarbeit, Pingpong, Rückschleife, Wartestelle: fünf Muster mit je einer Prüffrage.</span><span lang="en">Media break, double work, ping-pong, loop, waiting point: five patterns with one test question each.</span></li>
+      <li><span lang="de">Ein regelkonformes Modell kann einen schlechten Prozess zeigen; genau das ist sein Zweck.</span><span lang="en">A rule-compliant model can show a bad process; that is exactly its purpose.</span></li>
+    </ul>
+    <nav class="nav-bottom"></nav>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <span lang="de">THWS Business School · PROM-Lab · Prof. Dr. Robert Butscher · Diagramme mit <a href="https://bpmn.io" rel="noopener">bpmn.io</a></span>
+  <span lang="en">THWS Business School · PROM-Lab · Prof. Dr. Robert Butscher · Diagrams with <a href="https://bpmn.io" rel="noopener">bpmn.io</a></span>
+</footer>
+
+<script type="module">
+  import { starteLab } from './assets/prom.js'
+  starteLab({ lab: 'lab-08', basis: '.' })
+</script>
+</body>
+</html>

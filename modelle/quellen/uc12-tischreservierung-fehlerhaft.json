@@ -1,0 +1,38 @@
+{
+  "id": "uc12f", "name": "Tischreservierung im Restaurant (fehlerhaft)", "absichtlichFehlerhaft": true,
+  "pools": [
+    {"id": "gast", "name": "Gast", "rows": 1},
+    {"id": "restaurant", "name": "Restaurant", "lanes": [
+      {"id": "service", "name": "Service", "rows": 2},
+      {"id": "kueche", "name": "Küche", "rows": 1}
+    ]}
+  ],
+  "nodes": [
+    {"id": "gs", "type": "startEvent", "name": "Essenswunsch", "col": 0, "row": 0, "pool": "gast"},
+    {"id": "gt1", "type": "task", "name": "Reservierung anfragen", "col": 1, "row": 0, "pool": "gast"},
+    {"id": "ge1", "type": "intermediateCatchEvent", "event": "message", "name": "Antwort erhalten", "col": 4, "row": 0, "pool": "gast"},
+    {"id": "gend1", "type": "endEvent", "name": "Antwort bekannt", "col": 5, "row": 0, "pool": "gast"},
+    {"id": "rs", "type": "startEvent", "col": 1, "row": 1, "lane": "service"},
+    {"id": "rt1", "type": "task", "name": "Belegung prüfen", "col": 2, "row": 1, "lane": "service"},
+    {"id": "rg1", "type": "exclusiveGateway", "name": "Tisch frei?", "col": 3, "row": 1, "lane": "service", "labelPos": "top"},
+    {"id": "rt2", "type": "sendTask", "name": "Reservierung bestätigen", "col": 4, "row": 1, "lane": "service"},
+    {"id": "rt3", "type": "sendTask", "name": "Absage senden", "col": 4, "row": 2, "lane": "service"},
+    {"id": "rend2", "type": "endEvent", "name": "Anfrage abgelehnt", "col": 5, "row": 2, "lane": "service"},
+    {"id": "rt4", "type": "task", "name": "Tisch eindecken", "col": 5, "row": 1, "lane": "service"},
+    {"id": "rend1", "type": "endEvent", "name": "Gast erwartet", "col": 6, "row": 1, "lane": "service"},
+    {"id": "kt1", "type": "task", "name": "Reservierung in Tagesplanung aufnehmen", "col": 4, "row": 3, "lane": "kueche"},
+    {"id": "kend", "type": "endEvent", "name": "Planung ergänzt", "col": 5, "row": 3, "lane": "kueche"}
+  ],
+  "flows": [
+    {"from": "gs", "to": "gt1"}, {"from": "gt1", "to": "rs"}, {"from": "ge1", "to": "gend1"},
+    {"from": "rs", "to": "rt1"}, {"from": "rt1", "to": "rg1"},
+    {"from": "rg1", "to": "rt2", "name": "ja"}, {"from": "rg1", "to": "rt3"},
+    {"from": "rt3", "to": "rend2"}, {"from": "rt2", "to": "rt4"}, {"from": "rt4", "to": "rend1"},
+    {"from": "kt1", "to": "kend"}
+  ],
+  "messages": [
+    {"from": "rt2", "to": "ge1", "name": "Bestätigung", "tx": -8},
+    {"from": "rt3", "to": "ge1", "name": "Absage", "sx": 70, "tx": 8},
+    {"from": "rt2", "to": "kt1", "name": "Reservierung", "sx": -40, "tx": -40}
+  ]
+}

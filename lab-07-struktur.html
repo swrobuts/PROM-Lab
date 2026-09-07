@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="de" data-lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lab 07 · Struktur: Teilprozesse, Daten, Schleifen · PROM-Lab</title>
+  <meta name="prom:titel-en" content="Lab 07 · Structure: subprocesses, data, loops · PROM-Lab" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/bpmn/diagram-js.css" />
+  <link rel="stylesheet" href="assets/bpmn/bpmn-js.css" />
+  <link rel="stylesheet" href="assets/bpmn/bpmn-font/css/bpmn.css" />
+  <link rel="stylesheet" href="assets/bpmn/bpmn-js-token-simulation.css" />
+  <link rel="stylesheet" href="assets/prom.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%2300595C'/><text x='16' y='23' font-family='sans-serif' font-size='18' font-weight='bold' text-anchor='middle' fill='%2390D033'>P</text></svg>" />
+</head>
+<body class="lab-page">
+
+<header class="header">
+  <div class="header-left">
+    <a class="header-logo" href="index.html" data-lab-link><span class="mark">PROM</span>-Lab</a>
+    <a class="header-back" href="index.html" data-lab-link>
+      <span lang="de">← Zur Übersicht</span><span lang="en">← Back to overview</span>
+    </a>
+  </div>
+  <div class="header-right">
+    <button class="lang-btn active" data-lang-btn="de" aria-pressed="true">DE</button>
+    <button class="lang-btn" data-lang-btn="en" aria-pressed="false">EN</button>
+  </div>
+</header>
+
+<nav class="sidebar" aria-label="Lab-Navigation">
+  <div class="sidebar-title"><span lang="de">Abschnitte</span><span lang="en">Sections</span></div>
+  <a class="sidebar-link" href="#teilprozesse"><span lang="de">Teilprozesse und Aufrufaktivitäten</span><span lang="en">Subprocesses and call activities</span></a>
+  <a class="sidebar-link" href="#daten"><span lang="de">Datenobjekte und Datenspeicher</span><span lang="en">Data objects and data stores</span></a>
+  <a class="sidebar-link" href="#schleifen"><span lang="de">Schleifen und Mehrfachinstanzen</span><span lang="en">Loops and multi-instances</span></a>
+  <a class="sidebar-link" href="#uebungen"><span lang="de">Übungen</span><span lang="en">Exercises</span></a>
+  <a class="sidebar-link" href="#zusammenfassung"><span lang="de">Zusammenfassung</span><span lang="en">Summary</span></a>
+</nav>
+
+<div class="lab-header">
+  <div class="lab-num-big">07</div>
+  <h1 class="lab-title">
+    <span lang="de">Struktur: Teilprozesse, Daten, Schleifen</span>
+    <span lang="en">Structure: subprocesses, data, loops</span>
+  </h1>
+  <p class="lab-intro">
+    <span lang="de">Reale Prozesse haben dreißig, sechzig, hundert Schritte. Damit ein Modell lesbar bleibt, gliedert BPMN in Teilprozesse, lagert Wiederverwendetes in Aufrufaktivitäten aus, zeigt die Daten, die Aufgaben lesen und schreiben, und markiert Wiederholungen an der Aufgabe statt sie auszuzeichnen. Das Lab führt diese Mittel an einer Instandhaltung, einer Losprüfung und einer Visite ein.</span>
+    <span lang="en">Real processes have thirty, sixty, a hundred steps. To keep a model readable, BPMN structures into subprocesses, moves reused parts into call activities, shows the data that tasks read and write, and marks repetitions on the task instead of drawing them out. The lab introduces these means with a maintenance job, a lot inspection and a ward round.</span>
+  </p>
+  <div class="lernziele">
+    <span class="lernziel-chip"><span lang="de">Teilprozess</span><span lang="en">Subprocess</span></span>
+    <span class="lernziel-chip"><span lang="de">Aufrufaktivität</span><span lang="en">Call activity</span></span>
+    <span class="lernziel-chip"><span lang="de">Datenobjekt · Datenspeicher</span><span lang="en">Data object · data store</span></span>
+    <span class="lernziel-chip"><span lang="de">Mehrfachinstanz</span><span lang="en">Multi-instance</span></span>
+    <span class="lernziel-chip"><span lang="de">Schleife</span><span lang="en">Loop</span></span>
+  </div>
+</div>
+
+<main class="main-content">
+
+  <section class="section-block" id="teilprozesse">
+    <h2><span lang="de">Teilprozesse und Aufrufaktivitäten</span><span lang="en">Subprocesses and call activities</span></h2>
+    <p>
+      <span lang="de">Ein Modell mit sechzig Aufgaben auf einer Ebene liest niemand. BPMN gliedert hierarchisch: Ein Teilprozess fasst zusammengehörige Schritte in einem Rahmen zusammen, der von außen wie eine Aufgabe wirkt und innen einen eigenen Ablauf mit Start und Ende hat. Aufgeklappt zeigt er seinen Inhalt, zugeklappt nur ein Plus. Die Aufrufaktivität geht einen Schritt weiter: Sie verweist auf einen eigenständigen Prozess, der einmal modelliert und an vielen Stellen aufgerufen wird.</span>
+      <span lang="en">Nobody reads a model with sixty tasks on one level. BPMN structures hierarchically: a subprocess groups related steps in a frame that acts like a task from the outside and has its own flow with start and end inside. Expanded, it shows its content; collapsed, only a plus. The call activity goes one step further: it references an independent process that is modelled once and called in many places.</span>
+    </p>
+    <div class="symbolkarte">
+      <div class="symbolkarte-kopf">
+        <span class="symbolkarte-name"><span lang="de">Teilprozess · Aufrufaktivität</span><span lang="en">Subprocess · call activity</span></span>
+        <span class="symbolkarte-was"><span lang="de">Hierarchie und Wiederverwendung</span><span lang="en">hierarchy and reuse</span></span>
+      </div>
+      <div class="symbolkarte-koerper">
+        <div class="symbolkarte-bild" aria-hidden="true"><svg viewBox="0 0 140 90" width="140" height="90"><rect x="15" y="15" width="110" height="60" rx="8" fill="#fff" stroke="#10201C" stroke-width="2"/><text x="70" y="42" font-family="Space Grotesk, sans-serif" font-size="9" text-anchor="middle" fill="#10201C">Teilprozess</text><rect x="64" y="60" width="12" height="12" fill="#fff" stroke="#10201C" stroke-width="1.5"/><path d="M70,62 L70,70 M66,66 L74,66" stroke="#10201C" stroke-width="1.5"/></svg></div>
+        <div class="symbolkarte-text">
+          <ul class="symbolkarte-teile">
+            <li><span><span lang="de">Eingebettet</span><span lang="en">Embedded</span></span><span><span lang="de">Gehört nur zu seinem Elternprozess. Kein Sequenzfluss kreuzt den Rahmen; innen eigener Start, eigenes Ende.</span><span lang="en">Belongs only to its parent process. No sequence flow crosses the frame; own start and end inside.</span></span></li>
+            <li><span><span lang="de">Aufrufaktivität</span><span lang="en">Call activity</span></span><span><span lang="de">Dicker Rahmen. Ruft einen globalen Prozess auf, der ein eigenes Diagramm hat und von mehreren Prozessen benutzt wird.</span><span lang="en">Thick border. Calls a global process that has its own diagram and is used by several processes.</span></span></li>
+            <li><span><span lang="de">Randereignisse</span><span lang="en">Boundary events</span></span><span><span lang="de">Auch an einen Teilprozess lassen sich Ereignisse anheften; ein Fehler-Endereignis innen wird dann außen gefangen.</span><span lang="en">Events can be attached to a subprocess too; an error end event inside is then caught outside.</span></span></li>
+          </ul>
+          <p class="symbolkarte-falle"><strong><span lang="de">Stolperfalle:</span><span lang="en">Pitfall:</span></strong>
+            <span lang="de">Ein Teilprozess mit nur einer Aufgabe darin ist keine Gliederung, sondern Dekoration. Gliedern Sie, wo drei bis zehn Schritte einen Namen haben.</span>
+            <span lang="en">A subprocess with only one task inside is not structure but decoration. Structure where three to ten steps have a name.</span></p>
+        </div>
+      </div>
+    </div>
+    <div data-modell="modelle/uc15-instandhaltung.bpmn" data-name="UC15 · Instandhaltungsauftrag an einer Abfüllanlage" data-hoch></div>
+  </section>
+
+  <section class="section-block" id="daten">
+    <h2><span lang="de">Datenobjekte und Datenspeicher</span><span lang="en">Data objects and data stores</span></h2>
+    <p>
+      <span lang="de">Prozesse verarbeiten Informationen: Formulare, Datensätze, Berichte. BPMN zeigt sie als Datenobjekte (das Blatt mit Eselsohr) und verbindet sie gepunktet mit den Aufgaben, die sie lesen oder erzeugen. Ein Datenobjekt gehört zu einer Instanz: diese eine Störmeldung. Ein Datenspeicher (die Tonne) überdauert alle Instanzen: das Instandhaltungssystem mit allen Aufträgen.</span>
+      <span lang="en">Processes handle information: forms, records, reports. BPMN shows them as data objects (the sheet with a dog ear) and links them with dotted lines to the tasks that read or produce them. A data object belongs to one instance: this one fault report. A data store (the barrel) outlives all instances: the maintenance system with all orders.</span>
+    </p>
+    <div class="symbolkarte">
+      <div class="symbolkarte-kopf">
+        <span class="symbolkarte-name"><span lang="de">Datenobjekt · Datenspeicher</span><span lang="en">Data object · data store</span></span>
+        <span class="symbolkarte-was"><span lang="de">was eine Aufgabe braucht und erzeugt</span><span lang="en">what a task needs and produces</span></span>
+      </div>
+      <div class="symbolkarte-koerper">
+        <div class="symbolkarte-bild" aria-hidden="true"><svg viewBox="0 0 140 90" width="140" height="90"><path d="M25,20 L50,20 L60,30 L60,70 L25,70 Z" fill="#fff" stroke="#10201C" stroke-width="2"/><path d="M50,20 L50,30 L60,30" fill="none" stroke="#10201C" stroke-width="2"/><ellipse cx="100" cy="27" rx="20" ry="6" fill="#fff" stroke="#10201C" stroke-width="2"/><path d="M80,27 L80,63 A20,6 0 0 0 120,63 L120,27" fill="#fff" stroke="#10201C" stroke-width="2"/><path d="M80,35 A20,6 0 0 0 120,35 M80,43 A20,6 0 0 0 120,43" fill="none" stroke="#10201C" stroke-width="1.5"/></svg></div>
+        <div class="symbolkarte-text">
+          <ul class="symbolkarte-teile">
+            <li><span><span lang="de">Datenobjekt</span><span lang="en">Data object</span></span><span><span lang="de">Instanzdatum. Der Pfeil der Assoziation zeigt, ob die Aufgabe liest (Pfeil zur Aufgabe) oder schreibt (Pfeil zum Objekt).</span><span lang="en">Instance data. The arrow of the association shows whether the task reads (arrow to the task) or writes (arrow to the object).</span></span></li>
+            <li><span><span lang="de">Datenspeicher</span><span lang="en">Data store</span></span><span><span lang="de">Bestandsdatum: Datenbank, ERP, Aktenschrank. Bleibt, wenn die Instanz vorbei ist.</span><span lang="en">Persistent data: database, ERP, filing cabinet. Remains when the instance is over.</span></span></li>
+            <li><span><span lang="de">Sparsamkeit</span><span lang="en">Economy</span></span><span><span lang="de">Nur die Daten zeigen, die etwas erklären: das Formular, das abgetippt wird; das System, aus dem gelesen wird.</span><span lang="en">Show only the data that explain something: the form that is retyped; the system that is read from.</span></span></li>
+          </ul>
+          <p class="symbolkarte-falle"><strong><span lang="de">Stolperfalle:</span><span lang="en">Pitfall:</span></strong>
+            <span lang="de">Dasselbe Datenobjekt zweimal, einmal „Formular (Papier)“, einmal „Bestellung (Datensatz)“: Das ist kein Modellierungsfehler, sondern ein Befund. Es heißt Medienbruch (Lab 08).</span>
+            <span lang="en">The same data object twice, once “form (paper)”, once “order (record)”: that is not a modelling error but a finding. It is called a media break (lab 08).</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-block" id="schleifen">
+    <h2><span lang="de">Schleifen und Mehrfachinstanzen</span><span lang="en">Loops and multi-instances</span></h2>
+    <p>
+      <span lang="de">Manche Aufgaben wiederholen sich: Nacharbeiten, bis die Prüfung besteht. Und manche laufen je Element einer Liste: jedes Teil der Stichprobe prüfen, jeden Patienten visitieren. Statt Rückschleifen über Gateways zu zeichnen, trägt die Aufgabe einen Marker.</span>
+      <span lang="en">Some tasks repeat: rework until the inspection passes. And some run per element of a list: check every part of the sample, visit every patient. Instead of drawing loops via gateways, the task carries a marker.</span>
+    </p>
+    <div class="symbolkarte">
+      <div class="symbolkarte-kopf">
+        <span class="symbolkarte-name"><span lang="de">Schleife · Mehrfachinstanz</span><span lang="en">Loop · multi-instance</span></span>
+        <span class="symbolkarte-was"><span lang="de">Wiederholung als Markierung</span><span lang="en">repetition as a marker</span></span>
+      </div>
+      <div class="symbolkarte-koerper">
+        <div class="symbolkarte-bild" aria-hidden="true"><svg viewBox="0 0 140 90" width="140" height="90"><rect x="8" y="20" width="56" height="50" rx="7" fill="#fff" stroke="#10201C" stroke-width="2"/><path d="M30,58 L30,66 M36,58 L36,66 M42,58 L42,66" stroke="#10201C" stroke-width="2"/><rect x="76" y="20" width="56" height="50" rx="7" fill="#fff" stroke="#10201C" stroke-width="2"/><path d="M99,63 A5,5 0 1 1 106,60" fill="none" stroke="#10201C" stroke-width="1.8"/><polygon points="104,57 108,61 103,62" fill="#10201C"/></svg></div>
+        <div class="symbolkarte-text">
+          <ul class="symbolkarte-teile">
+            <li><span><span lang="de">Schleife</span><span lang="en">Loop</span></span><span><span lang="de">Pfeil im Kreis: Die Aufgabe wiederholt sich, bis eine Bedingung erfüllt ist. Die Bedingung steht in der Aufgabe, nicht am Pfeil.</span><span lang="en">Circular arrow: the task repeats until a condition is met. The condition lives in the task, not on an arrow.</span></span></li>
+            <li><span><span lang="de">Parallel</span><span lang="en">Parallel</span></span><span><span lang="de">Drei senkrechte Striche: eine Instanz je Element, alle zugleich. Die Anzahl steht erst zur Laufzeit fest.</span><span lang="en">Three vertical bars: one instance per element, all at once. The number is only known at runtime.</span></span></li>
+            <li><span><span lang="de">Sequenziell</span><span lang="en">Sequential</span></span><span><span lang="de">Drei waagerechte Striche: eine Instanz je Element, nacheinander.</span><span lang="en">Three horizontal bars: one instance per element, one after another.</span></span></li>
+          </ul>
+          <p class="symbolkarte-falle"><strong><span lang="de">Stolperfalle:</span><span lang="en">Pitfall:</span></strong>
+            <span lang="de">Ein Marker versteckt die Wiederholung im Element. Wiederholen sich mehrere Schritte, ist die sichtbare Rückschleife über ein Gateway lesbarer.</span>
+            <span lang="en">A marker hides the repetition in the element. If several steps repeat, the visible loop via a gateway reads better.</span></p>
+        </div>
+      </div>
+    </div>
+    <div data-modell="modelle/uc16-serienfertigung.bpmn" data-name="UC16 · Qualitätsprüfung je Fertigungslos"></div>
+    <div data-modell="modelle/uc17-visite.bpmn" data-name="UC17 · Ärztliche Visite auf der Station"></div>
+  </section>
+
+  <section class="section-block" id="uebungen">
+    <h2><span lang="de">Übungen</span><span lang="en">Exercises</span></h2>
+    <p><span lang="de">Fünf Übungen: drei Modelle erkunden, ein Quiz, ein Modell mit allen drei Strukturmitteln. Im Editor setzen Sie Marker und Teilprozess über den Schraubenschlüssel einer Aufgabe; Daten ziehen Sie aus der Palette.</span><span lang="en">Five exercises: explore three models, a quiz, one model with all three structural means. In the editor, set markers and subprocess via a task's wrench; drag data from the palette.</span></p>
+    <div data-uebung="P07-01"></div>
+    <div data-uebung="P07-02"></div>
+    <div data-uebung="P07-03"></div>
+    <div data-uebung="P07-04"></div>
+    <div data-uebung="P07-05"></div>
+  </section>
+
+  <section class="section-block" id="zusammenfassung">
+    <h2><span lang="de">Zusammenfassung</span><span lang="en">Summary</span></h2>
+    <ul>
+      <li><span lang="de">Teilprozesse gliedern, Aufrufaktivitäten verwenden wieder; kein Sequenzfluss kreuzt einen Rahmen.</span><span lang="en">Subprocesses structure, call activities reuse; no sequence flow crosses a frame.</span></li>
+      <li><span lang="de">Datenobjekte gehören zur Instanz, Datenspeicher überdauern sie.</span><span lang="en">Data objects belong to the instance, data stores outlive it.</span></li>
+      <li><span lang="de">Schleifen- und Mehrfachinstanzmarker ersetzen Rückschleifen und Gateways mit unbekannter Pfadzahl.</span><span lang="en">Loop and multi-instance markers replace loops and gateways with an unknown number of paths.</span></li>
+      <li><span lang="de">Zeigen Sie nur die Daten, die etwas erklären.</span><span lang="en">Show only the data that explain something.</span></li>
+    </ul>
+    <nav class="nav-bottom"></nav>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <span lang="de">THWS Business School · PROM-Lab · Prof. Dr. Robert Butscher · Diagramme mit <a href="https://bpmn.io" rel="noopener">bpmn.io</a></span>
+  <span lang="en">THWS Business School · PROM-Lab · Prof. Dr. Robert Butscher · Diagrams with <a href="https://bpmn.io" rel="noopener">bpmn.io</a></span>
+</footer>
+
+<script type="module">
+  import { starteLab } from './assets/prom.js'
+  starteLab({ lab: 'lab-07', basis: '.' })
+</script>
+</body>
+</html>
