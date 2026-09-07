@@ -1,0 +1,179 @@
+{
+ "id": "uc05",
+ "name": "Retoure im Online-Handel",
+ "nodes": [
+  {
+   "id": "s1",
+   "type": "startEvent",
+   "event": "message",
+   "name": "Retoure eingetroffen",
+   "col": 0,
+   "row": 1
+  },
+  {
+   "id": "t1",
+   "type": "task",
+   "name": "Paket öffnen und Inhalt erfassen",
+   "col": 1,
+   "row": 1
+  },
+  {
+   "id": "g1",
+   "type": "exclusiveGateway",
+   "name": "Rücksendung vollständig?",
+   "col": 2,
+   "row": 1,
+   "labelPos": "top"
+  },
+  {
+   "id": "t2",
+   "type": "sendTask",
+   "name": "Fehlende Teile beim Kunden anfordern",
+   "col": 3,
+   "row": 0
+  },
+  {
+   "id": "e2",
+   "type": "intermediateCatchEvent",
+   "event": "message",
+   "name": "Nachlieferung eingetroffen",
+   "col": 4,
+   "row": 0
+  },
+  {
+   "id": "t3",
+   "type": "task",
+   "name": "Zustand der Ware prüfen",
+   "col": 3,
+   "row": 1
+  },
+  {
+   "id": "g2",
+   "type": "exclusiveGateway",
+   "name": "Zustand",
+   "col": 4,
+   "row": 1,
+   "labelPos": "top"
+  },
+  {
+   "id": "t4",
+   "type": "task",
+   "name": "Vollen Kaufpreis erstatten",
+   "col": 5,
+   "row": 1
+  },
+  {
+   "id": "t5",
+   "type": "task",
+   "name": "Minderung berechnen",
+   "col": 5,
+   "row": 2
+  },
+  {
+   "id": "t6",
+   "type": "task",
+   "name": "Teilbetrag erstatten",
+   "col": 6,
+   "row": 2
+  },
+  {
+   "id": "t7",
+   "type": "task",
+   "name": "Ware an Kunden zurücksenden",
+   "col": 5,
+   "row": 3
+  },
+  {
+   "id": "g3",
+   "type": "exclusiveGateway",
+   "col": 7,
+   "row": 1
+  },
+  {
+   "id": "t8",
+   "type": "task",
+   "name": "Retoure im System abschließen",
+   "col": 8,
+   "row": 1
+  },
+  {
+   "id": "e1",
+   "type": "endEvent",
+   "name": "Retoure abgeschlossen",
+   "col": 9,
+   "row": 1
+  }
+ ],
+ "flows": [
+  {
+   "from": "s1",
+   "to": "t1"
+  },
+  {
+   "from": "t1",
+   "to": "g1"
+  },
+  {
+   "from": "g1",
+   "to": "t3",
+   "name": "ja"
+  },
+  {
+   "from": "g1",
+   "to": "t2",
+   "name": "nein"
+  },
+  {
+   "from": "t2",
+   "to": "e2"
+  },
+  {
+   "from": "e2",
+   "to": "t1",
+   "via": "top"
+  },
+  {
+   "from": "t3",
+   "to": "g2"
+  },
+  {
+   "from": "g2",
+   "to": "t4",
+   "name": "einwandfrei"
+  },
+  {
+   "from": "g2",
+   "to": "t5",
+   "name": "gebraucht"
+  },
+  {
+   "from": "g2",
+   "to": "t7",
+   "name": "beschädigt"
+  },
+  {
+   "from": "t5",
+   "to": "t6"
+  },
+  {
+   "from": "t4",
+   "to": "g3"
+  },
+  {
+   "from": "t6",
+   "to": "g3"
+  },
+  {
+   "from": "t7",
+   "to": "g3"
+  },
+  {
+   "from": "g3",
+   "to": "t8"
+  },
+  {
+   "from": "t8",
+   "to": "e1"
+  }
+ ]
+}

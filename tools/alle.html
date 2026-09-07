@@ -1,0 +1,18 @@
+<!DOCTYPE html><html lang="de"><head><meta charset="utf-8"><title>Alle Modelle prüfen</title>
+<script src="https://unpkg.com/bpmn-js@18.19.0/dist/bpmn-viewer.production.min.js"></script>
+<style>body{font-family:sans-serif;font-size:13px}#c{width:900px;height:400px;border:1px solid #ccc}</style></head>
+<body><pre id="out"></pre><div id="c"></div>
+<script>
+(async () => {
+  const list = (await (await fetch('manifest.txt')).text()).trim().split('\n');
+  const v = new BpmnJS({ container: '#c' }); const out = [];
+  for (const f of list) {
+    try {
+      const r = await v.importXML(await (await fetch('../modelle/' + f)).text());
+      const reg = v.get('elementRegistry');
+      out.push(`${f}: ok, Elemente ${reg.getAll().length}, Warnungen ${r.warnings.length}` + (r.warnings.length ? ' :: ' + r.warnings.map(w => w.message).join(' / ') : ''));
+    } catch (e) { out.push(`${f}: FEHLER ${e.message}`); }
+  }
+  document.getElementById('out').textContent = out.join('\n'); window.__done = out;
+})();
+</script></body></html>

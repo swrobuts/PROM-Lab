@@ -1,0 +1,28 @@
+{
+  "id": "uc08", "name": "Stationäre Patientenaufnahme",
+  "nodes": [
+    {"id": "s1", "type": "startEvent", "name": "Patient zur Aufnahme erschienen", "col": 0, "row": 1},
+    {"id": "t1", "type": "task", "name": "Stammdaten aufnehmen", "col": 1, "row": 1},
+    {"id": "g1", "type": "exclusiveGateway", "name": "Versicherung", "col": 2, "row": 1, "labelPos": "top"},
+    {"id": "t2", "type": "task", "name": "Versichertenkarte einlesen", "col": 3, "row": 0},
+    {"id": "t3", "type": "task", "name": "Kostenübernahme klären", "col": 3, "row": 2},
+    {"id": "g2", "type": "exclusiveGateway", "col": 4, "row": 1},
+    {"id": "g3", "type": "parallelGateway", "col": 5, "row": 1},
+    {"id": "t4", "type": "task", "name": "Bett zuweisen", "col": 6, "row": 0},
+    {"id": "t5", "type": "task", "name": "Aufnahmeuntersuchung durchführen", "col": 6, "row": 1},
+    {"id": "t6", "type": "task", "name": "Patientenarmband ausstellen", "col": 6, "row": 2},
+    {"id": "g4", "type": "parallelGateway", "col": 7, "row": 1},
+    {"id": "t7", "type": "task", "name": "Patient auf Station begleiten", "col": 8, "row": 1},
+    {"id": "e1", "type": "endEvent", "name": "Patient aufgenommen", "col": 9, "row": 1}
+  ],
+  "flows": [
+    {"from": "s1", "to": "t1"}, {"from": "t1", "to": "g1"},
+    {"from": "g1", "to": "t2", "name": "gesetzlich"},
+    {"from": "g1", "to": "t3", "name": "privat oder Selbstzahler"},
+    {"from": "t2", "to": "g2"}, {"from": "t3", "to": "g2"},
+    {"from": "g2", "to": "g3"},
+    {"from": "g3", "to": "t4"}, {"from": "g3", "to": "t5"}, {"from": "g3", "to": "t6"},
+    {"from": "t4", "to": "g4"}, {"from": "t5", "to": "g4"}, {"from": "t6", "to": "g4"},
+    {"from": "g4", "to": "t7"}, {"from": "t7", "to": "e1"}
+  ]
+}

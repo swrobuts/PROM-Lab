@@ -1,0 +1,290 @@
+{
+ "id": "uc20i",
+ "name": "Auftragsabwicklung im Zerspanungsbetrieb (Ist)",
+ "pools": [
+  {
+   "id": "kunde",
+   "name": "Kunde",
+   "blackbox": true,
+   "rows": 1
+  },
+  {
+   "id": "betrieb",
+   "name": "Zerspanungsbetrieb",
+   "lanes": [
+    {
+     "id": "vertrieb",
+     "name": "Vertrieb",
+     "rows": 1
+    },
+    {
+     "id": "av",
+     "name": "Arbeitsvorbereitung",
+     "rows": 1
+    },
+    {
+     "id": "fertigung",
+     "name": "Fertigung",
+     "rows": 1
+    },
+    {
+     "id": "versand",
+     "name": "Versand",
+     "rows": 1
+    }
+   ]
+  }
+ ],
+ "nodes": [
+  {
+   "id": "s1",
+   "type": "startEvent",
+   "event": "message",
+   "name": "Anfrage per Fax oder E-Mail",
+   "col": 0,
+   "row": 1,
+   "lane": "vertrieb"
+  },
+  {
+   "id": "t1",
+   "type": "task",
+   "name": "Anfrage in Excel-Liste eintragen",
+   "col": 1,
+   "row": 1,
+   "lane": "vertrieb"
+  },
+  {
+   "id": "t2",
+   "type": "task",
+   "name": "Angebot in Excel kalkulieren",
+   "col": 2,
+   "row": 1,
+   "lane": "vertrieb"
+  },
+  {
+   "id": "t3",
+   "type": "sendTask",
+   "name": "Angebot per E-Mail senden",
+   "col": 3,
+   "row": 1,
+   "lane": "vertrieb"
+  },
+  {
+   "id": "e2",
+   "type": "intermediateCatchEvent",
+   "event": "message",
+   "name": "Auftragsbestätigung eingegangen",
+   "col": 4,
+   "row": 1,
+   "lane": "vertrieb"
+  },
+  {
+   "id": "t4",
+   "type": "task",
+   "name": "Auftrag ins ERP abtippen",
+   "col": 5,
+   "row": 1,
+   "lane": "vertrieb"
+  },
+  {
+   "id": "t5",
+   "type": "task",
+   "name": "Zeichnung prüfen",
+   "col": 6,
+   "row": 2,
+   "lane": "av"
+  },
+  {
+   "id": "t6",
+   "type": "task",
+   "name": "Arbeitsplan erstellen",
+   "col": 7,
+   "row": 2,
+   "lane": "av"
+  },
+  {
+   "id": "t7",
+   "type": "sendTask",
+   "name": "Material bestellen",
+   "col": 8,
+   "row": 2,
+   "lane": "av"
+  },
+  {
+   "id": "e3",
+   "type": "intermediateCatchEvent",
+   "event": "message",
+   "name": "Material eingetroffen",
+   "col": 9,
+   "row": 2,
+   "lane": "av"
+  },
+  {
+   "id": "t8",
+   "type": "task",
+   "name": "Teile fräsen",
+   "col": 10,
+   "row": 3,
+   "lane": "fertigung"
+  },
+  {
+   "id": "t9",
+   "type": "task",
+   "name": "Teile entgraten",
+   "col": 11,
+   "row": 3,
+   "lane": "fertigung"
+  },
+  {
+   "id": "t10",
+   "type": "task",
+   "name": "Maße prüfen",
+   "col": 12,
+   "row": 3,
+   "lane": "fertigung"
+  },
+  {
+   "id": "t11",
+   "type": "task",
+   "name": "Maße nochmals prüfen",
+   "col": 13,
+   "row": 4,
+   "lane": "versand"
+  },
+  {
+   "id": "t12",
+   "type": "task",
+   "name": "Teile verpacken",
+   "col": 14,
+   "row": 4,
+   "lane": "versand"
+  },
+  {
+   "id": "t13",
+   "type": "task",
+   "name": "Lieferschein von Hand schreiben",
+   "col": 15,
+   "row": 4,
+   "lane": "versand"
+  },
+  {
+   "id": "t14",
+   "type": "sendTask",
+   "name": "Sendung übergeben",
+   "col": 16,
+   "row": 4,
+   "lane": "versand"
+  },
+  {
+   "id": "e1",
+   "type": "endEvent",
+   "name": "Auftrag ausgeliefert",
+   "col": 17,
+   "row": 4,
+   "lane": "versand"
+  }
+ ],
+ "flows": [
+  {
+   "from": "s1",
+   "to": "t1"
+  },
+  {
+   "from": "t1",
+   "to": "t2"
+  },
+  {
+   "from": "t2",
+   "to": "t3"
+  },
+  {
+   "from": "t3",
+   "to": "e2"
+  },
+  {
+   "from": "e2",
+   "to": "t4"
+  },
+  {
+   "from": "t4",
+   "to": "t5"
+  },
+  {
+   "from": "t5",
+   "to": "t6"
+  },
+  {
+   "from": "t6",
+   "to": "t7"
+  },
+  {
+   "from": "t7",
+   "to": "e3"
+  },
+  {
+   "from": "e3",
+   "to": "t8"
+  },
+  {
+   "from": "t8",
+   "to": "t9"
+  },
+  {
+   "from": "t9",
+   "to": "t10"
+  },
+  {
+   "from": "t10",
+   "to": "t11"
+  },
+  {
+   "from": "t11",
+   "to": "t12"
+  },
+  {
+   "from": "t12",
+   "to": "t13"
+  },
+  {
+   "from": "t13",
+   "to": "t14"
+  },
+  {
+   "from": "t14",
+   "to": "e1"
+  }
+ ],
+ "messages": [
+  {
+   "from": "kunde",
+   "to": "s1",
+   "name": "Anfrage"
+  },
+  {
+   "from": "t3",
+   "to": "kunde",
+   "name": "Angebot"
+  },
+  {
+   "from": "kunde",
+   "to": "e2",
+   "name": "Auftragsbestätigung"
+  },
+  {
+   "from": "t14",
+   "to": "kunde",
+   "name": "Lieferung",
+   "via": "custom",
+   "points": [
+    [
+     3235.0,
+     645.0
+    ],
+    [
+     3235.0,
+     170
+    ]
+   ]
+  }
+ ]
+}

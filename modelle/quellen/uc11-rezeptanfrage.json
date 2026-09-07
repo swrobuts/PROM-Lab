@@ -1,0 +1,27 @@
+{
+  "id": "uc11", "name": "Rezeptanfrage in der Apotheke",
+  "nodes": [
+    {"id": "s1", "type": "startEvent", "event": "message", "name": "Kunde legt Rezept vor", "col": 0, "row": 0},
+    {"id": "t1", "type": "task", "name": "Rezept auf Gültigkeit prüfen", "col": 1, "row": 0},
+    {"id": "g1", "type": "exclusiveGateway", "name": "Präparat vorrätig?", "col": 2, "row": 0, "labelPos": "top"},
+    {"id": "t2", "type": "task", "name": "Präparat aus dem Lager holen", "col": 3, "row": 0},
+    {"id": "t3", "type": "sendTask", "name": "Präparat beim Großhandel bestellen", "col": 3, "row": 1},
+    {"id": "e2", "type": "intermediateThrowEvent", "event": "message", "name": "Kunden über Abholtermin informieren", "col": 4, "row": 1},
+    {"id": "t4", "type": "task", "name": "Auf Lieferung warten", "col": 5, "row": 1},
+    {"id": "b1", "type": "boundaryEvent", "event": "timer", "name": "Nach 2 Tagen ohne Lieferung", "timer": "P2D", "attachedTo": "t4", "interrupting": false},
+    {"id": "t5", "type": "task", "name": "Lieferstatus beim Großhandel erfragen", "col": 6, "row": 2},
+    {"id": "e5", "type": "endEvent", "name": "Nachfrage erledigt", "col": 7, "row": 2},
+    {"id": "g2", "type": "exclusiveGateway", "col": 6, "row": 0},
+    {"id": "t6", "type": "task", "name": "Kunden beraten", "col": 7, "row": 0},
+    {"id": "t7", "type": "task", "name": "Präparat abgeben und abrechnen", "col": 8, "row": 0},
+    {"id": "e1", "type": "endEvent", "name": "Rezept eingelöst", "col": 9, "row": 0}
+  ],
+  "flows": [
+    {"from": "s1", "to": "t1"}, {"from": "t1", "to": "g1"},
+    {"from": "g1", "to": "t2", "name": "ja"}, {"from": "g1", "to": "t3", "name": "nein"},
+    {"from": "t3", "to": "e2"}, {"from": "e2", "to": "t4"},
+    {"from": "b1", "to": "t5"}, {"from": "t5", "to": "e5"},
+    {"from": "t2", "to": "g2"}, {"from": "t4", "to": "g2"},
+    {"from": "g2", "to": "t6"}, {"from": "t6", "to": "t7"}, {"from": "t7", "to": "e1"}
+  ]
+}

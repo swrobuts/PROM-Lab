@@ -1,0 +1,34 @@
+{
+  "id": "uc15", "name": "Instandhaltungsauftrag an einer Abfüllanlage",
+  "nodes": [
+    {"id": "s1", "type": "startEvent", "event": "message", "name": "Störmeldung eingegangen", "col": 0, "row": 0},
+    {"id": "d1", "type": "dataObjectReference", "name": "Störmeldung", "col": 0, "row": 0, "dy": -95, "labelPos": "right"},
+    {"id": "t1", "type": "task", "name": "Auftrag im Instandhaltungssystem anlegen", "col": 1, "row": 0, "dataIn": ["d1"], "dataOut": ["ds1"]},
+    {"id": "ds1", "type": "dataStoreReference", "name": "Instandhaltungssystem (CMMS)", "col": 1, "row": 0, "dy": 105},
+    {"id": "sp1", "type": "subProcess", "name": "Störung diagnostizieren", "col": 2, "row": 0,
+      "children": [
+        {"id": "c_s", "type": "startEvent", "col": 0, "row": 0},
+        {"id": "c_t1", "type": "task", "name": "Fehlerspeicher auslesen", "col": 1, "row": 0},
+        {"id": "c_t2", "type": "task", "name": "Anlage vor Ort inspizieren", "col": 2, "row": 0},
+        {"id": "c_t3", "type": "task", "name": "Ursache eingrenzen", "col": 3, "row": 0},
+        {"id": "c_e", "type": "endEvent", "col": 4, "row": 0}
+      ],
+      "childFlows": [
+        {"from": "c_s", "to": "c_t1"}, {"from": "c_t1", "to": "c_t2"}, {"from": "c_t2", "to": "c_t3"}, {"from": "c_t3", "to": "c_e"}
+      ]},
+    {"id": "g1", "type": "exclusiveGateway", "name": "Ersatzteil nötig?", "col": 7, "row": 0, "labelPos": "top"},
+    {"id": "t2", "type": "task", "name": "Ersatzteil aus Lager entnehmen", "col": 8, "row": 1},
+    {"id": "g2", "type": "exclusiveGateway", "col": 9, "row": 0},
+    {"id": "t3", "type": "task", "name": "Anlage instand setzen", "col": 10, "row": 0},
+    {"id": "t4", "type": "task", "name": "Probelauf durchführen", "col": 11, "row": 0},
+    {"id": "t5", "type": "task", "name": "Instandhaltungsbericht erstellen", "col": 12, "row": 0, "dataOut": ["d2"]},
+    {"id": "d2", "type": "dataObjectReference", "name": "Instandhaltungsbericht", "col": 12, "row": 0, "dy": -95, "labelPos": "right"},
+    {"id": "e1", "type": "endEvent", "name": "Anlage wieder verfügbar", "col": 13, "row": 0}
+  ],
+  "flows": [
+    {"from": "s1", "to": "t1"}, {"from": "t1", "to": "sp1"}, {"from": "sp1", "to": "g1"},
+    {"from": "g1", "to": "t2", "name": "ja"}, {"from": "g1", "to": "g2", "name": "nein"},
+    {"from": "t2", "to": "g2"}, {"from": "g2", "to": "t3"}, {"from": "t3", "to": "t4"},
+    {"from": "t4", "to": "t5"}, {"from": "t5", "to": "e1"}
+  ]
+}

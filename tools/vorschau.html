@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="de"><head><meta charset="utf-8"><title>BPMN-Vorschau (Entwicklung)</title>
+<script src="https://unpkg.com/bpmn-js@18.19.0/dist/bpmn-viewer.production.min.js"></script>
+<style>html,body{margin:0;height:100%;font-family:sans-serif}#c{width:100vw;height:calc(100vh - 34px)}#bar{height:34px;padding:6px 10px;box-sizing:border-box;background:#eee;font-size:13px}</style>
+</head><body>
+<div id="bar"><span id="name"></span> · <span id="status"></span></div>
+<div id="c"></div>
+<script>
+const f = new URLSearchParams(location.search).get('f') || '../modelle/uc01-kaffee.bpmn';
+document.getElementById('name').textContent = f;
+const v = new BpmnJS({ container: '#c' });
+fetch(f).then(r => r.text()).then(xml => v.importXML(xml)).then(r => {
+  document.getElementById('status').textContent = 'importiert, Warnungen: ' + (r.warnings||[]).length;
+  window.__warnings = r.warnings; setTimeout(()=>{try{v.get('canvas').zoom('fit-viewport');}catch(e){}},50);
+}).catch(e => { document.getElementById('status').textContent = 'FEHLER: ' + e.message; window.__error = e.message; });
+</script></body></html>

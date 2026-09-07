@@ -1,0 +1,16 @@
+{
+  "id": "uc02", "name": "Blutentnahme in der Hausarztpraxis",
+  "nodes": [
+    {"id": "s1", "type": "startEvent", "name": "Patient aufgerufen", "col": 0, "row": 0},
+    {"id": "t1", "type": "task", "name": "Identität prüfen", "col": 1, "row": 0},
+    {"id": "t2", "type": "task", "name": "Röhrchen etikettieren", "col": 2, "row": 0},
+    {"id": "t3", "type": "task", "name": "Blut entnehmen", "col": 3, "row": 0},
+    {"id": "t4", "type": "task", "name": "Einstichstelle versorgen", "col": 4, "row": 0},
+    {"id": "t5", "type": "task", "name": "Proben für Labor verpacken", "col": 5, "row": 0},
+    {"id": "e1", "type": "endEvent", "name": "Proben versandbereit", "col": 6, "row": 0}
+  ],
+  "flows": [
+    {"from": "s1", "to": "t1"}, {"from": "t1", "to": "t2"}, {"from": "t2", "to": "t3"},
+    {"from": "t3", "to": "t4"}, {"from": "t4", "to": "t5"}, {"from": "t5", "to": "e1"}
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "id": "uc13", "name": "Wareneingang im Logistikzentrum",
+  "pools": [
+    {"id": "spediteur", "name": "Spediteur", "blackbox": true, "rows": 1},
+    {"id": "logistik", "name": "Logistikzentrum", "lanes": [
+      {"id": "pforte", "name": "Pforte", "rows": 1},
+      {"id": "we", "name": "Wareneingang", "rows": 2},
+      {"id": "qs", "name": "Qualitätssicherung", "rows": 1}
+    ]}
+  ],
+  "nodes": [
+    {"id": "s1", "type": "startEvent", "event": "message", "name": "Lkw an der Pforte", "col": 0, "row": 1, "lane": "pforte"},
+    {"id": "t1", "type": "task", "name": "Lieferpapiere prüfen", "col": 1, "row": 1, "lane": "pforte"},
+    {"id": "t2", "type": "task", "name": "Rampe zuweisen", "col": 2, "row": 1, "lane": "pforte"},
+    {"id": "t3", "type": "task", "name": "Lkw entladen", "col": 3, "row": 2, "lane": "we"},
+    {"id": "t4", "type": "task", "name": "Lieferung mit Bestellung abgleichen", "col": 4, "row": 2, "lane": "we"},
+    {"id": "g1", "type": "exclusiveGateway", "name": "Abweichung?", "col": 5, "row": 2, "lane": "we", "labelPos": "top"},
+    {"id": "t5", "type": "sendTask", "name": "Abweichung an Einkauf melden", "col": 6, "row": 3, "lane": "we"},
+    {"id": "t6", "type": "task", "name": "Stichprobe prüfen", "col": 6, "row": 4, "lane": "qs"},
+    {"id": "g2", "type": "exclusiveGateway", "name": "Prüfung bestanden?", "col": 7, "row": 4, "lane": "qs", "labelPos": "top"},
+    {"id": "t7", "type": "task", "name": "Ware sperren", "col": 8, "row": 4, "lane": "qs"},
+    {"id": "e3", "type": "endEvent", "name": "Ware gesperrt", "col": 9, "row": 4, "lane": "qs"},
+    {"id": "g3", "type": "exclusiveGateway", "col": 8, "row": 2, "lane": "we"},
+    {"id": "t8", "type": "task", "name": "Ware einlagern", "col": 9, "row": 2, "lane": "we"},
+    {"id": "e1", "type": "endEvent", "name": "Ware verfügbar", "col": 10, "row": 2, "lane": "we"},
+    {"id": "e2", "type": "endEvent", "name": "Klärung angestoßen", "col": 7, "row": 3, "lane": "we"}
+  ],
+  "flows": [
+    {"from": "s1", "to": "t1"}, {"from": "t1", "to": "t2"}, {"from": "t2", "to": "t3"},
+    {"from": "t3", "to": "t4"}, {"from": "t4", "to": "g1"},
+    {"from": "g1", "to": "t5", "name": "ja"}, {"from": "t5", "to": "e2"},
+    {"from": "g1", "to": "t6", "name": "nein"},
+    {"from": "t6", "to": "g2"},
+    {"from": "g2", "to": "t7", "name": "nein"}, {"from": "t7", "to": "e3"},
+    {"from": "g2", "to": "g3", "name": "ja"},
+    {"from": "g3", "to": "t8"}, {"from": "t8", "to": "e1"}
+  ],
+  "messages": [
+    {"from": "spediteur", "to": "s1", "name": "Anmeldung mit Lieferschein"},
+    {"from": "t2", "to": "spediteur", "name": "Rampennummer"}
+  ]
+}

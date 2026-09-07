@@ -1,0 +1,280 @@
+{
+ "id": "uc12",
+ "name": "Tischreservierung im Restaurant",
+ "pools": [
+  {
+   "id": "gast",
+   "name": "Gast",
+   "rows": 2
+  },
+  {
+   "id": "restaurant",
+   "name": "Restaurant",
+   "lanes": [
+    {
+     "id": "service",
+     "name": "Service",
+     "rows": 2
+    },
+    {
+     "id": "kueche",
+     "name": "Küche",
+     "rows": 1
+    }
+   ]
+  }
+ ],
+ "nodes": [
+  {
+   "id": "gs",
+   "type": "startEvent",
+   "name": "Essenswunsch",
+   "col": 0,
+   "row": 0,
+   "pool": "gast"
+  },
+  {
+   "id": "gt1",
+   "type": "sendTask",
+   "name": "Reservierung anfragen",
+   "col": 1,
+   "row": 0,
+   "pool": "gast"
+  },
+  {
+   "id": "ge1",
+   "type": "intermediateCatchEvent",
+   "event": "message",
+   "name": "Antwort erhalten",
+   "col": 4,
+   "row": 0,
+   "pool": "gast"
+  },
+  {
+   "id": "gg1",
+   "type": "exclusiveGateway",
+   "name": "Tisch frei?",
+   "col": 5,
+   "row": 0,
+   "pool": "gast",
+   "labelPos": "top"
+  },
+  {
+   "id": "gt2",
+   "type": "task",
+   "name": "Restaurant besuchen",
+   "col": 7,
+   "row": 0,
+   "pool": "gast"
+  },
+  {
+   "id": "gend1",
+   "type": "endEvent",
+   "name": "Besuch erfolgt",
+   "col": 8,
+   "row": 0,
+   "pool": "gast"
+  },
+  {
+   "id": "gend2",
+   "type": "endEvent",
+   "name": "Alternative gesucht",
+   "col": 6,
+   "row": 1,
+   "pool": "gast"
+  },
+  {
+   "id": "rs",
+   "type": "startEvent",
+   "event": "message",
+   "name": "Anfrage eingegangen",
+   "col": 1,
+   "row": 2,
+   "pool": "restaurant",
+   "lane": "service"
+  },
+  {
+   "id": "rt1",
+   "type": "task",
+   "name": "Belegung prüfen",
+   "col": 2,
+   "row": 2,
+   "pool": "restaurant",
+   "lane": "service"
+  },
+  {
+   "id": "rg1",
+   "type": "exclusiveGateway",
+   "name": "Tisch frei?",
+   "col": 3,
+   "row": 2,
+   "pool": "restaurant",
+   "lane": "service",
+   "labelPos": "top"
+  },
+  {
+   "id": "rt2",
+   "type": "sendTask",
+   "name": "Reservierung bestätigen",
+   "col": 4,
+   "row": 2,
+   "pool": "restaurant",
+   "lane": "service"
+  },
+  {
+   "id": "rt3",
+   "type": "sendTask",
+   "name": "Absage senden",
+   "col": 4,
+   "row": 3,
+   "pool": "restaurant",
+   "lane": "service"
+  },
+  {
+   "id": "rend2",
+   "type": "endEvent",
+   "name": "Anfrage abgelehnt",
+   "col": 5,
+   "row": 3,
+   "pool": "restaurant",
+   "lane": "service"
+  },
+  {
+   "id": "rt4",
+   "type": "task",
+   "name": "Tisch eindecken",
+   "col": 6,
+   "row": 2,
+   "pool": "restaurant",
+   "lane": "service"
+  },
+  {
+   "id": "kt1",
+   "type": "task",
+   "name": "Reservierung in Tagesplanung aufnehmen",
+   "col": 5,
+   "row": 4,
+   "pool": "restaurant",
+   "lane": "kueche"
+  },
+  {
+   "id": "rpg1",
+   "type": "parallelGateway",
+   "col": 5,
+   "row": 2,
+   "pool": "restaurant",
+   "lane": "service"
+  },
+  {
+   "id": "rpg2",
+   "type": "parallelGateway",
+   "col": 7,
+   "row": 2,
+   "pool": "restaurant",
+   "lane": "service"
+  },
+  {
+   "id": "rend1",
+   "type": "endEvent",
+   "name": "Gast empfangen",
+   "col": 8,
+   "row": 2,
+   "pool": "restaurant",
+   "lane": "service"
+  }
+ ],
+ "flows": [
+  {
+   "from": "gs",
+   "to": "gt1"
+  },
+  {
+   "from": "gt1",
+   "to": "ge1"
+  },
+  {
+   "from": "ge1",
+   "to": "gg1"
+  },
+  {
+   "from": "gg1",
+   "to": "gt2",
+   "name": "bestätigt"
+  },
+  {
+   "from": "gg1",
+   "to": "gend2",
+   "name": "abgelehnt"
+  },
+  {
+   "from": "gt2",
+   "to": "gend1"
+  },
+  {
+   "from": "rs",
+   "to": "rt1"
+  },
+  {
+   "from": "rt1",
+   "to": "rg1"
+  },
+  {
+   "from": "rg1",
+   "to": "rt2",
+   "name": "ja"
+  },
+  {
+   "from": "rg1",
+   "to": "rt3",
+   "name": "nein"
+  },
+  {
+   "from": "rt3",
+   "to": "rend2"
+  },
+  {
+   "from": "rt2",
+   "to": "rpg1"
+  },
+  {
+   "from": "rpg1",
+   "to": "rt4"
+  },
+  {
+   "from": "rpg1",
+   "to": "kt1"
+  },
+  {
+   "from": "rt4",
+   "to": "rpg2"
+  },
+  {
+   "from": "kt1",
+   "to": "rpg2"
+  },
+  {
+   "from": "rpg2",
+   "to": "rend1"
+  }
+ ],
+ "messages": [
+  {
+   "from": "gt1",
+   "to": "rs",
+   "name": "Reservierungsanfrage"
+  },
+  {
+   "from": "rt2",
+   "to": "ge1",
+   "name": "Bestätigung",
+   "tx": -8
+  },
+  {
+   "from": "rt3",
+   "to": "ge1",
+   "name": "Absage",
+   "sx": 70,
+   "tx": 8
+  }
+ ]
+}

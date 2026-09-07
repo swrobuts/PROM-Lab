@@ -1,0 +1,181 @@
+{
+ "id": "uc18f",
+ "name": "Gästereklamation im Restaurant (fehlerhaft)",
+ "absichtlichFehlerhaft": true,
+ "pools": [
+  {
+   "id": "gast",
+   "name": "Gast",
+   "rows": 1
+  },
+  {
+   "id": "rest",
+   "name": "Restaurant",
+   "lanes": [
+    {
+     "id": "service",
+     "name": "Service",
+     "rows": 2
+    },
+    {
+     "id": "kueche",
+     "name": "Küche",
+     "rows": 1
+    }
+   ]
+  }
+ ],
+ "nodes": [
+  {
+   "id": "gs",
+   "type": "startEvent",
+   "name": "Essen kalt",
+   "col": 0,
+   "row": 0,
+   "pool": "gast"
+  },
+  {
+   "id": "gt1",
+   "type": "task",
+   "name": "Reklamation",
+   "col": 1,
+   "row": 0,
+   "pool": "gast"
+  },
+  {
+   "id": "ge",
+   "type": "endEvent",
+   "col": 7,
+   "row": 0,
+   "pool": "gast"
+  },
+  {
+   "id": "rs",
+   "type": "startEvent",
+   "col": 1,
+   "row": 1,
+   "lane": "service"
+  },
+  {
+   "id": "rt1",
+   "type": "task",
+   "name": "Wird geprüft",
+   "col": 2,
+   "row": 1,
+   "lane": "service"
+  },
+  {
+   "id": "rg1",
+   "type": "exclusiveGateway",
+   "col": 3,
+   "row": 1,
+   "lane": "service"
+  },
+  {
+   "id": "rt2",
+   "type": "task",
+   "name": "Gericht neu zubereiten",
+   "col": 4,
+   "row": 3,
+   "lane": "kueche"
+  },
+  {
+   "id": "rt3",
+   "type": "task",
+   "name": "Gutschein ausstellen",
+   "col": 4,
+   "row": 2,
+   "lane": "service"
+  },
+  {
+   "id": "rt4",
+   "type": "task",
+   "name": "Gast beruhigen",
+   "col": 4,
+   "row": 1,
+   "lane": "service"
+  },
+  {
+   "id": "rg2",
+   "type": "parallelGateway",
+   "col": 5,
+   "row": 1,
+   "lane": "service"
+  },
+  {
+   "id": "rt5",
+   "type": "task",
+   "name": "Gericht servieren",
+   "col": 6,
+   "row": 1,
+   "lane": "service"
+  },
+  {
+   "id": "re",
+   "type": "endEvent",
+   "name": "Gast zufrieden",
+   "col": 7,
+   "row": 1,
+   "lane": "service"
+  }
+ ],
+ "flows": [
+  {
+   "from": "gs",
+   "to": "gt1"
+  },
+  {
+   "from": "gt1",
+   "to": "rs"
+  },
+  {
+   "from": "rs",
+   "to": "rt1"
+  },
+  {
+   "from": "rt1",
+   "to": "rg1"
+  },
+  {
+   "from": "rg1",
+   "to": "rt4"
+  },
+  {
+   "from": "rg1",
+   "to": "rt3"
+  },
+  {
+   "from": "rg1",
+   "to": "rt2"
+  },
+  {
+   "from": "rt4",
+   "to": "rg2"
+  },
+  {
+   "from": "rt2",
+   "to": "rg2"
+  },
+  {
+   "from": "rg2",
+   "to": "rt5"
+  },
+  {
+   "from": "rt5",
+   "to": "re"
+  },
+  {
+   "from": "rt5",
+   "to": "ge"
+  }
+ ],
+ "messages": [
+  {
+   "from": "rt4",
+   "to": "rt2",
+   "name": "Nachricht an Küche",
+   "sx": 50,
+   "tx": 50
+  }
+ ]
+}

@@ -1,0 +1,22 @@
+{
+  "id": "uc17", "name": "Ärztliche Visite auf der Station",
+  "nodes": [
+    {"id": "s1", "type": "startEvent", "event": "timer", "name": "Täglich 8:00 Uhr", "timer": "R/PT24H", "col": 0, "row": 0},
+    {"id": "t1", "type": "task", "name": "Patientenliste der Station abrufen", "col": 1, "row": 0, "dataIn": ["ds1"]},
+    {"id": "ds1", "type": "dataStoreReference", "name": "Krankenhausinformationssystem", "col": 1, "row": 0, "dy": 100},
+    {"id": "sp1", "type": "subProcess", "name": "Patient visitieren", "col": 2, "row": 0, "loop": "sequential", "w": 130,
+      "doc": "Sequenzielle Mehrfachinstanz: je Patient auf der Liste ein Durchlauf, nacheinander."},
+    {"id": "t2", "type": "task", "name": "Befund in Patientenkurve eintragen", "col": 3, "row": 0, "dataOut": ["d1"]},
+    {"id": "d1", "type": "dataObjectReference", "name": "Patientenkurve", "col": 3, "row": 0, "dy": -95, "labelPos": "right"},
+    {"id": "g1", "type": "exclusiveGateway", "name": "Medikation ändern?", "col": 4, "row": 0, "labelPos": "top"},
+    {"id": "ca1", "type": "callActivity", "name": "Medikation anpassen", "col": 5, "row": 1, "calledElement": "Process_medikation", "doc": "Aufrufaktivität: verweist auf den eigenständigen Prozess „Medikation anpassen“, der auch aus der Notaufnahme aufgerufen wird."},
+    {"id": "g2", "type": "exclusiveGateway", "col": 6, "row": 0},
+    {"id": "t3", "type": "task", "name": "Visite mit Pflege nachbesprechen", "col": 7, "row": 0},
+    {"id": "e1", "type": "endEvent", "name": "Visite abgeschlossen", "col": 8, "row": 0}
+  ],
+  "flows": [
+    {"from": "s1", "to": "t1"}, {"from": "t1", "to": "sp1"}, {"from": "sp1", "to": "t2"}, {"from": "t2", "to": "g1"},
+    {"from": "g1", "to": "ca1", "name": "ja"}, {"from": "g1", "to": "g2", "name": "nein"},
+    {"from": "ca1", "to": "g2"}, {"from": "g2", "to": "t3"}, {"from": "t3", "to": "e1"}
+  ]
+}

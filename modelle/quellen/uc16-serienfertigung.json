@@ -1,0 +1,23 @@
+{
+  "id": "uc16", "name": "Qualitätsprüfung je Fertigungslos",
+  "nodes": [
+    {"id": "s1", "type": "startEvent", "name": "Los aus der Fertigung gemeldet", "col": 0, "row": 0},
+    {"id": "t1", "type": "task", "name": "Prüfplan aus MES laden", "col": 1, "row": 0, "dataIn": ["ds1"]},
+    {"id": "ds1", "type": "dataStoreReference", "name": "MES", "col": 1, "row": 0, "dy": 100},
+    {"id": "t2", "type": "task", "name": "Stichprobenteil prüfen", "col": 2, "row": 0, "loop": "parallel", "doc": "Mehrfachinstanz: je Teil der Stichprobe eine Instanz, parallel ausführbar."},
+    {"id": "t3", "type": "task", "name": "Prüfergebnisse auswerten", "col": 3, "row": 0},
+    {"id": "g1", "type": "exclusiveGateway", "name": "Los in Ordnung?", "col": 4, "row": 0, "labelPos": "top"},
+    {"id": "t4", "type": "task", "name": "Los nacharbeiten", "col": 5, "row": 1, "loop": "standard", "doc": "Schleife: wiederholen, bis die Nachprüfung besteht."},
+    {"id": "t5", "type": "task", "name": "Nachprüfung durchführen", "col": 6, "row": 1},
+    {"id": "sp1", "type": "subProcess", "name": "Los verpacken und etikettieren", "col": 5, "row": 0},
+    {"id": "t6", "type": "task", "name": "Los für Versand freigeben", "col": 7, "row": 0, "dataOut": ["d1"]},
+    {"id": "d1", "type": "dataObjectReference", "name": "Freigabeprotokoll", "col": 7, "row": 0, "dy": -95, "labelPos": "right"},
+    {"id": "e1", "type": "endEvent", "name": "Los freigegeben", "col": 8, "row": 0}
+  ],
+  "flows": [
+    {"from": "s1", "to": "t1"}, {"from": "t1", "to": "t2"}, {"from": "t2", "to": "t3"}, {"from": "t3", "to": "g1"},
+    {"from": "g1", "to": "sp1", "name": "ja"}, {"from": "g1", "to": "t4", "name": "nein"},
+    {"from": "t4", "to": "t5"}, {"from": "t5", "to": "sp1"},
+    {"from": "sp1", "to": "t6"}, {"from": "t6", "to": "e1"}
+  ]
+}

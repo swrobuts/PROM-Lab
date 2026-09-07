@@ -1,0 +1,270 @@
+{
+ "id": "uc19",
+ "name": "Bestellung von Laborbedarf (Ist-Prozess mit Schwachstellen)",
+ "pools": [
+  {
+   "id": "klinik",
+   "name": "Klinikum",
+   "lanes": [
+    {
+     "id": "station",
+     "name": "Station",
+     "rows": 2
+    },
+    {
+     "id": "einkauf",
+     "name": "Einkauf",
+     "rows": 2
+    },
+    {
+     "id": "verwaltung",
+     "name": "Verwaltungsleitung",
+     "rows": 1
+    }
+   ]
+  }
+ ],
+ "nodes": [
+  {
+   "id": "s1",
+   "type": "startEvent",
+   "name": "Laborbedarf festgestellt",
+   "col": 0,
+   "row": 0,
+   "lane": "station"
+  },
+  {
+   "id": "t1",
+   "type": "task",
+   "name": "Bestellformular ausfüllen",
+   "col": 1,
+   "row": 0,
+   "lane": "station",
+   "dataOut": [
+    "d1"
+   ]
+  },
+  {
+   "id": "d1",
+   "type": "dataObjectReference",
+   "name": "Bestellformular (Papier)",
+   "col": 1,
+   "row": 1,
+   "dy": 0,
+   "labelPos": "right"
+  },
+  {
+   "id": "t2",
+   "type": "task",
+   "name": "Formular per Hauspost senden",
+   "col": 2,
+   "row": 0,
+   "lane": "station"
+  },
+  {
+   "id": "t3",
+   "type": "task",
+   "name": "Formular ins Bestellsystem abtippen",
+   "col": 3,
+   "row": 2,
+   "lane": "einkauf",
+   "dataOut": [
+    "d2"
+   ]
+  },
+  {
+   "id": "d2",
+   "type": "dataObjectReference",
+   "name": "Bestellung (Datensatz)",
+   "col": 3,
+   "row": 3,
+   "labelPos": "right"
+  },
+  {
+   "id": "t4",
+   "type": "task",
+   "name": "Artikelnummern prüfen",
+   "col": 4,
+   "row": 2,
+   "lane": "einkauf"
+  },
+  {
+   "id": "t5",
+   "type": "task",
+   "name": "Bestellung zur Bestätigung an Station senden",
+   "col": 5,
+   "row": 2,
+   "lane": "einkauf"
+  },
+  {
+   "id": "t6",
+   "type": "task",
+   "name": "Bestellung nochmals prüfen",
+   "col": 6,
+   "row": 0,
+   "lane": "station"
+  },
+  {
+   "id": "t7",
+   "type": "task",
+   "name": "Bestätigung an Einkauf zurückschicken",
+   "col": 7,
+   "row": 0,
+   "lane": "station"
+  },
+  {
+   "id": "g1",
+   "type": "exclusiveGateway",
+   "name": "Bestellwert über 500 €?",
+   "col": 8,
+   "row": 2,
+   "lane": "einkauf",
+   "labelPos": "top"
+  },
+  {
+   "id": "t8",
+   "type": "task",
+   "name": "Freigabe anfordern",
+   "col": 9,
+   "row": 2,
+   "lane": "einkauf"
+  },
+  {
+   "id": "t9",
+   "type": "task",
+   "name": "Bestellung freigeben oder ablehnen",
+   "col": 10,
+   "row": 4,
+   "lane": "verwaltung"
+  },
+  {
+   "id": "e2",
+   "type": "intermediateCatchEvent",
+   "event": "timer",
+   "name": "Wöchentliche Freigaberunde",
+   "col": 10,
+   "row": 2,
+   "lane": "einkauf",
+   "timer": "P7D"
+  },
+  {
+   "id": "g2",
+   "type": "exclusiveGateway",
+   "name": "Freigabe erteilt?",
+   "col": 11,
+   "row": 2,
+   "lane": "einkauf",
+   "labelPos": "top"
+  },
+  {
+   "id": "t10",
+   "type": "task",
+   "name": "Station um Korrektur bitten",
+   "col": 12,
+   "row": 3,
+   "lane": "einkauf"
+  },
+  {
+   "id": "g3",
+   "type": "exclusiveGateway",
+   "col": 13,
+   "row": 2,
+   "lane": "einkauf"
+  },
+  {
+   "id": "t11",
+   "type": "task",
+   "name": "Bestellung an Lieferanten senden",
+   "col": 14,
+   "row": 2,
+   "lane": "einkauf"
+  },
+  {
+   "id": "e1",
+   "type": "endEvent",
+   "name": "Bestellung ausgelöst",
+   "col": 15,
+   "row": 2,
+   "lane": "einkauf"
+  }
+ ],
+ "flows": [
+  {
+   "from": "s1",
+   "to": "t1"
+  },
+  {
+   "from": "t1",
+   "to": "t2"
+  },
+  {
+   "from": "t2",
+   "to": "t3"
+  },
+  {
+   "from": "t3",
+   "to": "t4"
+  },
+  {
+   "from": "t4",
+   "to": "t5"
+  },
+  {
+   "from": "t5",
+   "to": "t6"
+  },
+  {
+   "from": "t6",
+   "to": "t7"
+  },
+  {
+   "from": "t7",
+   "to": "g1"
+  },
+  {
+   "from": "g1",
+   "to": "t8",
+   "name": "ja"
+  },
+  {
+   "from": "g1",
+   "to": "g3",
+   "name": "nein"
+  },
+  {
+   "from": "t8",
+   "to": "e2"
+  },
+  {
+   "from": "e2",
+   "to": "t9"
+  },
+  {
+   "from": "t9",
+   "to": "g2"
+  },
+  {
+   "from": "g2",
+   "to": "g3",
+   "name": "ja"
+  },
+  {
+   "from": "g2",
+   "to": "t10",
+   "name": "nein"
+  },
+  {
+   "from": "t10",
+   "to": "t1",
+   "via": "left"
+  },
+  {
+   "from": "g3",
+   "to": "t11"
+  },
+  {
+   "from": "t11",
+   "to": "e1"
+  }
+ ]
+}

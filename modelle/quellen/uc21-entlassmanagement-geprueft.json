@@ -1,0 +1,423 @@
+{
+ "id": "uc21",
+ "name": "Entlassmanagement im Krankenhaus (geprüfte Fassung)",
+ "pools": [
+  {
+   "id": "sani",
+   "name": "Sanitätshaus",
+   "blackbox": true,
+   "rows": 1
+  },
+  {
+   "id": "kh",
+   "name": "Krankenhaus",
+   "lanes": [
+    {
+     "id": "arzt",
+     "name": "Stationsärztin",
+     "rows": 1
+    },
+    {
+     "id": "pflege",
+     "name": "Pflege",
+     "rows": 1
+    },
+    {
+     "id": "sozial",
+     "name": "Sozialdienst",
+     "rows": 2
+    },
+    {
+     "id": "abrechnung",
+     "name": "Abrechnung",
+     "rows": 1
+    }
+   ]
+  },
+  {
+   "id": "patient",
+   "name": "Patient",
+   "blackbox": true,
+   "rows": 1
+  },
+  {
+   "id": "hausarzt",
+   "name": "Hausarzt",
+   "blackbox": true,
+   "rows": 1
+  },
+  {
+   "id": "kasse",
+   "name": "Krankenkasse",
+   "blackbox": true,
+   "rows": 1
+  }
+ ],
+ "nodes": [
+  {
+   "id": "s1",
+   "type": "startEvent",
+   "name": "Entlassfähigkeit bei Visite festgestellt",
+   "col": 0,
+   "row": 1,
+   "lane": "arzt"
+  },
+  {
+   "id": "g0",
+   "type": "exclusiveGateway",
+   "name": "Patient transportfähig?",
+   "col": 1,
+   "row": 1,
+   "lane": "arzt",
+   "labelPos": "top"
+  },
+  {
+   "id": "t0",
+   "type": "task",
+   "name": "Entlassung um einen Tag verschieben",
+   "col": 2,
+   "row": 2,
+   "lane": "pflege"
+  },
+  {
+   "id": "e0",
+   "type": "endEvent",
+   "name": "Entlassung verschoben",
+   "col": 3,
+   "row": 2,
+   "lane": "pflege",
+   "doc": "Die Visite am Folgetag löst eine neue Instanz dieses Prozesses aus."
+  },
+  {
+   "id": "g1",
+   "type": "parallelGateway",
+   "col": 2,
+   "row": 1,
+   "lane": "arzt"
+  },
+  {
+   "id": "t1",
+   "type": "task",
+   "name": "Entlassbrief erstellen",
+   "col": 3,
+   "row": 1,
+   "lane": "arzt"
+  },
+  {
+   "id": "t2",
+   "type": "task",
+   "name": "Hilfsmittelbedarf prüfen",
+   "col": 3,
+   "row": 3,
+   "lane": "sozial"
+  },
+  {
+   "id": "g2",
+   "type": "exclusiveGateway",
+   "name": "Hilfsmittel nötig?",
+   "col": 4,
+   "row": 3,
+   "lane": "sozial",
+   "labelPos": "top"
+  },
+  {
+   "id": "t3",
+   "type": "sendTask",
+   "name": "Hilfsmittel beim Sanitätshaus bestellen",
+   "col": 5,
+   "row": 4,
+   "lane": "sozial"
+  },
+  {
+   "id": "g3",
+   "type": "eventBasedGateway",
+   "col": 6,
+   "row": 4,
+   "lane": "sozial"
+  },
+  {
+   "id": "e2",
+   "type": "intermediateCatchEvent",
+   "event": "message",
+   "name": "Lieferbestätigung eingegangen",
+   "col": 7,
+   "row": 3,
+   "lane": "sozial"
+  },
+  {
+   "id": "e3",
+   "type": "intermediateCatchEvent",
+   "event": "timer",
+   "name": "24 Stunden verstrichen",
+   "timer": "PT24H",
+   "col": 7,
+   "row": 4,
+   "lane": "sozial"
+  },
+  {
+   "id": "t4",
+   "type": "task",
+   "name": "Beim Sanitätshaus telefonisch nachfassen",
+   "col": 8,
+   "row": 4,
+   "lane": "sozial"
+  },
+  {
+   "id": "g4",
+   "type": "exclusiveGateway",
+   "col": 9,
+   "row": 3,
+   "lane": "sozial"
+  },
+  {
+   "id": "g5",
+   "type": "parallelGateway",
+   "col": 10,
+   "row": 1,
+   "lane": "arzt"
+  },
+  {
+   "id": "t5",
+   "type": "task",
+   "name": "Entlassgespräch führen",
+   "col": 11,
+   "row": 1,
+   "lane": "arzt"
+  },
+  {
+   "id": "t6",
+   "type": "sendTask",
+   "name": "Entlassbrief und Medikationsplan übergeben",
+   "col": 12,
+   "row": 1,
+   "lane": "arzt"
+  },
+  {
+   "id": "g6",
+   "type": "parallelGateway",
+   "col": 13,
+   "row": 1,
+   "lane": "arzt"
+  },
+  {
+   "id": "t7",
+   "type": "sendTask",
+   "name": "Entlassbrief elektronisch an Hausarzt senden",
+   "col": 14,
+   "row": 1,
+   "lane": "arzt"
+  },
+  {
+   "id": "t8",
+   "type": "sendTask",
+   "name": "Fall an Krankenkasse melden",
+   "col": 14,
+   "row": 5,
+   "lane": "abrechnung"
+  },
+  {
+   "id": "g7",
+   "type": "parallelGateway",
+   "col": 15,
+   "row": 1,
+   "lane": "arzt"
+  },
+  {
+   "id": "e1",
+   "type": "endEvent",
+   "name": "Patient entlassen",
+   "col": 16,
+   "row": 1,
+   "lane": "arzt"
+  }
+ ],
+ "flows": [
+  {
+   "from": "s1",
+   "to": "g0"
+  },
+  {
+   "from": "g0",
+   "to": "t0",
+   "name": "nein"
+  },
+  {
+   "from": "t0",
+   "to": "e0"
+  },
+  {
+   "from": "g0",
+   "to": "g1",
+   "name": "ja"
+  },
+  {
+   "from": "g1",
+   "to": "t1"
+  },
+  {
+   "from": "g1",
+   "to": "t2"
+  },
+  {
+   "from": "t2",
+   "to": "g2"
+  },
+  {
+   "from": "g2",
+   "to": "t3",
+   "name": "ja"
+  },
+  {
+   "from": "g2",
+   "to": "g4",
+   "name": "nein"
+  },
+  {
+   "from": "t3",
+   "to": "g3"
+  },
+  {
+   "from": "g3",
+   "to": "e2"
+  },
+  {
+   "from": "g3",
+   "to": "e3"
+  },
+  {
+   "from": "e3",
+   "to": "t4"
+  },
+  {
+   "from": "t4",
+   "to": "g3",
+   "via": "bottom"
+  },
+  {
+   "from": "e2",
+   "to": "g4"
+  },
+  {
+   "from": "t1",
+   "to": "g5"
+  },
+  {
+   "from": "g4",
+   "to": "g5"
+  },
+  {
+   "from": "g5",
+   "to": "t5"
+  },
+  {
+   "from": "t5",
+   "to": "t6"
+  },
+  {
+   "from": "t6",
+   "to": "g6"
+  },
+  {
+   "from": "g6",
+   "to": "t7"
+  },
+  {
+   "from": "g6",
+   "to": "t8"
+  },
+  {
+   "from": "t7",
+   "to": "g7"
+  },
+  {
+   "from": "t8",
+   "to": "g7"
+  },
+  {
+   "from": "g7",
+   "to": "e1"
+  }
+ ],
+ "messages": [
+  {
+   "from": "t3",
+   "to": "sani",
+   "name": "Bestellung",
+   "via": "custom",
+   "points": [
+    [
+     1145.0,
+     645.0
+    ],
+    [
+     1145.0,
+     170
+    ]
+   ]
+  },
+  {
+   "from": "sani",
+   "to": "e2",
+   "name": "Lieferbestätigung",
+   "via": "custom",
+   "points": [
+    [
+     1525.0,
+     170
+    ],
+    [
+     1525.0,
+     537.0
+    ]
+   ]
+  },
+  {
+   "from": "t6",
+   "to": "patient",
+   "name": "Entlassbrief, Medikationsplan",
+   "via": "custom",
+   "points": [
+    [
+     2475.0,
+     335.0
+    ],
+    [
+     2475.0,
+     940
+    ]
+   ]
+  },
+  {
+   "from": "t7",
+   "to": "hausarzt",
+   "name": "Entlassbrief (elektronisch)",
+   "via": "custom",
+   "points": [
+    [
+     2855.0,
+     335.0
+    ],
+    [
+     2855.0,
+     1130
+    ]
+   ]
+  },
+  {
+   "from": "t8",
+   "to": "kasse",
+   "name": "Fallmeldung",
+   "via": "custom",
+   "points": [
+    [
+     2855.0,
+     855.0
+    ],
+    [
+     2855.0,
+     1320
+    ]
+   ]
+  }
+ ]
+}

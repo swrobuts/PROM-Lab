@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_uc16" targetNamespace="https://thws.de/prom-lab" exporter="PROM-Lab gen_bpmn.py" exporterVersion="1.0">
+  <bpmn:process id="Process_uc16" name="Qualitätsprüfung je Fertigungslos" isExecutable="false">
+    <bpmn:startEvent id="s1" name="Los aus der Fertigung gemeldet">
+      <bpmn:outgoing>Flow_s1_t1</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:task id="t1" name="Prüfplan aus MES laden">
+      <bpmn:incoming>Flow_s1_t1</bpmn:incoming>
+      <bpmn:outgoing>Flow_t1_t2</bpmn:outgoing>
+      <bpmn:property id="t1_prop0" name="__targetRef_placeholder" />
+      <bpmn:dataInputAssociation id="t1_din0">
+        <bpmn:sourceRef>ds1</bpmn:sourceRef>
+        <bpmn:targetRef>t1_prop0</bpmn:targetRef>
+      </bpmn:dataInputAssociation>
+    </bpmn:task>
+    <bpmn:dataStoreReference id="ds1" name="MES" />
+    <bpmn:task id="t2" name="Stichprobenteil prüfen">
+      <bpmn:documentation>Mehrfachinstanz: je Teil der Stichprobe eine Instanz, parallel ausführbar.</bpmn:documentation>
+      <bpmn:incoming>Flow_t1_t2</bpmn:incoming>
+      <bpmn:outgoing>Flow_t2_t3</bpmn:outgoing>
+      <bpmn:multiInstanceLoopCharacteristics />
+    </bpmn:task>
+    <bpmn:task id="t3" name="Prüfergebnisse auswerten">
+      <bpmn:incoming>Flow_t2_t3</bpmn:incoming>
+      <bpmn:outgoing>Flow_t3_g1</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:exclusiveGateway id="g1" name="Los in Ordnung?">
+      <bpmn:incoming>Flow_t3_g1</bpmn:incoming>
+      <bpmn:outgoing>Flow_g1_sp1</bpmn:outgoing>
+      <bpmn:outgoing>Flow_g1_t4</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:task id="t4" name="Los nacharbeiten">
+      <bpmn:documentation>Schleife: wiederholen, bis die Nachprüfung besteht.</bpmn:documentation>
+      <bpmn:incoming>Flow_g1_t4</bpmn:incoming>
+      <bpmn:outgoing>Flow_t4_t5</bpmn:outgoing>
+      <bpmn:standardLoopCharacteristics />
+    </bpmn:task>
+    <bpmn:task id="t5" name="Nachprüfung durchführen">
+      <bpmn:incoming>Flow_t4_t5</bpmn:incoming>
+      <bpmn:outgoing>Flow_t5_sp1</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:subProcess id="sp1" name="Los verpacken und etikettieren">
+      <bpmn:incoming>Flow_g1_sp1</bpmn:incoming>
+      <bpmn:incoming>Flow_t5_sp1</bpmn:incoming>
+      <bpmn:outgoing>Flow_sp1_t6</bpmn:outgoing>
+    </bpmn:subProcess>
+    <bpmn:task id="t6" name="Los für Versand freigeben">
+      <bpmn:incoming>Flow_sp1_t6</bpmn:incoming>
+      <bpmn:outgoing>Flow_t6_e1</bpmn:outgoing>
+      <bpmn:dataOutputAssociation id="t6_dout0">
+        <bpmn:targetRef>d1</bpmn:targetRef>
+      </bpmn:dataOutputAssociation>
+    </bpmn:task>
+    <bpmn:dataObjectReference id="d1" name="Freigabeprotokoll" dataObjectRef="d1_do" />
+    <bpmn:dataObject id="d1_do" />
+    <bpmn:endEvent id="e1" name="Los freigegeben">
+      <bpmn:incoming>Flow_t6_e1</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_s1_t1" sourceRef="s1" targetRef="t1" />
+    <bpmn:sequenceFlow id="Flow_t1_t2" sourceRef="t1" targetRef="t2" />
+    <bpmn:sequenceFlow id="Flow_t2_t3" sourceRef="t2" targetRef="t3" />
+    <bpmn:sequenceFlow id="Flow_t3_g1" sourceRef="t3" targetRef="g1" />
+    <bpmn:sequenceFlow id="Flow_g1_sp1" name="ja" sourceRef="g1" targetRef="sp1" />
+    <bpmn:sequenceFlow id="Flow_g1_t4" name="nein" sourceRef="g1" targetRef="t4" />
+    <bpmn:sequenceFlow id="Flow_t4_t5" sourceRef="t4" targetRef="t5" />
+    <bpmn:sequenceFlow id="Flow_t5_sp1" sourceRef="t5" targetRef="sp1" />
+    <bpmn:sequenceFlow id="Flow_sp1_t6" sourceRef="sp1" targetRef="t6" />
+    <bpmn:sequenceFlow id="Flow_t6_e1" sourceRef="t6" targetRef="e1" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="Diagram_uc16">
+    <bpmndi:BPMNPlane id="Plane_uc16" bpmnElement="Process_uc16">
+      <bpmndi:BPMNShape id="s1_di" bpmnElement="s1">
+        <dc:Bounds x="177" y="87" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="120" y="129" width="150" height="28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="t1_di" bpmnElement="t1">
+        <dc:Bounds x="325" y="65" width="120" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ds1_di" bpmnElement="ds1">
+        <dc:Bounds x="360" y="180" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="355" y="236" width="60" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="t2_di" bpmnElement="t2">
+        <dc:Bounds x="515" y="65" width="120" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="t3_di" bpmnElement="t3">
+        <dc:Bounds x="705" y="65" width="120" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="g1_di" bpmnElement="g1" isMarkerVisible="true">
+        <dc:Bounds x="930" y="80" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="907" y="60" width="96" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="t4_di" bpmnElement="t4">
+        <dc:Bounds x="1085" y="195" width="120" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="t5_di" bpmnElement="t5">
+        <dc:Bounds x="1275" y="195" width="120" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="sp1_di" bpmnElement="sp1" isExpanded="false">
+        <dc:Bounds x="1085" y="65" width="120" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="t6_di" bpmnElement="t6">
+        <dc:Bounds x="1465" y="65" width="120" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="d1_di" bpmnElement="d1">
+        <dc:Bounds x="1507" y="-15" width="36" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1549" y="3" width="109" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="e1_di" bpmnElement="e1">
+        <dc:Bounds x="1697" y="87" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1667" y="129" width="96" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_s1_t1_di" bpmnElement="Flow_s1_t1">
+        <di:waypoint x="213" y="105" />
+        <di:waypoint x="325" y="105" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_t1_t2_di" bpmnElement="Flow_t1_t2">
+        <di:waypoint x="445" y="105" />
+        <di:waypoint x="515" y="105" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_t2_t3_di" bpmnElement="Flow_t2_t3">
+        <di:waypoint x="635" y="105" />
+        <di:waypoint x="705" y="105" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_t3_g1_di" bpmnElement="Flow_t3_g1">
+        <di:waypoint x="825" y="105" />
+        <di:waypoint x="930" y="105" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_g1_sp1_di" bpmnElement="Flow_g1_sp1">
+        <di:waypoint x="980" y="105" />
+        <di:waypoint x="1085" y="105" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1012" y="85" width="40" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_g1_t4_di" bpmnElement="Flow_g1_t4">
+        <di:waypoint x="955" y="130" />
+        <di:waypoint x="955" y="235" />
+        <di:waypoint x="1085" y="235" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="961" y="176" width="40" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_t4_t5_di" bpmnElement="Flow_t4_t5">
+        <di:waypoint x="1205" y="235" />
+        <di:waypoint x="1275" y="235" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_t5_sp1_di" bpmnElement="Flow_t5_sp1">
+        <di:waypoint x="1335" y="275" />
+        <di:waypoint x="1335" y="315" />
+        <di:waypoint x="1145" y="315" />
+        <di:waypoint x="1145" y="145" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_sp1_t6_di" bpmnElement="Flow_sp1_t6">
+        <di:waypoint x="1205" y="105" />
+        <di:waypoint x="1465" y="105" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_t6_e1_di" bpmnElement="Flow_t6_e1">
+        <di:waypoint x="1585" y="105" />
+        <di:waypoint x="1697" y="105" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="t1_din0_di" bpmnElement="t1_din0">
+        <di:waypoint x="385" y="180" />
+        <di:waypoint x="385" y="145" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="t6_dout0_di" bpmnElement="t6_dout0">
+        <di:waypoint x="1525" y="65" />
+        <di:waypoint x="1525" y="35" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

@@ -1,0 +1,24 @@
+{
+  "id": "uc09", "name": "Ersatzteilbestellung mit Fristüberwachung",
+  "nodes": [
+    {"id": "s1", "type": "startEvent", "name": "Ersatzteilbedarf gemeldet", "col": 0, "row": 1},
+    {"id": "t1", "type": "task", "name": "Bestellung beim Lieferanten auslösen", "col": 1, "row": 1},
+    {"id": "g1", "type": "eventBasedGateway", "col": 2, "row": 1},
+    {"id": "e2", "type": "intermediateCatchEvent", "event": "message", "name": "Lieferbestätigung eingegangen", "col": 3, "row": 0},
+    {"id": "e3", "type": "intermediateCatchEvent", "event": "timer", "name": "3 Werktage verstrichen", "timer": "P3D", "col": 3, "row": 2},
+    {"id": "t2", "type": "task", "name": "Liefertermin im System hinterlegen", "col": 4, "row": 0},
+    {"id": "t3", "type": "task", "name": "Lieferanten telefonisch mahnen", "col": 4, "row": 2},
+    {"id": "t4", "type": "task", "name": "Ersatzlieferant anfragen", "col": 5, "row": 2},
+    {"id": "g2", "type": "exclusiveGateway", "col": 6, "row": 1},
+    {"id": "e4", "type": "intermediateCatchEvent", "event": "message", "name": "Ware eingetroffen", "col": 7, "row": 1},
+    {"id": "t5", "type": "task", "name": "Ersatzteil einlagern", "col": 8, "row": 1},
+    {"id": "e1", "type": "endEvent", "name": "Bedarf gedeckt", "col": 9, "row": 1}
+  ],
+  "flows": [
+    {"from": "s1", "to": "t1"}, {"from": "t1", "to": "g1"},
+    {"from": "g1", "to": "e2"}, {"from": "g1", "to": "e3"},
+    {"from": "e2", "to": "t2"}, {"from": "e3", "to": "t3"}, {"from": "t3", "to": "t4"},
+    {"from": "t2", "to": "g2"}, {"from": "t4", "to": "g2"},
+    {"from": "g2", "to": "e4"}, {"from": "e4", "to": "t5"}, {"from": "t5", "to": "e1"}
+  ]
+}

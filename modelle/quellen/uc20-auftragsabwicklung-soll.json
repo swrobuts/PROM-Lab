@@ -1,0 +1,299 @@
+{
+ "id": "uc20s",
+ "name": "Auftragsabwicklung im Zerspanungsbetrieb (Soll)",
+ "pools": [
+  {
+   "id": "kunde",
+   "name": "Kunde",
+   "blackbox": true,
+   "rows": 1
+  },
+  {
+   "id": "betrieb",
+   "name": "Zerspanungsbetrieb",
+   "lanes": [
+    {
+     "id": "vertrieb",
+     "name": "Vertrieb",
+     "rows": 1
+    },
+    {
+     "id": "av",
+     "name": "Arbeitsvorbereitung",
+     "rows": 2
+    },
+    {
+     "id": "fertigung",
+     "name": "Fertigung",
+     "rows": 1
+    },
+    {
+     "id": "versand",
+     "name": "Versand",
+     "rows": 1
+    }
+   ]
+  }
+ ],
+ "nodes": [
+  {
+   "id": "s1",
+   "type": "startEvent",
+   "event": "message",
+   "name": "Anfrage im Kundenportal",
+   "col": 0,
+   "row": 1,
+   "lane": "vertrieb"
+  },
+  {
+   "id": "t2",
+   "type": "serviceTask",
+   "name": "Angebot aus Kalkulationsregeln erzeugen",
+   "col": 1,
+   "row": 1,
+   "lane": "vertrieb"
+  },
+  {
+   "id": "t3",
+   "type": "task",
+   "name": "Angebot freigeben",
+   "col": 2,
+   "row": 1,
+   "lane": "vertrieb"
+  },
+  {
+   "id": "e2",
+   "type": "intermediateCatchEvent",
+   "event": "message",
+   "name": "Auftrag im Portal bestätigt",
+   "col": 3,
+   "row": 1,
+   "lane": "vertrieb"
+  },
+  {
+   "id": "t4",
+   "type": "serviceTask",
+   "name": "Auftrag im ERP anlegen",
+   "col": 4,
+   "row": 1,
+   "lane": "vertrieb"
+  },
+  {
+   "id": "g1",
+   "type": "parallelGateway",
+   "col": 5,
+   "row": 2,
+   "lane": "av"
+  },
+  {
+   "id": "t6",
+   "type": "task",
+   "name": "Arbeitsplan erstellen",
+   "col": 6,
+   "row": 2,
+   "lane": "av"
+  },
+  {
+   "id": "g2",
+   "type": "exclusiveGateway",
+   "name": "Material vorrätig?",
+   "col": 6,
+   "row": 3,
+   "lane": "av",
+   "labelPos": "top"
+  },
+  {
+   "id": "t7",
+   "type": "sendTask",
+   "name": "Material bestellen",
+   "col": 7,
+   "row": 3,
+   "lane": "av"
+  },
+  {
+   "id": "e3",
+   "type": "intermediateCatchEvent",
+   "event": "message",
+   "name": "Material eingetroffen",
+   "col": 8,
+   "row": 3,
+   "lane": "av"
+  },
+  {
+   "id": "g3",
+   "type": "exclusiveGateway",
+   "col": 9,
+   "row": 3,
+   "lane": "av"
+  },
+  {
+   "id": "g4",
+   "type": "parallelGateway",
+   "col": 10,
+   "row": 2,
+   "lane": "av"
+  },
+  {
+   "id": "t8",
+   "type": "task",
+   "name": "Teile fräsen und entgraten",
+   "col": 11,
+   "row": 4,
+   "lane": "fertigung"
+  },
+  {
+   "id": "t10",
+   "type": "task",
+   "name": "Maße prüfen und Messprotokoll ablegen",
+   "col": 12,
+   "row": 4,
+   "lane": "fertigung"
+  },
+  {
+   "id": "t12",
+   "type": "task",
+   "name": "Teile verpacken",
+   "col": 13,
+   "row": 5,
+   "lane": "versand"
+  },
+  {
+   "id": "t13",
+   "type": "serviceTask",
+   "name": "Lieferschein aus ERP drucken",
+   "col": 14,
+   "row": 5,
+   "lane": "versand"
+  },
+  {
+   "id": "t14",
+   "type": "sendTask",
+   "name": "Sendung übergeben",
+   "col": 15,
+   "row": 5,
+   "lane": "versand"
+  },
+  {
+   "id": "e1",
+   "type": "endEvent",
+   "name": "Auftrag ausgeliefert",
+   "col": 16,
+   "row": 5,
+   "lane": "versand"
+  }
+ ],
+ "flows": [
+  {
+   "from": "s1",
+   "to": "t2"
+  },
+  {
+   "from": "t2",
+   "to": "t3"
+  },
+  {
+   "from": "t3",
+   "to": "e2"
+  },
+  {
+   "from": "e2",
+   "to": "t4"
+  },
+  {
+   "from": "t4",
+   "to": "g1"
+  },
+  {
+   "from": "g1",
+   "to": "t6"
+  },
+  {
+   "from": "g1",
+   "to": "g2"
+  },
+  {
+   "from": "g2",
+   "to": "t7",
+   "name": "nein"
+  },
+  {
+   "from": "g2",
+   "to": "g3",
+   "name": "ja",
+   "default": true
+  },
+  {
+   "from": "t7",
+   "to": "e3"
+  },
+  {
+   "from": "e3",
+   "to": "g3"
+  },
+  {
+   "from": "t6",
+   "to": "g4"
+  },
+  {
+   "from": "g3",
+   "to": "g4"
+  },
+  {
+   "from": "g4",
+   "to": "t8"
+  },
+  {
+   "from": "t8",
+   "to": "t10"
+  },
+  {
+   "from": "t10",
+   "to": "t12"
+  },
+  {
+   "from": "t12",
+   "to": "t13"
+  },
+  {
+   "from": "t13",
+   "to": "t14"
+  },
+  {
+   "from": "t14",
+   "to": "e1"
+  }
+ ],
+ "messages": [
+  {
+   "from": "kunde",
+   "to": "s1",
+   "name": "Anfrage"
+  },
+  {
+   "from": "t3",
+   "to": "kunde",
+   "name": "Angebot"
+  },
+  {
+   "from": "kunde",
+   "to": "e2",
+   "name": "Auftragsbestätigung"
+  },
+  {
+   "from": "t14",
+   "to": "kunde",
+   "name": "Lieferung",
+   "via": "custom",
+   "points": [
+    [
+     3045.0,
+     775.0
+    ],
+    [
+     3045.0,
+     170
+    ]
+   ]
+  }
+ ]
+}

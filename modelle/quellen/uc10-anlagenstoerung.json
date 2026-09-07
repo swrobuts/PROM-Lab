@@ -1,0 +1,17 @@
+{
+  "id": "uc10", "name": "Fertigungsauftrag mit Anlagenstörung",
+  "nodes": [
+    {"id": "s1", "type": "startEvent", "name": "Fertigungsauftrag freigegeben", "col": 0, "row": 0},
+    {"id": "t1", "type": "task", "name": "Maschine rüsten", "col": 1, "row": 0},
+    {"id": "t2", "type": "task", "name": "Los fertigen", "col": 2, "row": 0},
+    {"id": "b1", "type": "boundaryEvent", "event": "error", "name": "Anlagenstörung", "attachedTo": "t2"},
+    {"id": "t3", "type": "task", "name": "Los in Qualitätsprüfung geben", "col": 3, "row": 0},
+    {"id": "e1", "type": "endEvent", "name": "Los fertiggestellt", "col": 4, "row": 0},
+    {"id": "t4", "type": "task", "name": "Instandhaltung rufen", "col": 3, "row": 1},
+    {"id": "e2", "type": "endEvent", "name": "Auftrag abgebrochen", "col": 4, "row": 1}
+  ],
+  "flows": [
+    {"from": "s1", "to": "t1"}, {"from": "t1", "to": "t2"}, {"from": "t2", "to": "t3"},
+    {"from": "t3", "to": "e1"}, {"from": "b1", "to": "t4"}, {"from": "t4", "to": "e2"}
+  ]
+}

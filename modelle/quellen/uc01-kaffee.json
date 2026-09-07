@@ -1,0 +1,15 @@
+{
+  "id": "uc01", "name": "Kaffee am Kiosk zubereiten",
+  "nodes": [
+    {"id": "s1", "type": "startEvent", "name": "Kaffee bestellt", "col": 0, "row": 0},
+    {"id": "t1", "type": "task", "name": "Bohnen mahlen", "col": 1, "row": 0},
+    {"id": "t2", "type": "task", "name": "Kaffee brühen", "col": 2, "row": 0},
+    {"id": "t3", "type": "task", "name": "Becher füllen", "col": 3, "row": 0},
+    {"id": "t4", "type": "task", "name": "Kaffee ausgeben", "col": 4, "row": 0},
+    {"id": "e1", "type": "endEvent", "name": "Kaffee ausgegeben", "col": 5, "row": 0}
+  ],
+  "flows": [
+    {"from": "s1", "to": "t1"}, {"from": "t1", "to": "t2"}, {"from": "t2", "to": "t3"},
+    {"from": "t3", "to": "t4"}, {"from": "t4", "to": "e1"}
+  ]
+}

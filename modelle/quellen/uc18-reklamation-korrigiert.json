@@ -1,0 +1,216 @@
+{
+ "id": "uc18k",
+ "name": "Gästereklamation im Restaurant (korrigiert)",
+ "pools": [
+  {
+   "id": "gast",
+   "name": "Gast",
+   "rows": 1
+  },
+  {
+   "id": "rest",
+   "name": "Restaurant",
+   "lanes": [
+    {
+     "id": "service",
+     "name": "Service",
+     "rows": 2
+    },
+    {
+     "id": "kueche",
+     "name": "Küche",
+     "rows": 1
+    }
+   ]
+  }
+ ],
+ "nodes": [
+  {
+   "id": "gs",
+   "type": "startEvent",
+   "name": "Essen kalt serviert",
+   "col": 0,
+   "row": 0,
+   "pool": "gast"
+  },
+  {
+   "id": "gt1",
+   "type": "sendTask",
+   "name": "Gericht reklamieren",
+   "col": 1,
+   "row": 0,
+   "pool": "gast"
+  },
+  {
+   "id": "ge1",
+   "type": "intermediateCatchEvent",
+   "event": "message",
+   "name": "Ersatz oder Gutschein erhalten",
+   "col": 5,
+   "row": 0,
+   "pool": "gast"
+  },
+  {
+   "id": "ge",
+   "type": "endEvent",
+   "name": "Reklamation erledigt",
+   "col": 6,
+   "row": 0,
+   "pool": "gast"
+  },
+  {
+   "id": "rs",
+   "type": "startEvent",
+   "event": "message",
+   "name": "Reklamation eingegangen",
+   "col": 1,
+   "row": 1,
+   "lane": "service"
+  },
+  {
+   "id": "rt1",
+   "type": "task",
+   "name": "Reklamation prüfen",
+   "col": 2,
+   "row": 1,
+   "lane": "service"
+  },
+  {
+   "id": "rg1",
+   "type": "exclusiveGateway",
+   "name": "Reklamation berechtigt?",
+   "col": 3,
+   "row": 1,
+   "lane": "service",
+   "labelPos": "top"
+  },
+  {
+   "id": "rt2",
+   "type": "task",
+   "name": "Gericht neu zubereiten",
+   "col": 4,
+   "row": 3,
+   "lane": "kueche"
+  },
+  {
+   "id": "rt5",
+   "type": "sendTask",
+   "name": "Ersatzgericht servieren",
+   "col": 5,
+   "row": 1,
+   "lane": "service"
+  },
+  {
+   "id": "rt3",
+   "type": "sendTask",
+   "name": "Gutschein ausstellen",
+   "col": 4,
+   "row": 2,
+   "lane": "service"
+  },
+  {
+   "id": "rg2",
+   "type": "exclusiveGateway",
+   "col": 6,
+   "row": 1,
+   "lane": "service"
+  },
+  {
+   "id": "rt6",
+   "type": "task",
+   "name": "Reklamation im Kassensystem vermerken",
+   "col": 7,
+   "row": 1,
+   "lane": "service"
+  },
+  {
+   "id": "re",
+   "type": "endEvent",
+   "name": "Reklamation bearbeitet",
+   "col": 8,
+   "row": 1,
+   "lane": "service"
+  }
+ ],
+ "flows": [
+  {
+   "from": "gs",
+   "to": "gt1"
+  },
+  {
+   "from": "gt1",
+   "to": "ge1"
+  },
+  {
+   "from": "ge1",
+   "to": "ge"
+  },
+  {
+   "from": "rs",
+   "to": "rt1"
+  },
+  {
+   "from": "rt1",
+   "to": "rg1"
+  },
+  {
+   "from": "rg1",
+   "to": "rt2",
+   "name": "ja, Gericht kalt"
+  },
+  {
+   "from": "rg1",
+   "to": "rt3",
+   "name": "ja, Gericht nicht ersetzbar"
+  },
+  {
+   "from": "rg1",
+   "to": "rg2",
+   "name": "nein",
+   "default": true,
+   "via": "top"
+  },
+  {
+   "from": "rt2",
+   "to": "rt5"
+  },
+  {
+   "from": "rt5",
+   "to": "rg2"
+  },
+  {
+   "from": "rt3",
+   "to": "rg2"
+  },
+  {
+   "from": "rg2",
+   "to": "rt6"
+  },
+  {
+   "from": "rt6",
+   "to": "re"
+  }
+ ],
+ "messages": [
+  {
+   "from": "gt1",
+   "to": "rs",
+   "name": "Reklamation"
+  },
+  {
+   "from": "rt5",
+   "to": "ge1",
+   "name": "Ersatzgericht",
+   "sx": 0,
+   "tx": 0
+  },
+  {
+   "from": "rt3",
+   "to": "ge1",
+   "name": "Gutschein",
+   "sx": 70,
+   "tx": 8,
+   "my": -95
+  }
+ ]
+}

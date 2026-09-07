@@ -1,0 +1,445 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_uc21" targetNamespace="https://thws.de/prom-lab" exporter="PROM-Lab gen_bpmn.py" exporterVersion="1.0">
+  <bpmn:collaboration id="Collab_uc21">
+    <bpmn:participant id="Pool_sani" name="Sanitätshaus" />
+    <bpmn:participant id="Pool_kh" name="Krankenhaus" processRef="Process_kh" />
+    <bpmn:participant id="Pool_patient" name="Patient" />
+    <bpmn:participant id="Pool_hausarzt" name="Hausarzt" />
+    <bpmn:participant id="Pool_kasse" name="Krankenkasse" />
+    <bpmn:messageFlow id="Msg_t3_sani" name="Bestellung" sourceRef="t3" targetRef="Pool_sani" />
+    <bpmn:messageFlow id="Msg_sani_e2" name="Lieferbestätigung" sourceRef="Pool_sani" targetRef="e2" />
+    <bpmn:messageFlow id="Msg_t6_patient" name="Entlassbrief, Medikationsplan" sourceRef="t6" targetRef="Pool_patient" />
+    <bpmn:messageFlow id="Msg_t7_hausarzt" name="Entlassbrief (elektronisch)" sourceRef="t7" targetRef="Pool_hausarzt" />
+    <bpmn:messageFlow id="Msg_t8_kasse" name="Fallmeldung" sourceRef="t8" targetRef="Pool_kasse" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_kh" name="Krankenhaus" isExecutable="false">
+    <bpmn:laneSet id="LaneSet_kh">
+      <bpmn:lane id="Lane_arzt" name="Stationsärztin">
+        <bpmn:flowNodeRef>s1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>g0</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>g1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>t1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>g5</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>t5</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>t6</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>g6</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>t7</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>g7</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>e1</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_pflege" name="Pflege">
+        <bpmn:flowNodeRef>t0</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>e0</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_sozial" name="Sozialdienst">
+        <bpmn:flowNodeRef>t2</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>g2</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>t3</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>g3</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>e2</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>e3</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>t4</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>g4</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_abrechnung" name="Abrechnung">
+        <bpmn:flowNodeRef>t8</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="s1" name="Entlassfähigkeit bei Visite festgestellt">
+      <bpmn:outgoing>Flow_s1_g0</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:exclusiveGateway id="g0" name="Patient transportfähig?">
+      <bpmn:incoming>Flow_s1_g0</bpmn:incoming>
+      <bpmn:outgoing>Flow_g0_t0</bpmn:outgoing>
+      <bpmn:outgoing>Flow_g0_g1</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:task id="t0" name="Entlassung um einen Tag verschieben">
+      <bpmn:incoming>Flow_g0_t0</bpmn:incoming>
+      <bpmn:outgoing>Flow_t0_e0</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:endEvent id="e0" name="Entlassung verschoben">
+      <bpmn:documentation>Die Visite am Folgetag löst eine neue Instanz dieses Prozesses aus.</bpmn:documentation>
+      <bpmn:incoming>Flow_t0_e0</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:parallelGateway id="g1">
+      <bpmn:incoming>Flow_g0_g1</bpmn:incoming>
+      <bpmn:outgoing>Flow_g1_t1</bpmn:outgoing>
+      <bpmn:outgoing>Flow_g1_t2</bpmn:outgoing>
+    </bpmn:parallelGateway>
+    <bpmn:task id="t1" name="Entlassbrief erstellen">
+      <bpmn:incoming>Flow_g1_t1</bpmn:incoming>
+      <bpmn:outgoing>Flow_t1_g5</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="t2" name="Hilfsmittelbedarf prüfen">
+      <bpmn:incoming>Flow_g1_t2</bpmn:incoming>
+      <bpmn:outgoing>Flow_t2_g2</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:exclusiveGateway id="g2" name="Hilfsmittel nötig?">
+      <bpmn:incoming>Flow_t2_g2</bpmn:incoming>
+      <bpmn:outgoing>Flow_g2_t3</bpmn:outgoing>
+      <bpmn:outgoing>Flow_g2_g4</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sendTask id="t3" name="Hilfsmittel beim Sanitätshaus bestellen">
+      <bpmn:incoming>Flow_g2_t3</bpmn:incoming>
+      <bpmn:outgoing>Flow_t3_g3</bpmn:outgoing>
+    </bpmn:sendTask>
+    <bpmn:eventBasedGateway id="g3">
+      <bpmn:incoming>Flow_t3_g3</bpmn:incoming>
+      <bpmn:incoming>Flow_t4_g3</bpmn:incoming>
+      <bpmn:outgoing>Flow_g3_e2</bpmn:outgoing>
+      <bpmn:outgoing>Flow_g3_e3</bpmn:outgoing>
+    </bpmn:eventBasedGateway>
+    <bpmn:intermediateCatchEvent id="e2" name="Lieferbestätigung eingegangen">
+      <bpmn:incoming>Flow_g3_e2</bpmn:incoming>
+      <bpmn:outgoing>Flow_e2_g4</bpmn:outgoing>
+      <bpmn:messageEventDefinition />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:intermediateCatchEvent id="e3" name="24 Stunden verstrichen">
+      <bpmn:incoming>Flow_g3_e3</bpmn:incoming>
+      <bpmn:outgoing>Flow_e3_t4</bpmn:outgoing>
+      <bpmn:timerEventDefinition><bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT24H</bpmn:timeDuration></bpmn:timerEventDefinition>
+    </bpmn:intermediateCatchEvent>
+    <bpmn:task id="t4" name="Beim Sanitätshaus telefonisch nachfassen">
+      <bpmn:incoming>Flow_e3_t4</bpmn:incoming>
+      <bpmn:outgoing>Flow_t4_g3</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:exclusiveGateway id="g4">
+      <bpmn:incoming>Flow_g2_g4</bpmn:incoming>
+      <bpmn:incoming>Flow_e2_g4</bpmn:incoming>
+      <bpmn:outgoing>Flow_g4_g5</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:parallelGateway id="g5">
+      <bpmn:incoming>Flow_t1_g5</bpmn:incoming>
+      <bpmn:incoming>Flow_g4_g5</bpmn:incoming>
+      <bpmn:outgoing>Flow_g5_t5</bpmn:outgoing>
+    </bpmn:parallelGateway>
+    <bpmn:task id="t5" name="Entlassgespräch führen">
+      <bpmn:incoming>Flow_g5_t5</bpmn:incoming>
+      <bpmn:outgoing>Flow_t5_t6</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:sendTask id="t6" name="Entlassbrief und Medikationsplan übergeben">
+      <bpmn:incoming>Flow_t5_t6</bpmn:incoming>
+      <bpmn:outgoing>Flow_t6_g6</bpmn:outgoing>
+    </bpmn:sendTask>
+    <bpmn:parallelGateway id="g6">
+      <bpmn:incoming>Flow_t6_g6</bpmn:incoming>
+      <bpmn:outgoing>Flow_g6_t7</bpmn:outgoing>
+      <bpmn:outgoing>Flow_g6_t8</bpmn:outgoing>
+    </bpmn:parallelGateway>
+    <bpmn:sendTask id="t7" name="Entlassbrief elektronisch an Hausarzt senden">
+      <bpmn:incoming>Flow_g6_t7</bpmn:incoming>
+      <bpmn:outgoing>Flow_t7_g7</bpmn:outgoing>
+    </bpmn:sendTask>
+    <bpmn:sendTask id="t8" name="Fall an Krankenkasse melden">
+      <bpmn:incoming>Flow_g6_t8</bpmn:incoming>
+      <bpmn:outgoing>Flow_t8_g7</bpmn:outgoing>
+    </bpmn:sendTask>
+    <bpmn:parallelGateway id="g7">
+      <bpmn:incoming>Flow_t7_g7</bpmn:incoming>
+      <bpmn:incoming>Flow_t8_g7</bpmn:incoming>
+      <bpmn:outgoing>Flow_g7_e1</bpmn:outgoing>
+    </bpmn:parallelGateway>
+    <bpmn:endEvent id="e1" name="Patient entlassen">
+      <bpmn:incoming>Flow_g7_e1</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_s1_g0" sourceRef="s1" targetRef="g0" />
+    <bpmn:sequenceFlow id="Flow_g0_t0" name="nein" sourceRef="g0" targetRef="t0" />
+    <bpmn:sequenceFlow id="Flow_t0_e0" sourceRef="t0" targetRef="e0" />
+    <bpmn:sequenceFlow id="Flow_g0_g1" name="ja" sourceRef="g0" targetRef="g1" />
+    <bpmn:sequenceFlow id="Flow_g1_t1" sourceRef="g1" targetRef="t1" />
+    <bpmn:sequenceFlow id="Flow_g1_t2" sourceRef="g1" targetRef="t2" />
+    <bpmn:sequenceFlow id="Flow_t2_g2" sourceRef="t2" targetRef="g2" />
+    <bpmn:sequenceFlow id="Flow_g2_t3" name="ja" sourceRef="g2" targetRef="t3" />
+    <bpmn:sequenceFlow id="Flow_g2_g4" name="nein" sourceRef="g2" targetRef="g4" />
+    <bpmn:sequenceFlow id="Flow_t3_g3" sourceRef="t3" targetRef="g3" />
+    <bpmn:sequenceFlow id="Flow_g3_e2" sourceRef="g3" targetRef="e2" />
+    <bpmn:sequenceFlow id="Flow_g3_e3" sourceRef="g3" targetRef="e3" />
+    <bpmn:sequenceFlow id="Flow_e3_t4" sourceRef="e3" targetRef="t4" />
+    <bpmn:sequenceFlow id="Flow_t4_g3" sourceRef="t4" targetRef="g3" />
+    <bpmn:sequenceFlow id="Flow_e2_g4" sourceRef="e2" targetRef="g4" />
+    <bpmn:sequenceFlow id="Flow_t1_g5" sourceRef="t1" targetRef="g5" />
+    <bpmn:sequenceFlow id="Flow_g4_g5" sourceRef="g4" targetRef="g5" />
+    <bpmn:sequenceFlow id="Flow_g5_t5" sourceRef="g5" targetRef="t5" />
+    <bpmn:sequenceFlow id="Flow_t5_t6" sourceRef="t5" targetRef="t6" />
+    <bpmn:sequenceFlow id="Flow_t6_g6" sourceRef="t6" targetRef="g6" />
+    <bpmn:sequenceFlow id="Flow_g6_t7" sourceRef="g6" targetRef="t7" />
+    <bpmn:sequenceFlow id="Flow_g6_t8" sourceRef="g6" targetRef="t8" />
+    <bpmn:sequenceFlow id="Flow_t7_g7" sourceRef="t7" targetRef="g7" />
+    <bpmn:sequenceFlow id="Flow_t8_g7" sourceRef="t8" targetRef="g7" />
+    <bpmn:sequenceFlow id="Flow_g7_e1" sourceRef="g7" targetRef="e1" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="Diagram_uc21">
+    <bpmndi:BPMNPlane id="Plane_uc21" bpmnElement="Collab_uc21">
+      <bpmndi:BPMNShape id="Pool_sani_di" bpmnElement="Pool_sani" isHorizontal="true">
+        <dc:Bounds x="40" y="40" width="3273" height="130" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Pool_kh_di" bpmnElement="Pool_kh" isHorizontal="true">
+        <dc:Bounds x="40" y="230" width="3273" height="650" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Pool_patient_di" bpmnElement="Pool_patient" isHorizontal="true">
+        <dc:Bounds x="40" y="940" width="3273" height="130" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Pool_hausarzt_di" bpmnElement="Pool_hausarzt" isHorizontal="true">
+        <dc:Bounds x="40" y="1130" width="3273" height="130" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Pool_kasse_di" bpmnElement="Pool_kasse" isHorizontal="true">
+        <dc:Bounds x="40" y="1320" width="3273" height="130" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_arzt_di" bpmnElement="Lane_arzt" isHorizontal="true">
+        <dc:Bounds x="70" y="230" width="3243" height="130" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_pflege_di" bpmnElement="Lane_pflege" isHorizontal="true">
+        <dc:Bounds x="70" y="360" width="3243" height="130" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_sozial_di" bpmnElement="Lane_sozial" isHorizontal="true">
+        <dc:Bounds x="70" y="490" width="3243" height="260" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_abrechnung_di" bpmnElement="Lane_abrechnung" isHorizontal="true">
+        <dc:Bounds x="70" y="750" width="3243" height="130" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="s1_di" bpmnElement="s1">
+        <dc:Bounds x="177" y="277" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="120" y="319" width="150" height="28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="g0_di" bpmnElement="g0" isMarkerVisible="true">
+        <dc:Bounds x="360" y="270" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="311" y="236" width="147" height="28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="t0_di" bpmnElement="t0">
+        <dc:Bounds x="515" y="385" width="120" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="e0_di" bpmnElement="e0">
+        <dc:Bounds x="747" y="407" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="698" y="449" width="134" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="g1_di" bpmnElement="g1">
+        <dc:Bounds x="550" y="270" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="t1_di" bpmnElement="t1">
+        <dc:Bounds x="705" y="255" width="120" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="t2_di" bpmnElement="t2">
+        <dc:Bounds x="705" y="515" width="120" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="g2_di" bpmnElement="g2" isMarkerVisible="true">
+        <dc:Bounds x="930" y="530" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="897" y="510" width="115" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="t3_di" bpmnElement="t3">
+        <dc:Bounds x="1085" y="645" width="120" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="g3_di" bpmnElement="g3">
+        <dc:Bounds x="1310" y="660" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="e2_di" bpmnElement="e2">
+        <dc:Bounds x="1507" y="537" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1450" y="579" width="150" height="28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="e3_di" bpmnElement="e3">
+        <dc:Bounds x="1507" y="667" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1455" y="709" width="141" height="28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="t4_di" bpmnElement="t4">
+        <dc:Bounds x="1655" y="645" width="120" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="g4_di" bpmnElement="g4" isMarkerVisible="true">
+        <dc:Bounds x="1880" y="530" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="g5_di" bpmnElement="g5">
+        <dc:Bounds x="2070" y="270" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="t5_di" bpmnElement="t5">
+        <dc:Bounds x="2225" y="255" width="120" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="t6_di" bpmnElement="t6">
+        <dc:Bounds x="2415" y="255" width="120" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="g6_di" bpmnElement="g6">
+        <dc:Bounds x="2640" y="270" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="t7_di" bpmnElement="t7">
+        <dc:Bounds x="2795" y="255" width="120" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="t8_di" bpmnElement="t8">
+        <dc:Bounds x="2795" y="775" width="120" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="g7_di" bpmnElement="g7">
+        <dc:Bounds x="3020" y="270" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="e1_di" bpmnElement="e1">
+        <dc:Bounds x="3217" y="277" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="3181" y="319" width="109" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_s1_g0_di" bpmnElement="Flow_s1_g0">
+        <di:waypoint x="213" y="295" />
+        <di:waypoint x="360" y="295" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_g0_t0_di" bpmnElement="Flow_g0_t0">
+        <di:waypoint x="385" y="320" />
+        <di:waypoint x="385" y="425" />
+        <di:waypoint x="515" y="425" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="391" y="366" width="40" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_t0_e0_di" bpmnElement="Flow_t0_e0">
+        <di:waypoint x="635" y="425" />
+        <di:waypoint x="747" y="425" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_g0_g1_di" bpmnElement="Flow_g0_g1">
+        <di:waypoint x="410" y="295" />
+        <di:waypoint x="550" y="295" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="460" y="275" width="40" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_g1_t1_di" bpmnElement="Flow_g1_t1">
+        <di:waypoint x="600" y="295" />
+        <di:waypoint x="705" y="295" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_g1_t2_di" bpmnElement="Flow_g1_t2">
+        <di:waypoint x="575" y="320" />
+        <di:waypoint x="575" y="555" />
+        <di:waypoint x="705" y="555" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_t2_g2_di" bpmnElement="Flow_t2_g2">
+        <di:waypoint x="825" y="555" />
+        <di:waypoint x="930" y="555" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_g2_t3_di" bpmnElement="Flow_g2_t3">
+        <di:waypoint x="955" y="580" />
+        <di:waypoint x="955" y="685" />
+        <di:waypoint x="1085" y="685" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="961" y="626" width="40" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_g2_g4_di" bpmnElement="Flow_g2_g4">
+        <di:waypoint x="980" y="555" />
+        <di:waypoint x="1880" y="555" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1410" y="535" width="40" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_t3_g3_di" bpmnElement="Flow_t3_g3">
+        <di:waypoint x="1205" y="685" />
+        <di:waypoint x="1310" y="685" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_g3_e2_di" bpmnElement="Flow_g3_e2">
+        <di:waypoint x="1335" y="660" />
+        <di:waypoint x="1335" y="555" />
+        <di:waypoint x="1507" y="555" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_g3_e3_di" bpmnElement="Flow_g3_e3">
+        <di:waypoint x="1360" y="685" />
+        <di:waypoint x="1507" y="685" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_e3_t4_di" bpmnElement="Flow_e3_t4">
+        <di:waypoint x="1543" y="685" />
+        <di:waypoint x="1655" y="685" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_t4_g3_di" bpmnElement="Flow_t4_g3">
+        <di:waypoint x="1715" y="725" />
+        <di:waypoint x="1715" y="765" />
+        <di:waypoint x="1335" y="765" />
+        <di:waypoint x="1335" y="710" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_e2_g4_di" bpmnElement="Flow_e2_g4">
+        <di:waypoint x="1543" y="555" />
+        <di:waypoint x="1880" y="555" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_t1_g5_di" bpmnElement="Flow_t1_g5">
+        <di:waypoint x="825" y="295" />
+        <di:waypoint x="2070" y="295" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_g4_g5_di" bpmnElement="Flow_g4_g5">
+        <di:waypoint x="1905" y="530" />
+        <di:waypoint x="1905" y="295" />
+        <di:waypoint x="2070" y="295" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_g5_t5_di" bpmnElement="Flow_g5_t5">
+        <di:waypoint x="2120" y="295" />
+        <di:waypoint x="2225" y="295" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_t5_t6_di" bpmnElement="Flow_t5_t6">
+        <di:waypoint x="2345" y="295" />
+        <di:waypoint x="2415" y="295" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_t6_g6_di" bpmnElement="Flow_t6_g6">
+        <di:waypoint x="2535" y="295" />
+        <di:waypoint x="2640" y="295" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_g6_t7_di" bpmnElement="Flow_g6_t7">
+        <di:waypoint x="2690" y="295" />
+        <di:waypoint x="2795" y="295" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_g6_t8_di" bpmnElement="Flow_g6_t8">
+        <di:waypoint x="2665" y="320" />
+        <di:waypoint x="2665" y="815" />
+        <di:waypoint x="2795" y="815" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_t7_g7_di" bpmnElement="Flow_t7_g7">
+        <di:waypoint x="2915" y="295" />
+        <di:waypoint x="3020" y="295" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_t8_g7_di" bpmnElement="Flow_t8_g7">
+        <di:waypoint x="2915" y="815" />
+        <di:waypoint x="3045" y="815" />
+        <di:waypoint x="3045" y="320" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_g7_e1_di" bpmnElement="Flow_g7_e1">
+        <di:waypoint x="3070" y="295" />
+        <di:waypoint x="3217" y="295" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Msg_t3_sani_di" bpmnElement="Msg_t3_sani">
+        <di:waypoint x="1145" y="645" />
+        <di:waypoint x="1145" y="170" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1151" y="400" width="65" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Msg_sani_e2_di" bpmnElement="Msg_sani_e2">
+        <di:waypoint x="1525" y="170" />
+        <di:waypoint x="1525" y="537" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1531" y="346" width="110" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Msg_t6_patient_di" bpmnElement="Msg_t6_patient">
+        <di:waypoint x="2475" y="335" />
+        <di:waypoint x="2475" y="940" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2481" y="630" width="120" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Msg_t7_hausarzt_di" bpmnElement="Msg_t7_hausarzt">
+        <di:waypoint x="2855" y="335" />
+        <di:waypoint x="2855" y="1130" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2861" y="726" width="120" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Msg_t8_kasse_di" bpmnElement="Msg_t8_kasse">
+        <di:waypoint x="2855" y="855" />
+        <di:waypoint x="2855" y="1320" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2861" y="1080" width="72" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

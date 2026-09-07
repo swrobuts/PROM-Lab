@@ -1,0 +1,297 @@
+{
+ "id": "uc14",
+ "name": "Überweisung an den Facharzt",
+ "pools": [
+  {
+   "id": "patient",
+   "name": "Patientin / Patient",
+   "rows": 1
+  },
+  {
+   "id": "hausarzt",
+   "name": "Hausarztpraxis",
+   "rows": 1
+  },
+  {
+   "id": "facharzt",
+   "name": "Facharztpraxis",
+   "rows": 2
+  }
+ ],
+ "nodes": [
+  {
+   "id": "ps",
+   "type": "startEvent",
+   "name": "Beschwerden",
+   "col": 0,
+   "row": 0,
+   "pool": "patient"
+  },
+  {
+   "id": "pt1",
+   "type": "task",
+   "name": "Hausarzt aufsuchen",
+   "col": 1,
+   "row": 0,
+   "pool": "patient"
+  },
+  {
+   "id": "pe1",
+   "type": "intermediateCatchEvent",
+   "event": "message",
+   "name": "Überweisung erhalten",
+   "col": 3,
+   "row": 0,
+   "pool": "patient"
+  },
+  {
+   "id": "pt2",
+   "type": "sendTask",
+   "name": "Termin beim Facharzt anfragen",
+   "col": 4,
+   "row": 0,
+   "pool": "patient"
+  },
+  {
+   "id": "pe2",
+   "type": "intermediateCatchEvent",
+   "event": "message",
+   "name": "Termin erhalten",
+   "col": 6,
+   "row": 0,
+   "pool": "patient"
+  },
+  {
+   "id": "pt3",
+   "type": "task",
+   "name": "Facharzttermin wahrnehmen",
+   "col": 7,
+   "row": 0,
+   "pool": "patient"
+  },
+  {
+   "id": "pend",
+   "type": "endEvent",
+   "name": "Untersuchung erfolgt",
+   "col": 8,
+   "row": 0,
+   "pool": "patient"
+  },
+  {
+   "id": "hs",
+   "type": "startEvent",
+   "event": "message",
+   "name": "Patient erschienen",
+   "col": 1,
+   "row": 1,
+   "pool": "hausarzt"
+  },
+  {
+   "id": "ht1",
+   "type": "task",
+   "name": "Anamnese erheben",
+   "col": 2,
+   "row": 1,
+   "pool": "hausarzt"
+  },
+  {
+   "id": "ht2",
+   "type": "sendTask",
+   "name": "Überweisung ausstellen",
+   "col": 3,
+   "row": 1,
+   "pool": "hausarzt"
+  },
+  {
+   "id": "he1",
+   "type": "intermediateCatchEvent",
+   "event": "message",
+   "name": "Facharztbefund eingegangen",
+   "col": 8,
+   "row": 1,
+   "pool": "hausarzt"
+  },
+  {
+   "id": "ht3",
+   "type": "task",
+   "name": "Befund in Patientenakte ablegen",
+   "col": 9,
+   "row": 1,
+   "pool": "hausarzt"
+  },
+  {
+   "id": "hend",
+   "type": "endEvent",
+   "name": "Fall dokumentiert",
+   "col": 10,
+   "row": 1,
+   "pool": "hausarzt"
+  },
+  {
+   "id": "fs",
+   "type": "startEvent",
+   "event": "message",
+   "name": "Terminanfrage eingegangen",
+   "col": 4,
+   "row": 2,
+   "pool": "facharzt"
+  },
+  {
+   "id": "ft1",
+   "type": "task",
+   "name": "Termin einplanen",
+   "col": 5,
+   "row": 2,
+   "pool": "facharzt"
+  },
+  {
+   "id": "ft2",
+   "type": "sendTask",
+   "name": "Termin mitteilen",
+   "col": 6,
+   "row": 2,
+   "pool": "facharzt"
+  },
+  {
+   "id": "ft3",
+   "type": "task",
+   "name": "Patient untersuchen",
+   "col": 7,
+   "row": 2,
+   "pool": "facharzt"
+  },
+  {
+   "id": "ft4",
+   "type": "sendTask",
+   "name": "Befund an Hausarzt senden",
+   "col": 8,
+   "row": 3,
+   "pool": "facharzt"
+  },
+  {
+   "id": "fend",
+   "type": "endEvent",
+   "name": "Befund versandt",
+   "col": 9,
+   "row": 3,
+   "pool": "facharzt"
+  }
+ ],
+ "flows": [
+  {
+   "from": "ps",
+   "to": "pt1"
+  },
+  {
+   "from": "pt1",
+   "to": "pe1"
+  },
+  {
+   "from": "pe1",
+   "to": "pt2"
+  },
+  {
+   "from": "pt2",
+   "to": "pe2"
+  },
+  {
+   "from": "pe2",
+   "to": "pt3"
+  },
+  {
+   "from": "pt3",
+   "to": "pend"
+  },
+  {
+   "from": "hs",
+   "to": "ht1"
+  },
+  {
+   "from": "ht1",
+   "to": "ht2"
+  },
+  {
+   "from": "ht2",
+   "to": "he1"
+  },
+  {
+   "from": "he1",
+   "to": "ht3"
+  },
+  {
+   "from": "ht3",
+   "to": "hend"
+  },
+  {
+   "from": "fs",
+   "to": "ft1"
+  },
+  {
+   "from": "ft1",
+   "to": "ft2"
+  },
+  {
+   "from": "ft2",
+   "to": "ft3"
+  },
+  {
+   "from": "ft3",
+   "to": "ft4"
+  },
+  {
+   "from": "ft4",
+   "to": "fend"
+  }
+ ],
+ "messages": [
+  {
+   "from": "pt1",
+   "to": "hs",
+   "name": "Vorstellung in der Praxis"
+  },
+  {
+   "from": "ht2",
+   "to": "pe1",
+   "name": "Überweisungsschein"
+  },
+  {
+   "from": "pt2",
+   "to": "fs",
+   "name": "Terminanfrage",
+   "via": "custom",
+   "points": [
+    [
+     955.0,
+     145.0
+    ],
+    [
+     955.0,
+     467.0
+    ]
+   ]
+  },
+  {
+   "from": "ft2",
+   "to": "pe2",
+   "name": "Terminbestätigung",
+   "via": "custom",
+   "points": [
+    [
+     1335.0,
+     525.0
+    ],
+    [
+     1335.0,
+     87.0
+    ]
+   ]
+  },
+  {
+   "from": "ft4",
+   "to": "he1",
+   "name": "Befundbericht",
+   "sx": -30,
+   "tx": 0
+  }
+ ]
+}
