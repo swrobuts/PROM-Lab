@@ -1,7 +1,7 @@
 # PROM-Lab · Umsetzungsplan
 
 Interaktive Lernumgebung zur BPMN-Prozessmodellierung für das Modul **Prozessmanagement (PROM)**
-der THWS Business School. Stand: 7. September 2026. Status: **Entwurf zur Freigabe**.
+der THWS Business School. Stand: 7. September 2026. Status: **freigegeben und umgesetzt** (Arbeitspakete 2 bis 8 und 10 erledigt; Paket 1, der Adonis-Importtest, und der Bedientest bei 390/768 px aus Paket 9 stehen aus). Farbentscheidung: Petrol trägt Flächen mit weißer Schrift, Lindgrün signalisiert.
 
 Zielbild: Studierende arbeiten sich in zehn Labs von den Grundlagen (Aufgabe, Ereignis,
 Sequenzfluss) bis zu Kollaborationen, Teilprozessen, Modellqualität, Redesign und KI-gestützter

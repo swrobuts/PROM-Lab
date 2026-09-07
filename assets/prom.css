@@ -965,3 +965,12 @@ tr:nth-child(even) td { background: var(--bg-soft); }
   width: 1.7rem; height: 1.7rem; border-radius: 50%; background: var(--primary); color: #fff;
   font-weight: 800; font-size: 0.85rem; display: grid; place-items: center;
 }
+
+/* Erledigt-Marke im Kopf einer Uebungsbox und Erklaertext unter falsch beantworteten Fragen */
+.sqlbox-ok {
+  margin-left: 0.4rem; font-size: 0.78rem; font-weight: 800; letter-spacing: 0.04em;
+  color: var(--ok); background: var(--ok-bg); border: 1px solid var(--ok);
+  padding: 0.1rem 0.55rem; border-radius: 999px;
+}
+.frage .line-hilfe { margin: 0.35rem 0 0 0.2rem; font-size: 0.86rem; color: var(--ink-soft); }
+.frage .line-hilfe.falsch-erkl { color: #7A2612; }
