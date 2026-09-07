@@ -1,5 +1,7 @@
 # PROM-Lab
 
+**Live:** [swrobuts.github.io/PROM-Lab](https://swrobuts.github.io/PROM-Lab/)
+
 Interaktive Lernumgebung zur BPMN-Prozessmodellierung für das Modul **Prozessmanagement (PROM)**
 der THWS Business School.
 
@@ -198,7 +200,7 @@ gh repo create swrobuts/PROM-Lab --public --source=. --push
 gh api repos/swrobuts/PROM-Lab/pages -X POST -f source[branch]=main -f source[path]=/
 ```
 
-`.nojekyll` liegt bei. Nach der Veröffentlichung stichprobenartig prüfen, ob die ausgelieferten
+Die Seite läuft unter <https://swrobuts.github.io/PROM-Lab/>. `.nojekyll` liegt bei. Nach der Veröffentlichung stichprobenartig prüfen, ob die ausgelieferten
 Dateien (`assets/bpmn/bpmn.mjs`, ein Modell, eine Übungsdatei) dem lokalen Stand entsprechen.
 
 > Ein öffentliches Repository macht auch die Musterlösungen lesbar. Für eine Selbstlernumgebung
