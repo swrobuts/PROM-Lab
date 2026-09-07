@@ -117,6 +117,7 @@ function benennungEreignisOk (name) {
   const n = name.trim()
   if (!n) return true
   if (/[:\d]/.test(n)) return true
+  if (/\s(in|im|auf|zur|zum|bei)\s|steht an$|liegt vor$|ist da$/i.test(n)) return true   // Zustandsangabe: „Patient in Behandlung“
   return /(t|en|ed|ar|ig|os|ich|frei|da|kalt|bereit|möglich|verfügbar|abgelaufen|verstrichen|erhalten|eingegangen|received|arrived|done|due|expired|elapsed|ready|available|reached|passed|placed|opened|closed)$/i.test(n)
 }
 

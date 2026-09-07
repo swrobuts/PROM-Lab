@@ -1,0 +1,126 @@
+{
+ "id": "uc03f",
+ "name": "Reifenwechsel in der Kfz-Werkstatt (fehlerhaft)",
+ "absichtlichFehlerhaft": true,
+ "nodes": [
+  {
+   "id": "s1",
+   "type": "startEvent",
+   "name": "Fahrzeug angenommen",
+   "col": 0,
+   "row": 1
+  },
+  {
+   "id": "t1",
+   "type": "task",
+   "name": "Fahrzeug auf Hebebühne fahren",
+   "col": 1,
+   "row": 1
+  },
+  {
+   "id": "t2",
+   "type": "task",
+   "name": "Räder demontieren",
+   "col": 2,
+   "row": 1
+  },
+  {
+   "id": "g1",
+   "type": "exclusiveGateway",
+   "name": "Einlagerung",
+   "col": 3,
+   "row": 1,
+   "labelPos": "top"
+  },
+  {
+   "id": "t3",
+   "type": "task",
+   "name": "Räder etikettieren",
+   "col": 4,
+   "row": 0
+  },
+  {
+   "id": "t4",
+   "type": "task",
+   "name": "Räder ins Reifenlager bringen",
+   "col": 5,
+   "row": 0
+  },
+  {
+   "id": "t5",
+   "type": "task",
+   "name": "Räder in den Kofferraum legen",
+   "col": 4,
+   "row": 2
+  },
+  {
+   "id": "g2",
+   "type": "exclusiveGateway",
+   "col": 6,
+   "row": 1
+  },
+  {
+   "id": "t6",
+   "type": "task",
+   "name": "Saisonräder montieren",
+   "col": 7,
+   "row": 1
+  },
+  {
+   "id": "t7",
+   "type": "task",
+   "name": "Radmuttern mit Drehmoment anziehen",
+   "col": 8,
+   "row": 1
+  },
+  {
+   "id": "e1",
+   "type": "endEvent",
+   "name": "Abholung",
+   "col": 9,
+   "row": 1
+  }
+ ],
+ "flows": [
+  {
+   "from": "s1",
+   "to": "t1"
+  },
+  {
+   "from": "t1",
+   "to": "t2"
+  },
+  {
+   "from": "t2",
+   "to": "g1"
+  },
+  {
+   "from": "g1",
+   "to": "t3"
+  },
+  {
+   "from": "g1",
+   "to": "t5"
+  },
+  {
+   "from": "t3",
+   "to": "t4"
+  },
+  {
+   "from": "t4",
+   "to": "g2"
+  },
+  {
+   "from": "g2",
+   "to": "t6"
+  },
+  {
+   "from": "t6",
+   "to": "t7"
+  },
+  {
+   "from": "t7",
+   "to": "e1"
+  }
+ ]
+}

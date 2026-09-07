@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="de" data-lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lab 05 · Ereignisse im Ablauf · PROM-Lab</title>
+  <meta name="prom:titel-en" content="Lab 05 · Events along the way · PROM-Lab" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/bpmn/diagram-js.css" />
+  <link rel="stylesheet" href="assets/bpmn/bpmn-js.css" />
+  <link rel="stylesheet" href="assets/bpmn/bpmn-font/css/bpmn.css" />
+  <link rel="stylesheet" href="assets/bpmn/bpmn-js-token-simulation.css" />
+  <link rel="stylesheet" href="assets/prom.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%2300595C'/><text x='16' y='23' font-family='sans-serif' font-size='18' font-weight='bold' text-anchor='middle' fill='%2390D033'>P</text></svg>" />
+</head>
+<body class="lab-page">
+
+<header class="header">
+  <div class="header-left">
+    <a class="header-logo" href="index.html" data-lab-link><span class="mark">PROM</span>-Lab</a>
+    <a class="header-back" href="index.html" data-lab-link>
+      <span lang="de">← Zur Übersicht</span><span lang="en">← Back to overview</span>
+    </a>
+  </div>
+  <div class="header-right">
+    <button class="lang-btn active" data-lang-btn="de" aria-pressed="true">DE</button>
+    <button class="lang-btn" data-lang-btn="en" aria-pressed="false">EN</button>
+  </div>
+</header>
+
+<nav class="sidebar" aria-label="Lab-Navigation">
+  <div class="sidebar-title"><span lang="de">Abschnitte</span><span lang="en">Sections</span></div>
+  <a class="sidebar-link" href="#zwischen"><span lang="de">Zwischenereignisse</span><span lang="en">Intermediate events</span></a>
+  <a class="sidebar-link" href="#rand"><span lang="de">Angeheftete Ereignisse</span><span lang="en">Boundary events</span></a>
+  <a class="sidebar-link" href="#ereignisbasiert"><span lang="de">Das ereignisbasierte Gateway</span><span lang="en">The event-based gateway</span></a>
+  <a class="sidebar-link" href="#uebungen"><span lang="de">Übungen</span><span lang="en">Exercises</span></a>
+  <a class="sidebar-link" href="#zusammenfassung"><span lang="de">Zusammenfassung</span><span lang="en">Summary</span></a>
+</nav>
+
+<div class="lab-header">
+  <div class="lab-num-big">05</div>
+  <h1 class="lab-title">
+    <span lang="de">Ereignisse im Ablauf</span>
+    <span lang="en">Events along the way</span>
+  </h1>
+  <p class="lab-intro">
+    <span lang="de">Prozesse warten: auf eine Lieferung, eine Antwort, einen Termin. Und sie werden gestört: Eine Anlage fällt aus, eine Frist verstreicht. BPMN hat dafür Zwischenereignisse im Ablauf, angeheftete Ereignisse am Rand einer Aufgabe und ein Gateway, bei dem nicht Daten, sondern die Umwelt entscheidet. Dieses Lab führt sie an einer Ersatzteilbestellung, einer Anlagenstörung und einer Apotheke ein.</span>
+    <span lang="en">Processes wait: for a delivery, a reply, an appointment. And they get disturbed: a machine fails, a deadline passes. BPMN has intermediate events in the flow for that, boundary events on the edge of a task and a gateway where not data but the environment decides. This lab introduces them with a spare-part order, a machine failure and a pharmacy.</span>
+  </p>
+  <div class="lernziele">
+    <span class="lernziel-chip"><span lang="de">Nachricht · Zeit</span><span lang="en">Message · timer</span></span>
+    <span class="lernziel-chip"><span lang="de">Eintretend · auslösend</span><span lang="en">Catching · throwing</span></span>
+    <span class="lernziel-chip"><span lang="de">Angeheftet</span><span lang="en">Boundary</span></span>
+    <span class="lernziel-chip"><span lang="de">Fehlerereignis</span><span lang="en">Error event</span></span>
+    <span class="lernziel-chip"><span lang="de">Ereignisbasiertes Gateway</span><span lang="en">Event-based gateway</span></span>
+  </div>
+</div>
+
+<main class="main-content">
+
+  <section class="section-block" id="zwischen">
+    <h2><span lang="de">Zwischenereignisse</span><span lang="en">Intermediate events</span></h2>
+    <p>
+      <span lang="de">Bisher standen Ereignisse nur am Anfang und am Ende. Ein Zwischenereignis liegt im Ablauf: Die Marke hält an, bis etwas eintritt (eintretend, leeres Symbol), oder sie löst im Vorbeigehen etwas aus (auslösend, gefülltes Symbol). Der Doppelkreis unterscheidet es vom Start und vom Ende.</span>
+      <span lang="en">So far events stood only at the beginning and the end. An intermediate event lies in the flow: the token stops until something occurs (catching, empty symbol), or it triggers something in passing (throwing, filled symbol). The double circle distinguishes it from start and end.</span>
+    </p>
+    <div class="symbolkarte">
+      <div class="symbolkarte-kopf">
+        <span class="symbolkarte-name"><span lang="de">Nachrichtenereignis</span><span lang="en">Message event</span></span>
+        <span class="symbolkarte-was"><span lang="de">eine Nachricht empfangen oder senden</span><span lang="en">receive or send a message</span></span>
+      </div>
+      <div class="symbolkarte-koerper">
+        <div class="symbolkarte-bild" aria-hidden="true"><svg viewBox="0 0 140 90" width="140" height="90"><circle cx="70" cy="45" r="26" fill="#fff" stroke="#10201C" stroke-width="1.5"/><circle cx="70" cy="45" r="21" fill="none" stroke="#10201C" stroke-width="1.5"/><rect x="60" y="38" width="20" height="14" fill="#fff" stroke="#10201C" stroke-width="1.5"/><path d="M60,38 L70,46 L80,38" fill="none" stroke="#10201C" stroke-width="1.5"/></svg></div>
+        <div class="symbolkarte-text">
+          <ul class="symbolkarte-teile">
+            <li><span><span lang="de">Eintretend (leer)</span><span lang="en">Catching (empty)</span></span><span><span lang="de">Die Marke wartet, bis die Nachricht eintrifft: Auftragsbestätigung, Lieferung, Antwort des Kunden.</span><span lang="en">The token waits until the message arrives: order confirmation, delivery, customer's reply.</span></span></li>
+            <li><span><span lang="de">Auslösend (gefüllt)</span><span lang="en">Throwing (filled)</span></span><span><span lang="de">Die Marke sendet eine Nachricht und läuft sofort weiter: Kunden informieren, Bestellung absenden.</span><span lang="en">The token sends a message and continues at once: inform customer, send order.</span></span></li>
+            <li><span><span lang="de">Als Start</span><span lang="en">As start</span></span><span><span lang="de">Ein Nachrichten-Startereignis sagt: Dieser Prozess wird von außen ausgelöst.</span><span lang="en">A message start event says: this process is triggered from outside.</span></span></li>
+          </ul>
+          <p class="symbolkarte-falle"><strong><span lang="de">Stolperfalle:</span><span lang="en">Pitfall:</span></strong>
+            <span lang="de">Warten ohne Ausweg: Trifft die Nachricht nie ein, bleibt die Instanz für immer stehen. Ein Timer daneben (ereignisbasiertes Gateway) oder am Rand der Aufgabe schafft den Ausweg.</span>
+            <span lang="en">Waiting without a way out: if the message never arrives, the instance stays stuck forever. A timer next to it (event-based gateway) or on the boundary of the task creates the way out.</span></p>
+        </div>
+      </div>
+    </div>
+    <div class="symbolkarte">
+      <div class="symbolkarte-kopf">
+        <span class="symbolkarte-name"><span lang="de">Zeitereignis</span><span lang="en">Timer event</span></span>
+        <span class="symbolkarte-was"><span lang="de">eine Dauer, ein Zeitpunkt, ein Rhythmus</span><span lang="en">a duration, a point in time, a schedule</span></span>
+      </div>
+      <div class="symbolkarte-koerper">
+        <div class="symbolkarte-bild" aria-hidden="true"><svg viewBox="0 0 140 90" width="140" height="90"><circle cx="70" cy="45" r="26" fill="#fff" stroke="#10201C" stroke-width="1.5"/><circle cx="70" cy="45" r="21" fill="none" stroke="#10201C" stroke-width="1.5"/><circle cx="70" cy="45" r="10" fill="none" stroke="#10201C" stroke-width="1.5"/><path d="M70,38 L70,45 L75,48" fill="none" stroke="#10201C" stroke-width="1.5"/></svg></div>
+        <div class="symbolkarte-text">
+          <ul class="symbolkarte-teile">
+            <li><span><span lang="de">Im Ablauf</span><span lang="en">In the flow</span></span><span><span lang="de">Die Marke wartet: „Wöchentliche Freigaberunde“, „Nach 5 Minuten“. Das ist eine Wartestelle und erzeugt Liegezeit.</span><span lang="en">The token waits: “weekly approval round”, “after 5 minutes”. That is a waiting point and creates idle time.</span></span></li>
+            <li><span><span lang="de">Am Rand</span><span lang="en">On the boundary</span></span><span><span lang="de">Eine Frist für die Aufgabe: „Nach 2 Tagen ohne Antwort“.</span><span lang="en">A deadline for the task: “after 2 days without reply”.</span></span></li>
+            <li><span><span lang="de">Als Start</span><span lang="en">As start</span></span><span><span lang="de">Ein Rhythmus: „Täglich 8:00 Uhr“ startet jeden Tag eine neue Instanz.</span><span lang="en">A schedule: “daily 8:00” starts a new instance every day.</span></span></li>
+          </ul>
+          <p class="symbolkarte-falle"><strong><span lang="de">Stolperfalle:</span><span lang="en">Pitfall:</span></strong>
+            <span lang="de">Ein Timer wartet immer die volle Zeit ab. „Spätestens nach drei Tagen, sonst früher“ ist kein Timer, sondern ein ereignisbasiertes Gateway mit Timer und Nachricht.</span>
+            <span lang="en">A timer always waits the full time. “At the latest after three days, otherwise earlier” is not a timer but an event-based gateway with timer and message.</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-block" id="rand">
+    <h2><span lang="de">Angeheftete Ereignisse</span><span lang="en">Boundary events</span></h2>
+    <p>
+      <span lang="de">Manches kann <em>während</em> einer Aufgabe passieren: Die Anlage fällt aus, eine Frist verstreicht, der Kunde storniert. Solche Ereignisse hängt man an den Rand der Aufgabe. Die Marke sitzt in der Aufgabe; tritt das Randereignis ein, entsteht ein Ausnahmepfad.</span>
+      <span lang="en">Some things can happen <em>during</em> a task: the machine fails, a deadline passes, the customer cancels. Such events are attached to the boundary of the task. The token sits in the task; if the boundary event occurs, an exception path arises.</span>
+    </p>
+    <div class="symbolkarte">
+      <div class="symbolkarte-kopf">
+        <span class="symbolkarte-name"><span lang="de">Angeheftetes Ereignis</span><span lang="en">Boundary event</span></span>
+        <span class="symbolkarte-was"><span lang="de">was während einer Aufgabe eintreten kann</span><span lang="en">what can occur during a task</span></span>
+      </div>
+      <div class="symbolkarte-koerper">
+        <div class="symbolkarte-bild" aria-hidden="true"><svg viewBox="0 0 140 90" width="140" height="90"><circle cx="70" cy="45" r="26" fill="#fff" stroke="#10201C" stroke-width="1.5"/><circle cx="70" cy="45" r="21" fill="none" stroke="#10201C" stroke-width="1.5"/><path d="M72,34 L64,47 L70,47 L67,57 L76,43 L70,43 Z" fill="none" stroke="#10201C" stroke-width="1.5"/></svg></div>
+        <div class="symbolkarte-text">
+          <ul class="symbolkarte-teile">
+            <li><span><span lang="de">Unterbrechend</span><span lang="en">Interrupting</span></span><span><span lang="de">Durchgezogener Rand. Die Aufgabe wird abgebrochen, die Marke verlässt sie über den Ausnahmepfad. Der normale Ausgang entfällt.</span><span lang="en">Solid border. The task is cancelled, the token leaves it via the exception path. The normal exit is dropped.</span></span></li>
+            <li><span><span lang="de">Nicht unterbrechend</span><span lang="en">Non-interrupting</span></span><span><span lang="de">Gestrichelter Rand. Die Aufgabe läuft weiter, eine <em>zweite</em> Marke startet den Nebenpfad. Typisch: Erinnerung, Eskalation.</span><span lang="en">Dashed border. The task keeps running, a <em>second</em> token starts the side path. Typical: reminder, escalation.</span></span></li>
+            <li><span><span lang="de">Arten</span><span lang="en">Kinds</span></span><span><span lang="de">Fehler (Blitz, immer unterbrechend), Zeit (Uhr), Nachricht (Umschlag), Eskalation, Signal.</span><span lang="en">Error (lightning, always interrupting), timer (clock), message (envelope), escalation, signal.</span></span></li>
+          </ul>
+          <p class="symbolkarte-falle"><strong><span lang="de">Stolperfalle:</span><span lang="en">Pitfall:</span></strong>
+            <span lang="de">Der Nebenpfad eines nicht unterbrechenden Ereignisses darf nicht in die Aufgabe zurückführen: Sie läuft ja noch, und die zweite Marke würde sie ein zweites Mal betreten. Regel R10.</span>
+            <span lang="en">The side path of a non-interrupting event must not lead back into the task: it is still running, and the second token would enter it a second time. Rule R10.</span></p>
+        </div>
+      </div>
+    </div>
+    <div data-modell="modelle/uc10-anlagenstoerung.bpmn" data-name="UC10 · Fertigungsauftrag mit Anlagenstörung"></div>
+    <p>
+      <span lang="de">Das Fehlerereignis ist immer unterbrechend: Ein Fehler beendet die Aufgabe. Die Apotheke zeigt den anderen Fall, einen nicht unterbrechenden Timer, der das Warten nicht beendet, sondern eine Nachfrage daneben stellt.</span>
+      <span lang="en">The error event is always interrupting: an error ends the task. The pharmacy shows the other case, a non-interrupting timer that does not end the waiting but places an enquiry next to it.</span>
+    </p>
+    <div data-modell="modelle/uc11-rezeptanfrage.bpmn" data-name="UC11 · Rezeptanfrage in der Apotheke"></div>
+  </section>
+
+  <section class="section-block" id="ereignisbasiert">
+    <h2><span lang="de">Das ereignisbasierte Gateway</span><span lang="en">The event-based gateway</span></h2>
+    <p>
+      <span lang="de">Nach der Bestellung kann zweierlei passieren: Die Bestätigung kommt, oder drei Tage vergehen. Welcher Fall eintritt, weiß niemand vorher; es hängt von der Umwelt ab, nicht von Daten. Dafür gibt es das ereignisbasierte Gateway: Der Prozess wartet, und das erste Ereignis, das eintritt, wählt den Pfad. Die anderen Ereignisse werden verworfen.</span>
+      <span lang="en">After the order two things can happen: the confirmation comes, or three days pass. Which case occurs nobody knows in advance; it depends on the environment, not on data. For that there is the event-based gateway: the process waits, and the first event to occur chooses the path. The other events are discarded.</span>
+    </p>
+    <div class="symbolkarte">
+      <div class="symbolkarte-kopf">
+        <span class="symbolkarte-name"><span lang="de">Ereignisbasiertes Gateway</span><span lang="en">Event-based gateway</span></span>
+        <span class="symbolkarte-was"><span lang="de">das erste Ereignis wählt den Weg</span><span lang="en">the first event chooses the way</span></span>
+      </div>
+      <div class="symbolkarte-koerper">
+        <div class="symbolkarte-bild" aria-hidden="true"><svg viewBox="0 0 140 90" width="140" height="90"><polygon points="70,15 100,45 70,75 40,45" fill="#fff" stroke="#10201C" stroke-width="2"/><circle cx="70" cy="45" r="13" fill="none" stroke="#10201C" stroke-width="1.5"/><circle cx="70" cy="45" r="10" fill="none" stroke="#10201C" stroke-width="1.5"/><polygon points="70,38 76,43 74,50 66,50 64,43" fill="none" stroke="#10201C" stroke-width="1.5"/></svg></div>
+        <div class="symbolkarte-text">
+          <ul class="symbolkarte-teile">
+            <li><span><span lang="de">Bedeutung</span><span lang="en">Meaning</span></span><span><span lang="de">Exklusiv wie das XOR, aber die Entscheidung trifft die Umwelt: Nachricht oder Frist, Antwort A oder Antwort B.</span><span lang="en">Exclusive like XOR, but the environment decides: message or deadline, reply A or reply B.</span></span></li>
+            <li><span><span lang="de">Danach</span><span lang="en">Afterwards</span></span><span><span lang="de">Ausschließlich eintretende Zwischenereignisse (oder Empfangsaufgaben). Keine Aufgaben, keine Bedingungen an den Pfaden.</span><span lang="en">Only catching intermediate events (or receive tasks). No tasks, no conditions on the paths.</span></span></li>
+            <li><span><span lang="de">Zusammenführung</span><span lang="en">Merge</span></span><span><span lang="de">Mit einem gewöhnlichen XOR-Gateway.</span><span lang="en">With an ordinary XOR gateway.</span></span></li>
+          </ul>
+          <p class="symbolkarte-falle"><strong><span lang="de">Stolperfalle:</span><span lang="en">Pitfall:</span></strong>
+            <span lang="de">Eine Aufgabe direkt hinter dem ereignisbasierten Gateway ist der häufigste Fehler damit; der Prüfer meldet ihn als R09.</span>
+            <span lang="en">A task directly after the event-based gateway is the most frequent error with it; the checker reports it as R09.</span></p>
+        </div>
+      </div>
+    </div>
+    <div data-modell="modelle/uc09-ersatzteil.bpmn" data-name="UC09 · Ersatzteilbestellung mit Fristüberwachung"></div>
+    <div class="tip-box">
+      <p><strong><span lang="de">Lesetechnik.</span><span lang="en">Reading technique.</span></strong> <span lang="de">„Sobald“, „wenn … eintrifft“ verraten ein eintretendes Nachrichtenereignis; „nach x Tagen“, „spätestens“ einen Timer; „kann während … passieren“, „falls … ausfällt“ ein Randereignis; „entweder … oder … zuerst“ ein ereignisbasiertes Gateway.</span><span lang="en">“As soon as”, “when … arrives” reveal a catching message event; “after x days”, “at the latest” a timer; “can happen during …”, “if … fails” a boundary event; “either … or … first” an event-based gateway.</span></p>
+    </div>
+  </section>
+
+  <section class="section-block" id="uebungen">
+    <h2><span lang="de">Übungen</span><span lang="en">Exercises</span></h2>
+    <p><span lang="de">Sechs Übungen. In der Simulation lassen sich Randereignisse und Ereignisse hinter dem ereignisbasierten Gateway per Klick auslösen: So sehen Sie, was unterbrechend und nicht unterbrechend mit den Marken macht.</span><span lang="en">Six exercises. In the simulation, boundary events and events after the event-based gateway can be triggered by click: that is how you see what interrupting and non-interrupting do to the tokens.</span></p>
+    <div data-uebung="P05-01"></div>
+    <div data-uebung="P05-02"></div>
+    <div data-uebung="P05-03"></div>
+    <div data-uebung="P05-04"></div>
+    <div data-uebung="P05-05"></div>
+    <div data-uebung="P05-06"></div>
+  </section>
+
+  <section class="section-block" id="zusammenfassung">
+    <h2><span lang="de">Zusammenfassung</span><span lang="en">Summary</span></h2>
+    <ul>
+      <li><span lang="de">Zwischenereignisse warten (leer, eintretend) oder senden (gefüllt, auslösend).</span><span lang="en">Intermediate events wait (empty, catching) or send (filled, throwing).</span></li>
+      <li><span lang="de">Angeheftete Ereignisse beschreiben, was während einer Aufgabe passieren kann; unterbrechend beendet sie, nicht unterbrechend erzeugt eine zweite Marke.</span><span lang="en">Boundary events describe what can happen during a task; interrupting ends it, non-interrupting creates a second token.</span></li>
+      <li><span lang="de">Das Fehlerereignis ist immer unterbrechend und braucht einen Ausnahmepfad mit eigenem Ende.</span><span lang="en">The error event is always interrupting and needs an exception path with its own end.</span></li>
+      <li><span lang="de">Das ereignisbasierte Gateway lässt die Umwelt entscheiden; danach stehen nur Ereignisse.</span><span lang="en">The event-based gateway lets the environment decide; only events follow it.</span></li>
+    </ul>
+    <nav class="nav-bottom"></nav>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <span lang="de">THWS Business School · PROM-Lab · Prof. Dr. Robert Butscher · Diagramme mit <a href="https://bpmn.io" rel="noopener">bpmn.io</a></span>
+  <span lang="en">THWS Business School · PROM-Lab · Prof. Dr. Robert Butscher · Diagrams with <a href="https://bpmn.io" rel="noopener">bpmn.io</a></span>
+</footer>
+
+<script type="module">
+  import { starteLab } from './assets/prom.js'
+  starteLab({ lab: 'lab-05', basis: '.' })
+</script>
+</body>
+</html>

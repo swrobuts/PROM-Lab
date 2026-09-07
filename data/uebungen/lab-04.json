@@ -1,0 +1,146 @@
+[
+  {
+    "id": "P04-01",
+    "typ": "erkunden",
+    "modell": "modelle/uc06-maschinenruestung.bpmn",
+    "modellName": "UC06 · Rüsten einer Spritzgießmaschine",
+    "titel": { "de": "Drei Marken beim Rüsten", "en": "Three tokens during set-up" },
+    "aufgabe": {
+      "de": "<p>Lassen Sie eine Marke laufen und beobachten Sie, was am ersten parallelen Gateway passiert und wie sich das zweite verhält, solange noch nicht alle Tätigkeiten erledigt sind.</p>",
+      "en": "<p>Run a token and watch what happens at the first parallel gateway and how the second behaves while not all activities are done yet.</p>"
+    },
+    "fragen": [
+      {
+        "frage": { "de": "Wie viele Marken existieren, nachdem die Marke das erste parallele Gateway passiert hat?", "en": "How many tokens exist after the token has passed the first parallel gateway?" },
+        "optionen": [ { "de": "Eine", "en": "One" }, { "de": "Drei", "en": "Three" }, { "de": "Sechs", "en": "Six" } ],
+        "richtig": [1],
+        "erklaerung": { "de": "Die parallele Verzweigung vervielfältigt die Marke: eine je ausgehendem Pfad.", "en": "The parallel split multiplies the token: one per outgoing path." }
+      },
+      {
+        "frage": { "de": "Zwei der drei Tätigkeiten sind fertig. Was tut die parallele Zusammenführung?", "en": "Two of the three activities are done. What does the parallel join do?" },
+        "optionen": [
+          { "de": "Sie lässt die beiden Marken weiter und wartet nicht auf die dritte.", "en": "It lets the two tokens continue and does not wait for the third." },
+          { "de": "Sie wartet, bis auch die dritte Marke angekommen ist, und lässt dann genau eine weiter.", "en": "It waits until the third token has arrived too, then lets exactly one continue." },
+          { "de": "Sie bricht die dritte Tätigkeit ab.", "en": "It cancels the third activity." }
+        ],
+        "richtig": [1],
+        "erklaerung": { "de": "Die AND-Zusammenführung synchronisiert: Sie wartet auf eine Marke je eingehendem Pfad und gibt eine einzige weiter.", "en": "The AND join synchronises: it waits for one token per incoming path and passes on a single one." }
+      }
+    ]
+  },
+  {
+    "id": "P04-02",
+    "typ": "erkunden",
+    "modell": "modelle/uc07-pizzeria.bpmn",
+    "modellName": "UC07 · Bestellung in der Pizzeria",
+    "titel": { "de": "Pizza, Getränk, Dessert – oder alles", "en": "Pizza, drink, dessert – or all of them" },
+    "aufgabe": {
+      "de": "<p>Ein Gast kann Pizza, Getränk und Dessert in jeder Kombination bestellen. Lassen Sie eine Marke laufen und wählen Sie am inklusiven Gateway zwei der drei Pfade. Beobachten Sie die Zusammenführung.</p>",
+      "en": "<p>A guest can order pizza, drink and dessert in any combination. Run a token and choose two of the three paths at the inclusive gateway. Watch the merge.</p>"
+    },
+    "fragen": [
+      {
+        "frage": { "de": "Der Gast bestellt Pizza und Getränk. Auf wie viele Marken wartet die inklusive Zusammenführung?", "en": "The guest orders pizza and drink. How many tokens does the inclusive join wait for?" },
+        "optionen": [ { "de": "Auf drei, eine je Pfad.", "en": "Three, one per path." }, { "de": "Auf zwei, weil nur zwei Pfade aktiviert wurden.", "en": "Two, because only two paths were activated." }, { "de": "Auf eine beliebige.", "en": "Any one." } ],
+        "richtig": [1],
+        "erklaerung": { "de": "Das OR-Gateway merkt sich, welche Pfade aktiviert wurden, und wartet genau auf diese. Das unterscheidet es vom AND, das immer auf alle wartet.", "en": "The OR gateway remembers which paths were activated and waits exactly for those. That distinguishes it from AND, which always waits for all." }
+      },
+      {
+        "frage": { "de": "Warum reicht hier weder ein exklusives noch ein paralleles Gateway?", "en": "Why does neither an exclusive nor a parallel gateway suffice here?" },
+        "optionen": [
+          { "de": "Exklusiv erlaubt nur einen Pfad, parallel erzwingt alle drei. Gebraucht wird: einer oder mehrere.", "en": "Exclusive allows only one path, parallel forces all three. What is needed: one or more." },
+          { "de": "Weil in der Gastronomie nur inklusive Gateways verwendet werden.", "en": "Because only inclusive gateways are used in gastronomy." },
+          { "de": "Weil die Zusammenführung sonst nicht gezeichnet werden kann.", "en": "Because the merge could not be drawn otherwise." }
+        ],
+        "richtig": [0],
+        "erklaerung": { "de": "Ohne OR bräuchte man sieben XOR-Pfade für alle Kombinationen oder drei verschachtelte XOR/AND-Blöcke.", "en": "Without OR you would need seven XOR paths for all combinations or three nested XOR/AND blocks." }
+      }
+    ]
+  },
+  {
+    "id": "P04-03",
+    "typ": "quiz",
+    "titel": { "de": "Der falsche Deckel", "en": "The wrong lid" },
+    "aufgabe": {
+      "de": "<p>Ein Block wird mit demselben Gatewaytyp geschlossen, mit dem er geöffnet wurde. Was passiert, wenn nicht? Denken Sie in Marken.</p>",
+      "en": "<p>A block is closed with the same gateway type it was opened with. What happens if not? Think in tokens.</p>"
+    },
+    "fragen": [
+      {
+        "frage": { "de": "Exklusive Verzweigung (ein Pfad), parallele Zusammenführung. Was geschieht?", "en": "Exclusive split (one path), parallel join. What happens?" },
+        "optionen": [
+          { "de": "Die Zusammenführung wartet auf Marken der anderen Pfade, die nie kommen: Die Instanz bleibt für immer stehen (Deadlock).", "en": "The join waits for tokens from the other paths that never come: the instance stays stuck forever (deadlock)." },
+          { "de": "Die Marke läuft normal weiter.", "en": "The token continues normally." },
+          { "de": "Die Zusammenführung erzeugt die fehlenden Marken.", "en": "The join creates the missing tokens." }
+        ],
+        "richtig": [0],
+        "erklaerung": { "de": "Regel R05 des Prüfers meldet genau diesen Fall als Fehler.", "en": "Rule R05 of the checker reports exactly this case as an error." }
+      },
+      {
+        "frage": { "de": "Parallele Verzweigung (drei Pfade), exklusive Zusammenführung. Was geschieht?", "en": "Parallel split (three paths), exclusive join. What happens?" },
+        "optionen": [
+          { "de": "Die Zusammenführung wartet auf alle drei.", "en": "The join waits for all three." },
+          { "de": "Jede der drei Marken läuft einzeln weiter: Der Rest des Prozesses wird dreimal ausgeführt, das Endereignis dreimal erreicht.", "en": "Each of the three tokens continues on its own: the rest of the process is executed three times, the end event reached three times." },
+          { "de": "Zwei Marken werden verworfen.", "en": "Two tokens are discarded." }
+        ],
+        "richtig": [1],
+        "erklaerung": { "de": "Das XOR ist durchlässig. Drei Marken hinein, drei hinaus, und die Erstmusterfreigabe passiert dreimal.", "en": "XOR is permeable. Three tokens in, three out, and the first-article release happens three times." }
+      },
+      {
+        "frage": { "de": "Welcher Gatewaytyp passt zu „Der Kunde kann per Karte, bar oder mit Gutschein zahlen, auch kombiniert“?", "en": "Which gateway type fits “the customer can pay by card, cash or voucher, also combined”?" },
+        "optionen": [ { "de": "Exklusiv (XOR)", "en": "Exclusive (XOR)" }, { "de": "Parallel (AND)", "en": "Parallel (AND)" }, { "de": "Inklusiv (OR)", "en": "Inclusive (OR)" } ],
+        "richtig": [2],
+        "erklaerung": { "de": "„Auch kombiniert“ heißt: einer oder mehrere. Das ist das inklusive Gateway.", "en": "“Also combined” means one or more. That is the inclusive gateway." }
+      }
+    ]
+  },
+  {
+    "id": "P04-04",
+    "typ": "fehler",
+    "modell": "modelle/uc06-maschinenruestung-fehlerhaft.bpmn",
+    "modellName": "UC06 · Rüsten (fehlerhaft)",
+    "titel": { "de": "Ein Deadlock beim Rüsten", "en": "A deadlock during set-up" },
+    "aufgabe": {
+      "de": "<p>Dieses Modell des Rüstvorgangs enthält <strong>fünf</strong> Verstöße: drei an den Pfaden der Verzweigung, einen an der Zusammenführung (der Deadlock) und einen an einer Aufgabenbenennung. Lassen Sie zuerst eine Marke laufen, um den Deadlock zu sehen, dann markieren Sie.</p>",
+      "en": "<p>This model of the set-up contains <strong>five</strong> violations: three on the paths of the split, one on the join (the deadlock) and one on a task name. Run a token first to see the deadlock, then mark.</p>"
+    },
+    "fehler": [
+      { "element": "Flow_g1_t2", "regel": "R03" },
+      { "element": "Flow_g1_t3", "regel": "R03" },
+      { "element": "Flow_g1_t4", "regel": "R03" },
+      { "element": "g2", "regel": "R05" },
+      { "element": "t5", "regel": "R07" }
+    ],
+    "hinweis": { "de": "Die Verzweigung ist exklusiv (X), die Zusammenführung parallel (+). Entweder beide parallel, weil alle drei Tätigkeiten nötig sind, oder beide exklusiv. Hier ist parallel richtig.", "en": "The split is exclusive (X), the join parallel (+). Either both parallel, because all three activities are needed, or both exclusive. Here parallel is right." },
+    "rueckmeldung": { "de": "Der Deadlock zeigt sich in der Simulation als Zusammenführung, die ewig auf zwei fehlende Marken wartet.", "en": "The deadlock shows in the simulation as a join waiting forever for two missing tokens." }
+  },
+  {
+    "id": "P04-05",
+    "typ": "modell",
+    "modell": "modelle/uc08-patientenaufnahme.bpmn",
+    "modellName": "Patientenaufnahme",
+    "hoch": true,
+    "titel": { "de": "Die Patientenaufnahme: XOR-Block, dann AND-Block", "en": "Patient admission: XOR block, then AND block" },
+    "aufgabe": {
+      "de": "<p>Ein Patient erscheint zur Aufnahme. Die Aufnahmekraft nimmt die Stammdaten auf. Gesetzlich Versicherte legen die Versichertenkarte vor, bei Privat- oder Selbstzahlern wird die Kostenübernahme geklärt. Danach laufen parallel: Bett zuweisen, Aufnahmeuntersuchung durchführen, Patientenarmband ausstellen. Anschließend wird der Patient auf die Station begleitet.</p><p>Modellieren Sie zwei Blöcke hintereinander: einen exklusiven mit zwei beschrifteten Pfaden und einen parallelen mit drei Pfaden. Jeder Block wird mit seinem eigenen Gatewaytyp geschlossen.</p>",
+      "en": "<p>A patient comes for admission. The admission clerk records the master data. Statutorily insured patients present their insurance card; for private patients or self-payers the cost coverage is clarified. Then in parallel: assign bed, perform admission examination, issue patient wristband. Afterwards the patient is escorted to the ward.</p><p>Model two blocks one after another: an exclusive one with two labelled paths and a parallel one with three paths. Each block is closed with its own gateway type.</p>"
+    },
+    "pruefung": { "starts": 1, "enden": 1, "gateways": { "exclusiveGateway": 2, "parallelGateway": 2 }, "bedingungen": ["gesetzlich", "privat"], "aufgaben": ["Stammdaten", "Versichertenkarte", "Kostenübernahme", "Bett", "Aufnahmeuntersuchung", "Armband", "Station"] },
+    "hinweis": { "de": "Vier Gateways: X auf, X zu, + auf, + zu. Die XOR-Zusammenführung und die AND-Verzweigung sind zwei getrennte Gateways, nicht eines.", "en": "Four gateways: X open, X close, + open, + close. The XOR join and the AND split are two separate gateways, not one." },
+    "rueckmeldung": { "de": "Zwei sauber geschlossene Blöcke. Jede Marke findet ihren Weg, keine bleibt stehen.", "en": "Two properly closed blocks. Every token finds its way, none gets stuck." }
+  },
+  {
+    "id": "P04-06",
+    "typ": "modell",
+    "modell": "modelle/uc07-pizzeria.bpmn",
+    "modellName": "Pizzeria",
+    "titel": { "de": "Die Pizzeria mit inklusivem Gateway", "en": "The pizzeria with an inclusive gateway" },
+    "aufgabe": {
+      "de": "<p>Ein Gast gibt eine Bestellung auf; sie kann Pizza, Getränk und Dessert in beliebiger Kombination enthalten. Je nach Bestellung wird die Pizza gebacken, das Getränk eingeschenkt und/oder das Dessert angerichtet. Sobald alles Bestellte fertig ist, wird serviert und kassiert.</p><p>Modellieren Sie mit einem inklusiven Gateway (Kreis im Rhombus) und inklusiver Zusammenführung. Beschriften Sie die drei Pfade mit den drei Bestellinhalten.</p>",
+      "en": "<p>A guest places an order; it can contain pizza, drink and dessert in any combination. Depending on the order, the pizza is baked, the drink poured and/or the dessert prepared. As soon as everything ordered is ready, it is served and paid.</p><p>Model with an inclusive gateway (circle in the diamond) and an inclusive join. Label the three paths with the three order contents.</p>"
+    },
+    "pruefung": { "starts": 1, "enden": 1, "gateways": { "inclusiveGateway": 2 }, "bedingungen": ["Pizza", "Getränk", "Dessert"], "aufgaben": ["erfassen", "backen", "einschenken", "anrichten", "servieren", "kassieren"] },
+    "hinweis": { "de": "Den Gatewaytyp wechseln Sie im Editor über den Schraubenschlüssel am Gateway.", "en": "Change the gateway type in the editor via the wrench on the gateway." },
+    "rueckmeldung": { "de": "Das inklusive Gateway ist selten, aber unersetzlich, wo „einer oder mehrere“ gemeint ist.", "en": "The inclusive gateway is rare but irreplaceable where “one or more” is meant." }
+  }
+]

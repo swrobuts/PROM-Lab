@@ -1,0 +1,149 @@
+[
+  {
+    "id": "P05-01",
+    "typ": "erkunden",
+    "modell": "modelle/uc09-ersatzteil.bpmn",
+    "modellName": "UC09 · Ersatzteilbestellung mit Fristüberwachung",
+    "titel": { "de": "Nachricht oder Frist: wer zuerst kommt", "en": "Message or deadline: whichever comes first" },
+    "aufgabe": {
+      "de": "<p>Nach der Bestellung wartet der Einkauf auf zwei mögliche Ereignisse. Lassen Sie eine Marke laufen: Am ereignisbasierten Gateway können Sie wählen, welches Ereignis eintritt.</p>",
+      "en": "<p>After the order, purchasing waits for two possible events. Run a token: at the event-based gateway you can choose which event occurs.</p>"
+    },
+    "fragen": [
+      {
+        "frage": { "de": "Worin unterscheidet sich das ereignisbasierte vom exklusiven Gateway?", "en": "How does the event-based gateway differ from the exclusive one?" },
+        "optionen": [
+          { "de": "Beim XOR entscheiden Daten (Bedingungen), beim ereignisbasierten die Umwelt: Das Ereignis, das zuerst eintritt, wählt den Pfad.", "en": "With XOR data decides (conditions), with the event-based one the environment: the event that occurs first chooses the path." },
+          { "de": "Das ereignisbasierte Gateway aktiviert alle Pfade.", "en": "The event-based gateway activates all paths." },
+          { "de": "Es gibt keinen Unterschied, nur ein anderes Symbol.", "en": "There is no difference, only a different symbol." }
+        ],
+        "richtig": [0],
+        "erklaerung": { "de": "Deshalb tragen die Pfade keine Bedingungen, und nach dem Gateway stehen ausschließlich eintretende Ereignisse.", "en": "That is why the paths carry no conditions and only catching events follow the gateway." }
+      },
+      {
+        "frage": { "de": "Was passiert mit dem Timer, wenn die Lieferbestätigung nach einem Tag eintrifft?", "en": "What happens to the timer when the delivery confirmation arrives after one day?" },
+        "optionen": [
+          { "de": "Er läuft weiter und löst nach drei Tagen zusätzlich die Mahnung aus.", "en": "It keeps running and additionally triggers the reminder after three days." },
+          { "de": "Er wird verworfen: Das Gateway wartet auf genau ein Ereignis, die anderen werden aufgegeben.", "en": "It is discarded: the gateway waits for exactly one event, the others are abandoned." },
+          { "de": "Er wird neu gestartet.", "en": "It is restarted." }
+        ],
+        "richtig": [1],
+        "erklaerung": { "de": "Das ereignisbasierte Gateway ist exklusiv: Das erste Ereignis gewinnt, die anderen Pfade werden nicht mehr beschritten.", "en": "The event-based gateway is exclusive: the first event wins, the other paths are no longer taken." }
+      }
+    ]
+  },
+  {
+    "id": "P05-02",
+    "typ": "erkunden",
+    "modell": "modelle/uc10-anlagenstoerung.bpmn",
+    "modellName": "UC10 · Fertigungsauftrag mit Anlagenstörung",
+    "titel": { "de": "Die Störung am Rand der Aufgabe", "en": "The breakdown on the boundary of the task" },
+    "aufgabe": {
+      "de": "<p>Während „Los fertigen“ läuft, kann eine Anlagenstörung auftreten. Lassen Sie eine Marke laufen und lösen Sie in der Simulation das Randereignis aus (auf das Blitzsymbol klicken, während die Aufgabe aktiv ist).</p>",
+      "en": "<p>While “Los fertigen” runs, a machine failure can occur. Run a token and trigger the boundary event in the simulation (click the lightning symbol while the task is active).</p>"
+    },
+    "fragen": [
+      {
+        "frage": { "de": "Das Fehlerereignis ist unterbrechend (durchgezogener Rand). Was bedeutet das für „Los fertigen“?", "en": "The error event is interrupting (solid border). What does that mean for “Los fertigen”?" },
+        "optionen": [
+          { "de": "Die Aufgabe wird abgebrochen; die Marke verlässt sie über den Ausnahmepfad.", "en": "The task is cancelled; the token leaves it via the exception path." },
+          { "de": "Die Aufgabe läuft weiter, zusätzlich startet der Ausnahmepfad.", "en": "The task keeps running, additionally the exception path starts." },
+          { "de": "Die Aufgabe wird von vorn begonnen.", "en": "The task starts over." }
+        ],
+        "richtig": [0],
+        "erklaerung": { "de": "Unterbrechend: Die normale Fortsetzung entfällt. Nicht unterbrechend (gestrichelt) wäre: beides.", "en": "Interrupting: the normal continuation is dropped. Non-interrupting (dashed) would be: both." }
+      },
+      {
+        "frage": { "de": "Warum hat das Modell zwei Endereignisse?", "en": "Why does the model have two end events?" },
+        "optionen": [
+          { "de": "Weil jeder Pfad ein eigenes Ende braucht.", "en": "Because every path needs its own end." },
+          { "de": "Weil es zwei verschiedene Ergebnisse gibt: Los fertiggestellt und Auftrag abgebrochen.", "en": "Because there are two different results: lot completed and order cancelled." },
+          { "de": "Weil Fehlerereignisse immer ein zweites Ende erzeugen.", "en": "Because error events always create a second end." }
+        ],
+        "richtig": [1],
+        "erklaerung": { "de": "Endereignisse benennen Ergebnisse. Zwei verschiedene Ergebnisse, zwei Endereignisse.", "en": "End events name results. Two different results, two end events." }
+      }
+    ]
+  },
+  {
+    "id": "P05-03",
+    "typ": "erkunden",
+    "modell": "modelle/uc11-rezeptanfrage.bpmn",
+    "modellName": "UC11 · Rezeptanfrage in der Apotheke",
+    "titel": { "de": "Senden, warten, nachfragen", "en": "Send, wait, follow up" },
+    "aufgabe": {
+      "de": "<p>Das Modell enthält drei Arten von Ereignissen: ein Nachrichten-Startereignis, ein sendendes Zwischenereignis und einen nicht unterbrechenden Timer am Rand der Warteaufgabe. Klicken Sie alle drei an.</p>",
+      "en": "<p>The model contains three kinds of events: a message start event, a throwing intermediate event and a non-interrupting timer on the boundary of the waiting task. Click all three.</p>"
+    },
+    "fragen": [
+      {
+        "frage": { "de": "Der Timer „Nach 2 Tagen ohne Lieferung“ feuert. Wie viele Marken sind danach unterwegs?", "en": "The timer “Nach 2 Tagen ohne Lieferung” fires. How many tokens are on their way afterwards?" },
+        "optionen": [
+          { "de": "Eine: Die Marke verlässt „Auf Lieferung warten“ und fragt den Lieferstatus ab.", "en": "One: the token leaves “Auf Lieferung warten” and asks for the delivery status." },
+          { "de": "Zwei: Die Warteaufgabe läuft weiter, und eine zweite Marke fragt den Lieferstatus ab.", "en": "Two: the waiting task keeps running, and a second token asks for the delivery status." },
+          { "de": "Keine, der Prozess endet.", "en": "None, the process ends." }
+        ],
+        "richtig": [1],
+        "erklaerung": { "de": "Nicht unterbrechend (gestrichelter Rand): Das Warten geht weiter, der Nebenpfad läuft parallel dazu und endet für sich.", "en": "Non-interrupting (dashed border): the waiting continues, the side path runs in parallel and ends on its own." }
+      },
+      {
+        "frage": { "de": "Worin unterscheidet sich das Ereignis „Kunden über Abholtermin informieren“ vom Ereignis „Kunde legt Rezept vor“?", "en": "How does the event “Kunden über Abholtermin informieren” differ from “Kunde legt Rezept vor”?" },
+        "optionen": [
+          { "de": "Das eine sendet (gefüllter Umschlag) und läuft sofort weiter, das andere empfängt (leerer Umschlag) und löst den Prozess aus.", "en": "One sends (filled envelope) and continues at once, the other receives (empty envelope) and triggers the process." },
+          { "de": "Beide warten auf eine Nachricht.", "en": "Both wait for a message." },
+          { "de": "Beide sind Endereignisse.", "en": "Both are end events." }
+        ],
+        "richtig": [0],
+        "erklaerung": { "de": "Gefüllt heißt auslösend (senden), leer heißt eintretend (empfangen, warten). Das gilt für alle Zwischenereignisse.", "en": "Filled means throwing (send), empty means catching (receive, wait). That holds for all intermediate events." }
+      }
+    ]
+  },
+  {
+    "id": "P05-04",
+    "typ": "fehler",
+    "modell": "modelle/uc09-ersatzteil-fehlerhaft.bpmn",
+    "modellName": "UC09 · Ersatzteilbestellung (fehlerhaft)",
+    "titel": { "de": "Vier Fehler in der Fristüberwachung", "en": "Four errors in the deadline monitoring" },
+    "aufgabe": {
+      "de": "<p>Dieses Modell derselben Bestellung enthält <strong>vier</strong> Verstöße: einen nach dem ereignisbasierten Gateway, einen am nicht unterbrechenden Timer (denken Sie in Marken), ein unbeschriftetes Ereignis und ein falsch benanntes Endereignis.</p>",
+      "en": "<p>This model of the same order contains <strong>four</strong> violations: one after the event-based gateway, one on the non-interrupting timer (think in tokens), an unlabelled event and a wrongly named end event.</p>"
+    },
+    "fehler": [
+      { "element": "t3", "regel": "R09" },
+      { "element": "b1", "regel": "R10" },
+      { "element": "e2", "regel": "R11" },
+      { "element": "e1", "regel": "R07" }
+    ],
+    "hinweis": { "de": "R09: Nach dem ereignisbasierten Gateway darf keine Aufgabe stehen, nur Ereignisse. R10: Der Nebenpfad eines nicht unterbrechenden Randereignisses führt in die Aufgabe zurück, an der es hängt: Die Aufgabe erhält eine zweite Marke. R11: unbeschriftet. R07: „Teil einlagern“ ist eine Tätigkeit.", "en": "R09: no task may follow the event-based gateway, only events. R10: the side path of a non-interrupting boundary event leads back into the task it hangs on: the task gets a second token. R11: unlabelled. R07: “Teil einlagern” is an activity." },
+    "rueckmeldung": { "de": "Der R10-Fehler ist derselbe, den in Lab 10 eine KI in ihrem Modell macht.", "en": "The R10 error is the same one an AI makes in its model in lab 10." }
+  },
+  {
+    "id": "P05-05",
+    "typ": "modell",
+    "modell": "modelle/uc10-anlagenstoerung.bpmn",
+    "modellName": "Anlagenstörung",
+    "titel": { "de": "Die Anlagenstörung modellieren", "en": "Model the machine failure" },
+    "aufgabe": {
+      "de": "<p>Nach Freigabe des Fertigungsauftrags rüstet der Maschinenführer die Maschine und fertigt das Los. Während der Fertigung kann eine Anlagenstörung auftreten; dann wird die Instandhaltung gerufen und der Auftrag abgebrochen. Ohne Störung geht das Los in die Qualitätsprüfung und ist fertiggestellt.</p><p>Modellieren Sie das Fehlerereignis als angeheftetes, unterbrechendes Ereignis an „Los fertigen“. Im Editor: ein Zwischenereignis auf den Rand der Aufgabe ziehen, dann über den Schraubenschlüssel den Typ „Fehler“ wählen. Zwei Endereignisse mit verschiedenen Namen.</p>",
+      "en": "<p>After release of the production order, the machine operator sets up the machine and produces the lot. During production a machine failure can occur; then maintenance is called and the order cancelled. Without failure the lot goes to quality inspection and is completed.</p><p>Model the error event as an attached, interrupting event on “Los fertigen”. In the editor: drag an intermediate event onto the border of the task, then choose the type “error” via the wrench. Two end events with different names.</p>"
+    },
+    "pruefung": { "starts": 1, "enden": 2, "randereignisse": 1, "ereignisse": { "error": 1 }, "aufgaben": ["rüsten", "fertigen", "Qualitätsprüfung", "Instandhaltung"] },
+    "hinweis": { "de": "Das Randereignis hat keinen eingehenden Sequenzfluss; es hängt an der Aufgabe. Sein ausgehender Fluss führt zum Ausnahmepfad.", "en": "The boundary event has no incoming sequence flow; it hangs on the task. Its outgoing flow leads to the exception path." },
+    "rueckmeldung": { "de": "Ausnahmen gehören an den Rand, nicht in den Hauptfluss. So bleibt der Normalfall lesbar.", "en": "Exceptions belong on the boundary, not in the main flow. That keeps the normal case readable." }
+  },
+  {
+    "id": "P05-06",
+    "typ": "modell",
+    "modell": "modelle/uc09-ersatzteil.bpmn",
+    "modellName": "Ersatzteilbestellung",
+    "hoch": true,
+    "titel": { "de": "Die Fristüberwachung modellieren", "en": "Model the deadline monitoring" },
+    "aufgabe": {
+      "de": "<p>Die Instandhaltung meldet Ersatzteilbedarf. Der Einkauf löst die Bestellung aus. Nun passiert eines von zwei Dingen: Entweder trifft die Lieferbestätigung ein, dann wird der Liefertermin hinterlegt; oder drei Werktage vergehen ohne Bestätigung, dann mahnt der Einkauf telefonisch und fragt einen Ersatzlieferanten an. In beiden Fällen wartet der Einkauf danach auf die Ware und lagert sie ein.</p><p>Modellieren Sie mit einem ereignisbasierten Gateway, einem Nachrichten- und einem Zeit-Zwischenereignis, einer XOR-Zusammenführung, einem weiteren Nachrichtenereignis für die Ware und einem Endereignis.</p>",
+      "en": "<p>Maintenance reports a spare-part need. Purchasing places the order. Now one of two things happens: either the delivery confirmation arrives, then the delivery date is recorded; or three working days pass without confirmation, then purchasing calls to remind and asks an alternative supplier. In both cases purchasing then waits for the goods and stores them.</p><p>Model with an event-based gateway, a message and a timer intermediate event, an XOR merge, a further message event for the goods and one end event.</p>"
+    },
+    "pruefung": { "starts": 1, "enden": 1, "gateways": { "eventBasedGateway": 1, "exclusiveGateway": 1 }, "ereignisse": { "message": [2, 3], "timer": 1 }, "aufgaben": ["Bestellung", "Liefertermin", "mahnen", "Ersatzlieferant", "einlagern"] },
+    "hinweis": { "de": "Den Gatewaytyp „ereignisbasiert“ wählen Sie über den Schraubenschlüssel des Gateways. Direkt danach dürfen nur Zwischenereignisse stehen.", "en": "Choose the gateway type “event-based” via the gateway's wrench. Only intermediate events may follow it directly." },
+    "rueckmeldung": { "de": "Warten mit Frist ist eines der häufigsten Muster in realen Prozessen.", "en": "Waiting with a deadline is one of the most common patterns in real processes." }
+  }
+]

@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="de" data-lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lab 03 · Entscheidungen: das exklusive Gateway · PROM-Lab</title>
+  <meta name="prom:titel-en" content="Lab 03 · Decisions: the exclusive gateway · PROM-Lab" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/bpmn/diagram-js.css" />
+  <link rel="stylesheet" href="assets/bpmn/bpmn-js.css" />
+  <link rel="stylesheet" href="assets/bpmn/bpmn-font/css/bpmn.css" />
+  <link rel="stylesheet" href="assets/bpmn/bpmn-js-token-simulation.css" />
+  <link rel="stylesheet" href="assets/prom.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%2300595C'/><text x='16' y='23' font-family='sans-serif' font-size='18' font-weight='bold' text-anchor='middle' fill='%2390D033'>P</text></svg>" />
+</head>
+<body class="lab-page">
+
+<header class="header">
+  <div class="header-left">
+    <a class="header-logo" href="index.html" data-lab-link><span class="mark">PROM</span>-Lab</a>
+    <a class="header-back" href="index.html" data-lab-link>
+      <span lang="de">← Zur Übersicht</span><span lang="en">← Back to overview</span>
+    </a>
+  </div>
+  <div class="header-right">
+    <button class="lang-btn active" data-lang-btn="de" aria-pressed="true">DE</button>
+    <button class="lang-btn" data-lang-btn="en" aria-pressed="false">EN</button>
+  </div>
+</header>
+
+<nav class="sidebar" aria-label="Lab-Navigation">
+  <div class="sidebar-title"><span lang="de">Abschnitte</span><span lang="en">Sections</span></div>
+  <a class="sidebar-link" href="#gateway"><span lang="de">Das exklusive Gateway</span><span lang="en">The exclusive gateway</span></a>
+  <a class="sidebar-link" href="#bedingungen"><span lang="de">Bedingungen und Standardfluss</span><span lang="en">Conditions and default flow</span></a>
+  <a class="sidebar-link" href="#zusammenfuehren"><span lang="de">Zusammenführen</span><span lang="en">Merging</span></a>
+  <a class="sidebar-link" href="#schleifen"><span lang="de">Rückschleifen</span><span lang="en">Loops</span></a>
+  <a class="sidebar-link" href="#uebungen"><span lang="de">Übungen</span><span lang="en">Exercises</span></a>
+  <a class="sidebar-link" href="#zusammenfassung"><span lang="de">Zusammenfassung</span><span lang="en">Summary</span></a>
+</nav>
+
+<div class="lab-header">
+  <div class="lab-num-big">03</div>
+  <h1 class="lab-title">
+    <span lang="de">Entscheidungen: das exklusive Gateway</span>
+    <span lang="en">Decisions: the exclusive gateway</span>
+  </h1>
+  <p class="lab-intro">
+    <span lang="de">Kaum ein Prozess läuft für jede Instanz gleich. Ob die Räder eingelagert werden, wie dringend ein Patient ist, ob eine Rücksendung vollständig ist: An solchen Stellen verzweigt der Ablauf. Dieses Lab führt das exklusive Gateway ein, die Beschriftung seiner Pfade, den Standardfluss, die Zusammenführung und die Rückschleife.</span>
+    <span lang="en">Hardly any process runs the same for every instance. Whether the wheels are stored, how urgent a patient is, whether a return is complete: at such points the flow branches. This lab introduces the exclusive gateway, the labelling of its paths, the default flow, the merge and the loop.</span>
+  </p>
+  <div class="lernziele">
+    <span class="lernziel-chip"><span lang="de">Exklusives Gateway</span><span lang="en">Exclusive gateway</span></span>
+    <span class="lernziel-chip"><span lang="de">Bedingungen</span><span lang="en">Conditions</span></span>
+    <span class="lernziel-chip"><span lang="de">Standardfluss</span><span lang="en">Default flow</span></span>
+    <span class="lernziel-chip"><span lang="de">Zusammenführung</span><span lang="en">Merge</span></span>
+    <span class="lernziel-chip"><span lang="de">Rückschleife</span><span lang="en">Loop</span></span>
+  </div>
+</div>
+
+<main class="main-content">
+
+  <section class="section-block" id="gateway">
+    <h2><span lang="de">Das exklusive Gateway</span><span lang="en">The exclusive gateway</span></h2>
+    <p>
+      <span lang="de">Bisher lief jede Instanz denselben Weg. Sobald sich Instanzen unterscheiden, etwa weil ein Kunde
+        die Einlagerung gebucht hat und ein anderer nicht, braucht das Modell eine Weiche. Das exklusive Gateway ist die
+        häufigste: Genau ein Pfad wird gewählt.</span>
+      <span lang="en">So far every instance ran the same way. As soon as instances differ, for instance because one
+        customer booked storage and another did not, the model needs a switch. The exclusive gateway is the most common
+        one: exactly one path is chosen.</span>
+    </p>
+    <div class="symbolkarte">
+      <div class="symbolkarte-kopf">
+        <span class="symbolkarte-name"><span lang="de">Exklusives Gateway (XOR)</span><span lang="en">Exclusive gateway (XOR)</span></span>
+        <span class="symbolkarte-was"><span lang="de">genau ein Pfad von mehreren</span><span lang="en">exactly one of several paths</span></span>
+      </div>
+      <div class="symbolkarte-koerper">
+        <div class="symbolkarte-bild" aria-hidden="true"><svg viewBox="0 0 140 90" width="140" height="90"><polygon points="70,15 100,45 70,75 40,45" fill="#fff" stroke="#10201C" stroke-width="2"/><path d="M60,35 L80,55 M80,35 L60,55" stroke="#10201C" stroke-width="3" fill="none"/></svg></div>
+        <div class="symbolkarte-text">
+          <ul class="symbolkarte-teile">
+            <li><span><span lang="de">Bedeutung</span><span lang="en">Meaning</span></span><span><span lang="de">Die Marke nimmt genau einen ausgehenden Pfad: den ersten, dessen Bedingung zutrifft.</span><span lang="en">The token takes exactly one outgoing path: the first whose condition holds.</span></span></li>
+            <li><span><span lang="de">Beschriftung</span><span lang="en">Labelling</span></span><span><span lang="de">Das Gateway trägt die Frage („Räder einlagern?“), jeder Pfad die Antwort („ja“, „nein“).</span><span lang="en">The gateway carries the question, every path the answer.</span></span></li>
+            <li><span><span lang="de">Standardfluss</span><span lang="en">Default flow</span></span><span><span lang="de">Ein Pfad darf statt einer Bedingung einen Schrägstrich tragen: Er gilt, wenn nichts anderes zutrifft.</span><span lang="en">One path may carry a slash instead of a condition: it applies if nothing else holds.</span></span></li>
+            <li><span><span lang="de">Markierung</span><span lang="en">Marker</span></span><span><span lang="de">Das X im Rhombus ist optional; ein leerer Rhombus bedeutet dasselbe. Diese Umgebung zeigt das X.</span><span lang="en">The X in the diamond is optional; an empty diamond means the same. This environment shows the X.</span></span></li>
+          </ul>
+          <p class="symbolkarte-falle"><strong><span lang="de">Stolperfalle:</span><span lang="en">Pitfall:</span></strong>
+            <span lang="de">Ein Gateway entscheidet nicht, es verteilt. Wenn zum Entscheiden gearbeitet werden muss („Bonität prüfen“), steht diese Arbeit als Aufgabe vor dem Gateway.</span>
+            <span lang="en">A gateway does not decide, it routes. If work is needed to decide (“check credit”), that work stands as a task before the gateway.</span></p>
+        </div>
+      </div>
+    </div>
+
+    <div data-modell="modelle/uc03-reifenwechsel.bpmn" data-name="UC03 · Reifenwechsel in der Kfz-Werkstatt"></div>
+  </section>
+
+  <section class="section-block" id="bedingungen">
+    <h2><span lang="de">Bedingungen und Standardfluss</span><span lang="en">Conditions and default flow</span></h2>
+    <p>
+      <span lang="de">Die Bedingungen an den Pfaden eines exklusiven Gateways sollen zwei Eigenschaften haben:
+        <strong>vollständig</strong> (jede Marke findet einen Weg) und <strong>überschneidungsfrei</strong> (nie
+        zwei zugleich). Bei „ja / nein“ ist das offensichtlich. Bei „rot / gelb / grün“ in der Triage muss man
+        hinsehen: Was passiert mit einem Patienten, dessen Einstufung noch fehlt? Der Standardfluss fängt diesen Fall
+        auf, ohne dass man ihn ausformulieren müsste.</span>
+      <span lang="en">The conditions on the paths of an exclusive gateway should have two properties:
+        <strong>complete</strong> (every token finds a way) and <strong>disjoint</strong> (never two at once). With
+        “yes / no” that is obvious. With “red / yellow / green” in triage you have to look: what happens to a patient
+        whose classification is still missing? The default flow catches this case without spelling it out.</span>
+    </p>
+    <div data-modell="modelle/uc04-triage.bpmn" data-name="UC04 · Triage in der Notaufnahme"></div>
+    <div class="warn-box">
+      <p><strong><span lang="de">Ohne Bedingung ist es kein Modell.</span><span lang="en">Without a condition it is not a model.</span></strong>
+        <span lang="de">Ein XOR-Pfad ohne Beschriftung ist der häufigste Fehler in Abgaben. Er lässt offen, wann der
+          Pfad genommen wird, und macht das Modell für Simulation und Ausführung unbrauchbar. Regel R03 des Prüfers
+          meldet ihn als Fehler, nicht als Warnung.</span>
+        <span lang="en">An XOR path without a label is the most frequent error in submissions. It leaves open when
+          the path is taken and makes the model useless for simulation and execution. Rule R03 of the checker reports
+          it as an error, not a warning.</span></p>
+    </div>
+  </section>
+
+  <section class="section-block" id="zusammenfuehren">
+    <h2><span lang="de">Zusammenführen</span><span lang="en">Merging</span></h2>
+    <p>
+      <span lang="de">Was verzweigt, wird meist wieder zusammengeführt: Nach der Einlagerung oder dem Kofferraum
+        werden in beiden Fällen die Saisonräder montiert. Dafür steht ein zweites exklusives Gateway mit zwei
+        eingehenden und einem ausgehenden Pfad. Es wartet auf nichts; jede ankommende Marke läuft sofort weiter. Die
+        BPMN-Spezifikation erlaubt auch, zwei Pfeile direkt in die nächste Aufgabe laufen zu lassen. Die Konvention
+        dieser Umgebung verlangt trotzdem das Gateway: Ein Leser sieht dann auf einen Blick, wo ein Block endet, und ein
+        Block, der mit XOR öffnet, schließt mit XOR.</span>
+      <span lang="en">What branches is usually merged again: after storage or the boot, in both cases the seasonal
+        wheels are mounted. A second exclusive gateway with two incoming and one outgoing path stands for that. It
+        waits for nothing; every arriving token continues at once. The BPMN specification also allows two arrows to run
+        directly into the next task. The convention of this environment still requires the gateway: a reader then sees
+        at a glance where a block ends, and a block that opens with XOR closes with XOR.</span>
+    </p>
+    <div class="concept-box">
+      <h3><span lang="de">Ein Gateway, eine Funktion</span><span lang="en">One gateway, one function</span></h3>
+      <p><span lang="de">Ein Gateway verzweigt <em>oder</em> führt zusammen. Ein Gateway mit zwei Eingängen und drei
+        Ausgängen ist erlaubt, aber schwer zu lesen; der Prüfer warnt (R04). Zeichnen Sie zwei.</span>
+        <span lang="en">A gateway splits <em>or</em> merges. A gateway with two entries and three exits is allowed but
+        hard to read; the checker warns (R04). Draw two.</span></p>
+    </div>
+  </section>
+
+  <section class="section-block" id="schleifen">
+    <h2><span lang="de">Rückschleifen</span><span lang="en">Loops</span></h2>
+    <p>
+      <span lang="de">Ein Pfad darf auch zurückführen: Ist die Rücksendung unvollständig, werden Teile nachgefordert,
+        und die Erfassung beginnt von vorn. Die Schleife führt zu einer <em>Aufgabe</em> zurück, nie zum Startereignis;
+        das hat keinen eingehenden Fluss. Und sie braucht einen Ausweg: eine Bedingung, unter der der Prozess weiterläuft,
+        sonst kreist die Marke ewig.</span>
+      <span lang="en">A path may also lead back: if the return is incomplete, parts are requested and recording starts
+        over. The loop leads back to a <em>task</em>, never to the start event; that has no incoming flow. And it needs
+        a way out: a condition under which the process continues, otherwise the token circles forever.</span>
+    </p>
+    <div data-modell="modelle/uc05-retoure.bpmn" data-name="UC05 · Retoure im Online-Handel" data-hoch></div>
+    <div class="tip-box">
+      <p><strong><span lang="de">Lesetechnik.</span><span lang="en">Reading technique.</span></strong>
+        <span lang="de">In der Beschreibung verraten „wenn“, „falls“, „sonst“ und „andernfalls“ ein XOR-Gateway,
+          „von vorn“ und „erneut“ eine Rückschleife, „in beiden Fällen“ eine Zusammenführung.</span>
+        <span lang="en">In the description, “if”, “in case”, “otherwise” reveal an XOR gateway, “from the start” and
+          “again” a loop, “in both cases” a merge.</span></p>
+    </div>
+  </section>
+
+  <section class="section-block" id="uebungen">
+    <h2><span lang="de">Übungen</span><span lang="en">Exercises</span></h2>
+    <p><span lang="de">Sechs Übungen: zwei Modelle erkunden, ein Quiz, eine Fehlersuche und zwei eigene Modelle mit Gateways. Im Editor ändern Sie den Typ eines Elements über das Schraubenschlüssel-Symbol; Pfeile beschriften Sie per Doppelklick.</span><span lang="en">Six exercises: explore two models, a quiz, an error hunt and two own models with gateways. In the editor, change an element's type via the wrench icon; label arrows by double-clicking.</span></p>
+    <div data-uebung="P03-01"></div>
+    <div data-uebung="P03-02"></div>
+    <div data-uebung="P03-03"></div>
+    <div data-uebung="P03-04"></div>
+    <div data-uebung="P03-05"></div>
+    <div data-uebung="P03-06"></div>
+  </section>
+  <section class="section-block" id="zusammenfassung">
+    <h2><span lang="de">Zusammenfassung</span><span lang="en">Summary</span></h2>
+    <ul>
+      <li><span lang="de">Das exklusive Gateway lässt genau eine Marke auf genau einem Pfad weiter; die Bedingung entscheidet.</span><span lang="en">The exclusive gateway lets exactly one token continue on exactly one path; the condition decides.</span></li>
+      <li><span lang="de">Das Gateway trägt die Frage, jeder Pfad die Antwort; ein Pfad darf Standardfluss sein.</span><span lang="en">The gateway carries the question, every path the answer; one path may be the default flow.</span></li>
+      <li><span lang="de">Was mit XOR öffnet, schließt mit XOR; die Zusammenführung wartet nicht.</span><span lang="en">What opens with XOR closes with XOR; the merge does not wait.</span></li>
+      <li><span lang="de">Rückschleifen führen zu einer Aufgabe zurück und brauchen einen Ausweg.</span><span lang="en">Loops lead back to a task and need a way out.</span></li>
+    </ul>
+    <nav class="nav-bottom"></nav>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <span lang="de">THWS Business School · PROM-Lab · Prof. Dr. Robert Butscher · Diagramme mit <a href="https://bpmn.io" rel="noopener">bpmn.io</a></span>
+  <span lang="en">THWS Business School · PROM-Lab · Prof. Dr. Robert Butscher · Diagrams with <a href="https://bpmn.io" rel="noopener">bpmn.io</a></span>
+</footer>
+
+<script type="module">
+  import { starteLab } from './assets/prom.js'
+  starteLab({ lab: 'lab-03', basis: '.' })
+</script>
+</body>
+</html>

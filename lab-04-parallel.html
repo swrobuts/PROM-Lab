@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="de" data-lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lab 04 · Nebenläufigkeit: parallel und inklusiv · PROM-Lab</title>
+  <meta name="prom:titel-en" content="Lab 04 · Concurrency: parallel and inclusive · PROM-Lab" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/bpmn/diagram-js.css" />
+  <link rel="stylesheet" href="assets/bpmn/bpmn-js.css" />
+  <link rel="stylesheet" href="assets/bpmn/bpmn-font/css/bpmn.css" />
+  <link rel="stylesheet" href="assets/bpmn/bpmn-js-token-simulation.css" />
+  <link rel="stylesheet" href="assets/prom.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%2300595C'/><text x='16' y='23' font-family='sans-serif' font-size='18' font-weight='bold' text-anchor='middle' fill='%2390D033'>P</text></svg>" />
+</head>
+<body class="lab-page">
+
+<header class="header">
+  <div class="header-left">
+    <a class="header-logo" href="index.html" data-lab-link><span class="mark">PROM</span>-Lab</a>
+    <a class="header-back" href="index.html" data-lab-link>
+      <span lang="de">← Zur Übersicht</span><span lang="en">← Back to overview</span>
+    </a>
+  </div>
+  <div class="header-right">
+    <button class="lang-btn active" data-lang-btn="de" aria-pressed="true">DE</button>
+    <button class="lang-btn" data-lang-btn="en" aria-pressed="false">EN</button>
+  </div>
+</header>
+
+<nav class="sidebar" aria-label="Lab-Navigation">
+  <div class="sidebar-title"><span lang="de">Abschnitte</span><span lang="en">Sections</span></div>
+  <a class="sidebar-link" href="#parallel"><span lang="de">Das parallele Gateway</span><span lang="en">The parallel gateway</span></a>
+  <a class="sidebar-link" href="#inklusiv"><span lang="de">Das inklusive Gateway</span><span lang="en">The inclusive gateway</span></a>
+  <a class="sidebar-link" href="#bloecke"><span lang="de">Blöcke sauber schließen</span><span lang="en">Closing blocks properly</span></a>
+  <a class="sidebar-link" href="#uebungen"><span lang="de">Übungen</span><span lang="en">Exercises</span></a>
+  <a class="sidebar-link" href="#zusammenfassung"><span lang="de">Zusammenfassung</span><span lang="en">Summary</span></a>
+</nav>
+
+<div class="lab-header">
+  <div class="lab-num-big">04</div>
+  <h1 class="lab-title">
+    <span lang="de">Nebenläufigkeit: parallel und inklusiv</span>
+    <span lang="en">Concurrency: parallel and inclusive</span>
+  </h1>
+  <p class="lab-intro">
+    <span lang="de">Nicht alles geschieht nacheinander. Beim Rüsten einer Maschine laufen drei Tätigkeiten unabhängig voneinander, in der Pizzeria wird gebacken, eingeschenkt und angerichtet, je nachdem, was bestellt ist. Dieses Lab führt das parallele und das inklusive Gateway ein und zeigt an Marken, warum ein Block mit demselben Gatewaytyp schließen muss, mit dem er geöffnet wurde.</span>
+    <span lang="en">Not everything happens in sequence. When setting up a machine three activities run independently; in the pizzeria baking, pouring and preparing happen depending on what was ordered. This lab introduces the parallel and the inclusive gateway and shows with tokens why a block must close with the same gateway type it was opened with.</span>
+  </p>
+  <div class="lernziele">
+    <span class="lernziel-chip"><span lang="de">Paralleles Gateway</span><span lang="en">Parallel gateway</span></span>
+    <span class="lernziel-chip"><span lang="de">Inklusives Gateway</span><span lang="en">Inclusive gateway</span></span>
+    <span class="lernziel-chip"><span lang="de">Synchronisation</span><span lang="en">Synchronisation</span></span>
+    <span class="lernziel-chip"><span lang="de">Deadlock</span><span lang="en">Deadlock</span></span>
+    <span class="lernziel-chip"><span lang="de">Blöcke</span><span lang="en">Blocks</span></span>
+  </div>
+</div>
+
+<main class="main-content">
+
+  <section class="section-block" id="parallel">
+    <h2><span lang="de">Das parallele Gateway</span><span lang="en">The parallel gateway</span></h2>
+    <p>
+      <span lang="de">Werkzeug wechseln, Material bereitstellen, Programm laden: Drei Tätigkeiten, deren Reihenfolge
+        keine Rolle spielt und die von drei Personen gleichzeitig erledigt werden können. Ein Modell, das sie
+        hintereinander zeichnet, behauptet eine Reihenfolge, die es nicht gibt, und verschenkt Durchlaufzeit. Das
+        parallele Gateway sagt: alle zugleich.</span>
+      <span lang="en">Change the tool, provide material, load the program: three activities whose order does not
+        matter and which three people can do at the same time. A model that draws them one after another claims an
+        order that does not exist and wastes lead time. The parallel gateway says: all at once.</span>
+    </p>
+    <div class="symbolkarte">
+      <div class="symbolkarte-kopf">
+        <span class="symbolkarte-name"><span lang="de">Paralleles Gateway (AND)</span><span lang="en">Parallel gateway (AND)</span></span>
+        <span class="symbolkarte-was"><span lang="de">alle Pfade zugleich</span><span lang="en">all paths at once</span></span>
+      </div>
+      <div class="symbolkarte-koerper">
+        <div class="symbolkarte-bild" aria-hidden="true"><svg viewBox="0 0 140 90" width="140" height="90"><polygon points="70,15 100,45 70,75 40,45" fill="#fff" stroke="#10201C" stroke-width="2"/><path d="M70,30 L70,60 M55,45 L85,45" stroke="#10201C" stroke-width="3" fill="none"/></svg></div>
+        <div class="symbolkarte-text">
+          <ul class="symbolkarte-teile">
+            <li><span><span lang="de">Verzweigung</span><span lang="en">Split</span></span><span><span lang="de">Die Marke wird vervielfältigt: eine je ausgehendem Pfad. Keine Bedingungen, keine Frage.</span><span lang="en">The token is multiplied: one per outgoing path. No conditions, no question.</span></span></li>
+            <li><span><span lang="de">Zusammenführung</span><span lang="en">Join</span></span><span><span lang="de">Wartet, bis auf jedem eingehenden Pfad eine Marke angekommen ist, und gibt genau eine weiter (Synchronisation).</span><span lang="en">Waits until a token has arrived on every incoming path and passes on exactly one (synchronisation).</span></span></li>
+            <li><span><span lang="de">Beschriftung</span><span lang="en">Labelling</span></span><span><span lang="de">Keine. Ein paralleles Gateway stellt keine Frage.</span><span lang="en">None. A parallel gateway asks no question.</span></span></li>
+          </ul>
+          <p class="symbolkarte-falle"><strong><span lang="de">Stolperfalle:</span><span lang="en">Pitfall:</span></strong>
+            <span lang="de">Nebenläufig heißt nicht gleichzeitig ausgeführt, sondern in beliebiger Reihenfolge. Ob eine Person die drei Tätigkeiten nacheinander erledigt oder drei Personen parallel, entscheidet die Ressource, nicht das Modell.</span>
+            <span lang="en">Concurrent does not mean executed simultaneously but in any order. Whether one person does the three activities in sequence or three people in parallel is decided by the resource, not the model.</span></p>
+        </div>
+      </div>
+    </div>
+
+    <div data-modell="modelle/uc06-maschinenruestung.bpmn" data-name="UC06 · Rüsten einer Spritzgießmaschine"></div>
+  </section>
+
+  <section class="section-block" id="inklusiv">
+    <h2><span lang="de">Das inklusive Gateway</span><span lang="en">The inclusive gateway</span></h2>
+    <p>
+      <span lang="de">Zwischen „genau einer“ und „alle“ liegt „einer oder mehrere“: Der Gast bestellt Pizza, Getränk
+        oder Dessert in jeder Kombination. Mit XOR bräuchte man sieben Pfade für alle Kombinationen, mit AND würde
+        jeder Gast alles bekommen. Das inklusive Gateway prüft jede Bedingung für sich und aktiviert jeden Pfad, dessen
+        Bedingung zutrifft.</span>
+      <span lang="en">Between “exactly one” and “all” lies “one or more”: the guest orders pizza, drink or dessert in
+        any combination. With XOR you would need seven paths for all combinations, with AND every guest would get
+        everything. The inclusive gateway checks every condition on its own and activates every path whose condition
+        holds.</span>
+    </p>
+    <div class="symbolkarte">
+      <div class="symbolkarte-kopf">
+        <span class="symbolkarte-name"><span lang="de">Inklusives Gateway (OR)</span><span lang="en">Inclusive gateway (OR)</span></span>
+        <span class="symbolkarte-was"><span lang="de">ein oder mehrere Pfade</span><span lang="en">one or more paths</span></span>
+      </div>
+      <div class="symbolkarte-koerper">
+        <div class="symbolkarte-bild" aria-hidden="true"><svg viewBox="0 0 140 90" width="140" height="90"><polygon points="70,15 100,45 70,75 40,45" fill="#fff" stroke="#10201C" stroke-width="2"/><circle cx="70" cy="45" r="12" fill="none" stroke="#10201C" stroke-width="2.5"/></svg></div>
+        <div class="symbolkarte-text">
+          <ul class="symbolkarte-teile">
+            <li><span><span lang="de">Verzweigung</span><span lang="en">Split</span></span><span><span lang="de">Jeder Pfad mit zutreffender Bedingung erhält eine Marke; mindestens einer muss zutreffen, sonst hilft ein Standardfluss.</span><span lang="en">Every path with a true condition gets a token; at least one must hold, otherwise a default flow helps.</span></span></li>
+            <li><span><span lang="de">Zusammenführung</span><span lang="en">Join</span></span><span><span lang="de">Wartet nur auf die Marken, die tatsächlich unterwegs sind. Das macht die Zusammenführung anspruchsvoll für Werkzeuge, aber lesbar für Menschen.</span><span lang="en">Waits only for the tokens actually on their way. That makes the join demanding for tools but readable for humans.</span></span></li>
+            <li><span><span lang="de">Beschriftung</span><span lang="en">Labelling</span></span><span><span lang="de">Wie beim XOR: Frage am Gateway, Bedingung an jedem Pfad.</span><span lang="en">As with XOR: question at the gateway, condition on every path.</span></span></li>
+          </ul>
+          <p class="symbolkarte-falle"><strong><span lang="de">Stolperfalle:</span><span lang="en">Pitfall:</span></strong>
+            <span lang="de">Ein OR mit nur zwei sich ausschließenden Bedingungen („ja“ / „nein“) ist ein verkleidetes XOR. Nehmen Sie das XOR.</span>
+            <span lang="en">An OR with only two mutually exclusive conditions (“yes” / “no”) is an XOR in disguise. Use the XOR.</span></p>
+        </div>
+      </div>
+    </div>
+
+    <div data-modell="modelle/uc07-pizzeria.bpmn" data-name="UC07 · Bestellung in der Pizzeria"></div>
+  </section>
+
+  <section class="section-block" id="bloecke">
+    <h2><span lang="de">Blöcke sauber schließen</span><span lang="en">Closing blocks properly</span></h2>
+    <p>
+      <span lang="de">Die wichtigste Regel dieses Labs: <strong>Was mit einem Gatewaytyp öffnet, schließt mit
+        demselben Typ.</strong> Der Grund liegt im Verhalten der Marken.</span>
+      <span lang="en">The most important rule of this lab: <strong>what opens with one gateway type closes with the
+        same type.</strong> The reason lies in the behaviour of the tokens.</span>
+    </p>
+    <table>
+      <thead><tr><th><span lang="de">Öffnet mit</span><span lang="en">Opens with</span></th><th><span lang="de">Schließt mit</span><span lang="en">Closes with</span></th><th><span lang="de">Was passiert</span><span lang="en">What happens</span></th></tr></thead>
+      <tbody>
+        <tr><td>XOR</td><td>XOR</td><td><span lang="de">Eine Marke hinein, eine hinaus. Richtig.</span><span lang="en">One token in, one out. Correct.</span></td></tr>
+        <tr><td>AND</td><td>AND</td><td><span lang="de">Drei Marken hinein, die Zusammenführung wartet auf alle drei, eine hinaus. Richtig.</span><span lang="en">Three tokens in, the join waits for all three, one out. Correct.</span></td></tr>
+        <tr><td>XOR</td><td>AND</td><td><span lang="de">Eine Marke kommt an, die Zusammenführung wartet auf zwei weitere, die nie kommen. <strong>Deadlock.</strong></span><span lang="en">One token arrives, the join waits for two more that never come. <strong>Deadlock.</strong></span></td></tr>
+        <tr><td>AND</td><td>XOR</td><td><span lang="de">Drei Marken kommen an, jede läuft einzeln weiter. Der Rest des Prozesses läuft <strong>dreimal</strong>.</span><span lang="en">Three tokens arrive, each continues on its own. The rest of the process runs <strong>three times</strong>.</span></td></tr>
+        <tr><td>OR</td><td>OR</td><td><span lang="de">So viele Marken hinein wie Bedingungen zutrafen, die Zusammenführung wartet genau auf diese. Richtig.</span><span lang="en">As many tokens in as conditions held, the join waits exactly for those. Correct.</span></td></tr>
+      </tbody>
+    </table>
+    <p>
+      <span lang="de">Die Patientenaufnahme zeigt zwei Blöcke hintereinander: erst XOR (Versicherung), dann AND
+        (Bett, Untersuchung, Armband). Vier Gateways, jedes mit genau einer Funktion.</span>
+      <span lang="en">Patient admission shows two blocks one after another: first XOR (insurance), then AND (bed,
+        examination, wristband). Four gateways, each with exactly one function.</span>
+    </p>
+    <div data-modell="modelle/uc08-patientenaufnahme.bpmn" data-name="UC08 · Stationäre Patientenaufnahme"></div>
+  </section>
+
+  <section class="section-block" id="uebungen">
+    <h2><span lang="de">Übungen</span><span lang="en">Exercises</span></h2>
+    <p><span lang="de">Sechs Übungen. Lassen Sie in den Erkundungen unbedingt Marken laufen: Der Unterschied zwischen den drei Gateways ist eine Sache der Marken, nicht der Symbole.</span><span lang="en">Six exercises. Do run tokens in the explorations: the difference between the three gateways is a matter of tokens, not symbols.</span></p>
+    <div data-uebung="P04-01"></div>
+    <div data-uebung="P04-02"></div>
+    <div data-uebung="P04-03"></div>
+    <div data-uebung="P04-04"></div>
+    <div data-uebung="P04-05"></div>
+    <div data-uebung="P04-06"></div>
+  </section>
+  <section class="section-block" id="zusammenfassung">
+    <h2><span lang="de">Zusammenfassung</span><span lang="en">Summary</span></h2>
+    <ul>
+      <li><span lang="de">AND vervielfältigt die Marke und wartet bei der Zusammenführung auf alle.</span><span lang="en">AND multiplies the token and waits for all at the join.</span></li>
+      <li><span lang="de">OR aktiviert jeden Pfad mit zutreffender Bedingung und wartet genau auf diese.</span><span lang="en">OR activates every path with a true condition and waits exactly for those.</span></li>
+      <li><span lang="de">Ein Block schließt mit dem Typ, mit dem er öffnet; sonst Deadlock oder Mehrfachausführung.</span><span lang="en">A block closes with the type it opens with; otherwise deadlock or multiple execution.</span></li>
+      <li><span lang="de">Nebenläufigkeit im Modell heißt: beliebige Reihenfolge, nicht zwingend gleichzeitig.</span><span lang="en">Concurrency in the model means any order, not necessarily simultaneous.</span></li>
+    </ul>
+    <nav class="nav-bottom"></nav>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <span lang="de">THWS Business School · PROM-Lab · Prof. Dr. Robert Butscher · Diagramme mit <a href="https://bpmn.io" rel="noopener">bpmn.io</a></span>
+  <span lang="en">THWS Business School · PROM-Lab · Prof. Dr. Robert Butscher · Diagrams with <a href="https://bpmn.io" rel="noopener">bpmn.io</a></span>
+</footer>
+
+<script type="module">
+  import { starteLab } from './assets/prom.js'
+  starteLab({ lab: 'lab-04', basis: '.' })
+</script>
+</body>
+</html>

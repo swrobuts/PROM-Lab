@@ -1,0 +1,23 @@
+{
+  "id": "uc09f", "name": "Ersatzteilbestellung mit Fristüberwachung (fehlerhaft)", "absichtlichFehlerhaft": true,
+  "nodes": [
+    {"id": "s1", "type": "startEvent", "name": "Ersatzteilbedarf gemeldet", "col": 0, "row": 1},
+    {"id": "t1", "type": "task", "name": "Bestellung beim Lieferanten auslösen", "col": 1, "row": 1},
+    {"id": "g1", "type": "eventBasedGateway", "col": 2, "row": 1},
+    {"id": "e2", "type": "intermediateCatchEvent", "event": "message", "col": 3, "row": 0},
+    {"id": "t2", "type": "task", "name": "Liefertermin im System hinterlegen", "col": 4, "row": 0},
+    {"id": "t3", "type": "task", "name": "Lieferanten telefonisch mahnen", "col": 3, "row": 2},
+    {"id": "g2", "type": "exclusiveGateway", "col": 5, "row": 1},
+    {"id": "t4", "type": "task", "name": "Auf Ware warten", "col": 6, "row": 1},
+    {"id": "b1", "type": "boundaryEvent", "event": "timer", "name": "5 Tage verstrichen", "timer": "P5D", "attachedTo": "t4", "interrupting": false},
+    {"id": "t5", "type": "task", "name": "Lieferstatus erfragen", "col": 7, "row": 2},
+    {"id": "e1", "type": "endEvent", "name": "Teil einlagern", "col": 8, "row": 1}
+  ],
+  "flows": [
+    {"from": "s1", "to": "t1"}, {"from": "t1", "to": "g1"},
+    {"from": "g1", "to": "e2"}, {"from": "g1", "to": "t3"},
+    {"from": "e2", "to": "t2"}, {"from": "t2", "to": "g2"}, {"from": "t3", "to": "g2"},
+    {"from": "g2", "to": "t4"}, {"from": "b1", "to": "t5"}, {"from": "t5", "to": "t4", "via": "bottom"},
+    {"from": "t4", "to": "e1"}
+  ]
+}

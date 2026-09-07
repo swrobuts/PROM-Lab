@@ -1,0 +1,149 @@
+[
+  {
+    "id": "P03-01",
+    "typ": "erkunden",
+    "modell": "modelle/uc03-reifenwechsel.bpmn",
+    "modellName": "UC03 · Reifenwechsel in der Kfz-Werkstatt",
+    "titel": { "de": "Die Weiche im Reifenwechsel", "en": "The switch in the tyre change" },
+    "aufgabe": {
+      "de": "<p>Lassen Sie eine Marke laufen. Am Gateway „Räder einlagern?“ hält die Simulation an und lässt Sie den Pfad wählen. Probieren Sie beide Wege. Dann die Fragen.</p>",
+      "en": "<p>Run a token. At the gateway “Räder einlagern?” the simulation stops and lets you choose the path. Try both ways. Then the questions.</p>"
+    },
+    "fragen": [
+      {
+        "frage": { "de": "Wer trifft die Entscheidung, ob die Räder eingelagert werden?", "en": "Who makes the decision whether the wheels are stored?" },
+        "optionen": [
+          { "de": "Das Gateway: Es prüft die Buchung und entscheidet.", "en": "The gateway: it checks the booking and decides." },
+          { "de": "Die Aufgabe davor, beziehungsweise die Information, die dort vorliegt. Das Gateway verteilt die Marke nur anhand der Bedingung.", "en": "The task before it, or rather the information available there. The gateway only routes the token according to the condition." },
+          { "de": "Der Mechaniker beim Montieren.", "en": "The mechanic while mounting." }
+        ],
+        "richtig": [1],
+        "erklaerung": { "de": "Ein Gateway ist eine Weiche, kein Prüfschritt. Wenn zum Entscheiden gearbeitet werden muss („Buchung prüfen“), gehört diese Arbeit in eine Aufgabe vor dem Gateway.", "en": "A gateway is a switch, not a checking step. If work is needed to decide (“check booking”), that work belongs in a task before the gateway." }
+      },
+      {
+        "frage": { "de": "Der Pfad „nein“ trägt einen kleinen Schrägstrich. Was bedeutet er?", "en": "The path “nein” carries a small slash. What does it mean?" },
+        "optionen": [
+          { "de": "Standardfluss: Diesen Weg nimmt die Marke, wenn keine andere Bedingung zutrifft.", "en": "Default flow: the token takes this way if no other condition holds." },
+          { "de": "Der Pfad ist gesperrt.", "en": "The path is blocked." },
+          { "de": "Der Pfad wird häufiger genommen als der andere.", "en": "The path is taken more often than the other." }
+        ],
+        "richtig": [0],
+        "erklaerung": { "de": "Der Standardfluss ersetzt die Bedingung „sonst“ und stellt sicher, dass die Marke nie stecken bleibt.", "en": "The default flow replaces the condition “otherwise” and makes sure the token never gets stuck." }
+      }
+    ]
+  },
+  {
+    "id": "P03-02",
+    "typ": "quiz",
+    "titel": { "de": "Was das exklusive Gateway kann", "en": "What the exclusive gateway can do" },
+    "aufgabe": { "de": "<p>Drei Fragen zum Verhalten der Marke am XOR-Gateway.</p>", "en": "<p>Three questions on the token's behaviour at the XOR gateway.</p>" },
+    "fragen": [
+      {
+        "frage": { "de": "Eine Marke erreicht ein exklusives Gateway mit drei ausgehenden Pfaden. Wie viele Marken laufen weiter?", "en": "A token reaches an exclusive gateway with three outgoing paths. How many tokens continue?" },
+        "optionen": [ { "de": "Genau eine.", "en": "Exactly one." }, { "de": "Drei, eine je Pfad.", "en": "Three, one per path." }, { "de": "Eine bis drei, je nach Bedingungen.", "en": "One to three, depending on the conditions." } ],
+        "richtig": [0],
+        "erklaerung": { "de": "Exklusiv heißt: genau ein Pfad. Eins bis drei wäre das inklusive Gateway (Lab 04).", "en": "Exclusive means exactly one path. One to three would be the inclusive gateway (lab 04)." }
+      },
+      {
+        "frage": { "de": "Zwei Pfade laufen in ein exklusives Gateway hinein, einer hinaus. Was tut das Gateway?", "en": "Two paths run into an exclusive gateway, one out. What does the gateway do?" },
+        "optionen": [
+          { "de": "Es wartet, bis auf beiden Pfaden eine Marke angekommen ist.", "en": "It waits until a token has arrived on both paths." },
+          { "de": "Es lässt jede ankommende Marke sofort einzeln weiterlaufen.", "en": "It lets every arriving token continue immediately on its own." },
+          { "de": "Es löscht eine der beiden Marken.", "en": "It deletes one of the two tokens." }
+        ],
+        "richtig": [1],
+        "erklaerung": { "de": "Die exklusive Zusammenführung ist durchlässig. Warten ist Sache der parallelen Zusammenführung.", "en": "The exclusive merge is permeable. Waiting is the business of the parallel join." }
+      },
+      {
+        "frage": { "de": "Eine Aufgabe hat zwei ausgehende Sequenzflüsse ohne Gateway. Was bedeutet das in BPMN?", "en": "A task has two outgoing sequence flows without a gateway. What does that mean in BPMN?" },
+        "optionen": [
+          { "de": "Einer der beiden Pfade wird gewählt.", "en": "One of the two paths is chosen." },
+          { "de": "Beide Pfade werden beschritten, wie bei einem parallelen Gateway.", "en": "Both paths are taken, as with a parallel gateway." },
+          { "de": "Das Modell ist ungültig und lässt sich nicht speichern.", "en": "The model is invalid and cannot be saved." }
+        ],
+        "richtig": [1],
+        "erklaerung": { "de": "Ohne Gateway vervielfältigt sich die Marke. Wer eine Entscheidung meint, muss ein XOR-Gateway setzen. Die Regel R04 dieser Umgebung weist darauf hin.", "en": "Without a gateway the token multiplies. If you mean a decision, you must place an XOR gateway. Rule R04 of this environment points that out." }
+      }
+    ]
+  },
+  {
+    "id": "P03-03",
+    "typ": "erkunden",
+    "modell": "modelle/uc04-triage.bpmn",
+    "modellName": "UC04 · Triage in der Notaufnahme",
+    "titel": { "de": "Drei Pfade in der Notaufnahme", "en": "Three paths in the emergency room" },
+    "aufgabe": {
+      "de": "<p>Die Triage stuft jeden Patienten in rot, gelb oder grün ein. Sehen Sie sich an, wie das Modell die drei Fälle behandelt, und lassen Sie eine Marke den grünen Weg nehmen.</p>",
+      "en": "<p>Triage classifies every patient as red, yellow or green. Look at how the model handles the three cases and let a token take the green way.</p>"
+    },
+    "fragen": [
+      {
+        "frage": { "de": "Warum ist „grün: nicht dringend“ als Standardfluss modelliert?", "en": "Why is “grün: nicht dringend” modelled as the default flow?" },
+        "optionen": [
+          { "de": "Weil grün der häufigste Fall ist.", "en": "Because green is the most frequent case." },
+          { "de": "Damit jede Marke einen Weg hat, auch wenn die Einstufung keine der beiden anderen Bedingungen erfüllt.", "en": "So that every token has a way, even if the classification meets neither of the other two conditions." },
+          { "de": "Weil Standardflüsse immer unten liegen müssen.", "en": "Because default flows always have to lie at the bottom." }
+        ],
+        "richtig": [1],
+        "erklaerung": { "de": "Der Standardfluss ist das Sicherheitsnetz. Er wird gewählt, wenn keine andere Bedingung wahr ist.", "en": "The default flow is the safety net. It is chosen when no other condition is true." }
+      },
+      {
+        "frage": { "de": "Wie viele Endereignisse braucht dieser Prozess?", "en": "How many end events does this process need?" },
+        "optionen": [
+          { "de": "Drei, eines je Farbe.", "en": "Three, one per colour." },
+          { "de": "Eines, weil alle drei Wege dasselbe Ergebnis erreichen: Der Patient ist in Behandlung.", "en": "One, because all three ways reach the same result: the patient is in treatment." },
+          { "de": "Keines, weil der Patient noch nicht fertig behandelt ist.", "en": "None, because the patient is not yet fully treated." }
+        ],
+        "richtig": [1],
+        "erklaerung": { "de": "Endereignisse unterscheiden Ergebnisse, nicht Wege. Führen alle Wege zum selben Ergebnis, werden sie vor dem Ende zusammengeführt.", "en": "End events distinguish results, not ways. If all ways lead to the same result, they are merged before the end." }
+      }
+    ]
+  },
+  {
+    "id": "P03-04",
+    "typ": "fehler",
+    "modell": "modelle/uc03-reifenwechsel-fehlerhaft.bpmn",
+    "modellName": "UC03 · Reifenwechsel (fehlerhaft)",
+    "titel": { "de": "Vier Fehler im Reifenwechsel", "en": "Four errors in the tyre change" },
+    "aufgabe": {
+      "de": "<p>Dieses Modell enthält <strong>vier</strong> Verstöße: zwei an den Pfaden des Gateways, einen an einer Aufgabe, die nirgends hinführt, und einen an der Benennung des Endereignisses. Der Gateway-Name ist ein fünfter Schönheitsfehler (keine Frage), den der Prüfer nicht zählt. Klicken Sie auch auf die Pfeile.</p>",
+      "en": "<p>This model contains <strong>four</strong> violations: two on the paths of the gateway, one on a task that leads nowhere and one on the naming of the end event. The gateway name is a fifth blemish (not a question) the checker does not count. Click the arrows too.</p>"
+    },
+    "fehler": [
+      { "element": "Flow_g1_t3", "regel": "R03" },
+      { "element": "Flow_g1_t5", "regel": "R03" },
+      { "element": "t5", "regel": "R02" },
+      { "element": "e1", "regel": "R07" }
+    ],
+    "hinweis": { "de": "R03: Pfade eines XOR ohne Bedingung. R02: Aufgabe ohne ausgehenden Fluss. R07: „Abholung“ ist ein Substantiv, kein eingetretener Zustand.", "en": "R03: XOR paths without a condition. R02: task without outgoing flow. R07: “Abholung” is a noun, not a state that has occurred." }
+  },
+  {
+    "id": "P03-05",
+    "typ": "modell",
+    "modell": "modelle/uc04-triage.bpmn",
+    "modellName": "Triage",
+    "titel": { "de": "Die Triage modellieren", "en": "Model the triage" },
+    "aufgabe": {
+      "de": "<p>Ein Patient trifft ein. Die Pflegekraft erfasst die Vitalparameter und stuft die Dringlichkeit ein. Bei lebensbedrohlichem Zustand (rot) wird der Schockraum alarmiert, bei dringendem (gelb) ein Behandlungsplatz zugewiesen, sonst (grün) wird der Patient in den Wartebereich verwiesen. Danach legt die Aufnahme die Patientenakte an; der Patient befindet sich in Behandlung.</p><p>Modellieren Sie mit einem exklusiven Gateway mit drei beschrifteten Pfaden (grün als Standardfluss), einer Zusammenführung und genau einem Endereignis. Den Standardfluss setzen Sie im Editor über das Schraubenschlüssel-Symbol des Pfeils.</p>",
+      "en": "<p>A patient arrives. The nurse records the vital signs and classifies the urgency. In a life-threatening condition (red) the resuscitation room is alerted, in an urgent one (yellow) a treatment bay is assigned, otherwise (green) the patient is directed to the waiting area. Then admission creates the patient record; the patient is in treatment.</p><p>Model with one exclusive gateway with three labelled paths (green as default flow), one merge and exactly one end event. In the editor, set the default flow via the wrench icon of the arrow.</p>"
+    },
+    "pruefung": { "starts": 1, "enden": 1, "gateways": { "exclusiveGateway": 2 }, "bedingungen": ["rot", "gelb", "grün"], "aufgaben": ["Vitalparameter", "einstufen", "Schockraum", "Behandlungsplatz", "Wartebereich", "Patientenakte"] },
+    "hinweis": { "de": "Die Beschriftung eines Pfeils setzen Sie per Doppelklick auf den Pfeil. Die drei Bedingungen müssen die Wörter rot, gelb und grün enthalten.", "en": "Label an arrow by double-clicking it. The three conditions must contain the words rot, gelb and grün." },
+    "rueckmeldung": { "de": "Ein Gateway, drei Bedingungen, eine Zusammenführung, ein Ende: das Grundmuster jeder Entscheidung.", "en": "One gateway, three conditions, one merge, one end: the basic pattern of every decision." }
+  },
+  {
+    "id": "P03-06",
+    "typ": "modell",
+    "modell": "modelle/uc05-retoure.bpmn",
+    "modellName": "Retoure",
+    "hoch": true,
+    "titel": { "de": "Die Retoure mit Rückschleife", "en": "The return with a loop" },
+    "aufgabe": {
+      "de": "<p>Eine Retoure trifft im Lager ein (Nachricht). Ein Mitarbeiter öffnet das Paket und erfasst den Inhalt. Ist die Rücksendung unvollständig, fordert er die fehlenden Teile beim Kunden an und wartet auf die Nachlieferung; danach beginnt die Erfassung von vorn. Ist sie vollständig, prüft er den Zustand: Einwandfreie Ware wird voll erstattet, gebrauchte Ware gemindert und teilweise erstattet, beschädigte Ware geht an den Kunden zurück. Abschließend wird die Retoure im System abgeschlossen.</p><p>Modellieren Sie mit einem Nachrichten-Startereignis (Umschlag), einer Rückschleife über ein Nachrichten-Zwischenereignis, zwei bis drei exklusiven Gateways und einem Endereignis.</p>",
+      "en": "<p>A return arrives at the warehouse (message). An employee opens the parcel and records the contents. If the return is incomplete, he requests the missing parts from the customer and waits for the follow-up delivery; then recording starts over. If it is complete, he checks the condition: flawless goods are fully refunded, used goods are reduced and partly refunded, damaged goods go back to the customer. Finally the return is closed in the system.</p><p>Model with a message start event (envelope), a loop via a message intermediate event, two to three exclusive gateways and one end event.</p>"
+    },
+    "pruefung": { "starts": 1, "enden": 1, "gateways": { "exclusiveGateway": [2, 4] }, "ereignisse": { "message": [1, 2] }, "minAufgaben": 7, "aufgaben": ["erfassen", "anfordern", "prüfen", "erstatten", "zurücksenden", "abschließen"] },
+    "hinweis": { "de": "Den Ereignistyp ändern Sie im Editor über den Schraubenschlüssel am Ereignis. Die Rückschleife führt zur Erfassung zurück, nicht zum Start: Das Startereignis hat keinen eingehenden Fluss.", "en": "Change the event type in the editor via the wrench on the event. The loop leads back to the recording, not to the start: the start event has no incoming flow." },
+    "rueckmeldung": { "de": "Vergleichen Sie mit der Musterlösung, besonders die Lage der Rückschleife und die Zusammenführung vor dem Abschluss.", "en": "Compare with the model solution, especially the position of the loop and the merge before closing." }
+  }
+]
