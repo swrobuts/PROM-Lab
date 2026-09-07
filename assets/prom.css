@@ -974,3 +974,7 @@ tr:nth-child(even) td { background: var(--bg-soft); }
 }
 .frage .line-hilfe { margin: 0.35rem 0 0 0.2rem; font-size: 0.86rem; color: var(--ink-soft); }
 .frage .line-hilfe.falsch-erkl { color: #7A2612; }
+/* Der Modeler braucht ein breites Fenster; darunter bleibt nur der Hinweis mit dem Download. */
+@media (max-width: 1000px) {
+  .modell.editor .modell-flaeche, .modell.editor .modell-leiste { display: none; }
+}
