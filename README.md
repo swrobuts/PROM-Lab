@@ -153,7 +153,8 @@ Absichtlich fehlerhafte Modelle tragen `"absichtlichFehlerhaft": true` in der Qu
 ## Nach jeder Änderung prüfen
 
 ```bash
-cd tools && npm install && cd ..     # einmalig: @xmldom/xmldom
+cd tools && npm ci && cd ..          # einmalig: @xmldom/xmldom
+node --test tools/pruefung/regeln.test.mjs # Regressionstests des Regelprüfers
 node tools/verify.mjs
 ```
 
@@ -171,6 +172,19 @@ await (await fetch('tools/pruefung/durchlauf.js')).text().then(eval); await __du
 
 Löst jede Übung der Seite mit der Musterlösung und meldet, ob „Richtig“ erscheint. Für die
 Entwicklung dient `.claude/launch.json` im Elternordner (Python-Server auf Port 8777).
+
+Ein automatisierter Browserlauf prüft alle 54 Übungen in DE/EN sowie Editor-Wiederherstellung,
+Fortschritt, Sprachwechsel und die mobile Ansicht:
+
+```bash
+cd tools && npm install --no-save playwright && npx playwright install chromium && cd ..
+node tools/pruefung/browser.mjs
+```
+
+Der Lauf startet einen eigenen lokalen Server und einen separaten Testbrowser. Optional verwendet
+`BROWSER_CHANNEL=msedge` eine installierte Edge-Version; `PLAYWRIGHT_MODULE` kann auf ein vorhandenes
+Playwright-Modul zeigen. Der Regelprüfer erkennt unerreichbare Elemente und Schleifen ohne
+Ausgang auch innerhalb von Teilprozessen; er ersetzt keine vollständige BPMN-Simulation.
 
 ---
 

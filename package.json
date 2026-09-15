@@ -1,0 +1,9 @@
+{
+  "name": "prom-lab",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test tools/pruefung/regeln.test.mjs",
+    "verify": "node tools/verify.mjs"
+  }
+}

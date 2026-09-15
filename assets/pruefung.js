@@ -76,7 +76,7 @@ export function leseGraph (doc) {
       }
       k.schleife = [...c.childNodes].some(x => x.nodeType === 1 && /LoopCharacteristics$/.test(x.localName))
       g.knoten.set(k.id, k)
-      if (typ === 'subProcess') leseProzess(c, prozessId, k.id)
+      if (['subProcess', 'adHocSubProcess', 'transaction'].includes(typ)) leseProzess(c, prozessId, k.id)
     }
   }
   for (const proc of alle(defs, 'process')) {
@@ -103,6 +103,32 @@ export function leseGraph (doc) {
 const istAktivitaet = k => AKTIVITAETEN.has(k.typ)
 const istGateway = k => GATEWAYS.has(k.typ)
 const poolVon = (g, k) => g.pools.find(p => p.prozess === k.prozess)
+
+/** Sequenzfluesse und angeheftete Ereignisse, jeweils innerhalb desselben Ablaufs. */
+function erreichbarkeit (g) {
+  const knoten = [...g.knoten.values()].filter(k => FLUSSKNOTEN.has(k.typ))
+  const vor = new Map(knoten.map(k => [k.id, []]))
+  const zurueck = new Map(knoten.map(k => [k.id, []]))
+  const kante = (von, nach) => {
+    const v = g.knoten.get(von); const n = g.knoten.get(nach)
+    if (!vor.has(von) || !vor.has(nach) || v.prozess !== n.prozess || v.teilprozessVon !== n.teilprozessVon) return
+    vor.get(von).push(nach)
+    zurueck.get(nach).push(von)
+  }
+  for (const f of g.fluesse) kante(f.von, f.nach)
+  for (const k of knoten) if (k.typ === 'boundaryEvent') kante(k.haengtAn, k.id)
+  const besuche = (typ, kanten) => {
+    const gesehen = new Set(); const stapel = knoten.filter(k => k.typ === typ).map(k => k.id)
+    while (stapel.length) {
+      const id = stapel.pop()
+      if (gesehen.has(id)) continue
+      gesehen.add(id)
+      stapel.push(...kanten.get(id))
+    }
+    return gesehen
+  }
+  return { vomStart: besuche('startEvent', vor), zumEnde: besuche('endEvent', zurueck) }
+}
 
 /** Verb im Infinitiv am Ende (DE) oder am Anfang (EN)? Heuristik, deshalb nur Warnung. */
 function benennungAufgabeOk (name) {
@@ -151,13 +177,19 @@ export function pruefeRegeln (g, opt = {}) {
   }
 
   // R02 offene Enden und unerreichbare Knoten
+  const { vomStart, zumEnde } = erreichbarkeit(g)
   for (const k of fluss) {
-    if (k.typ === 'endEvent' || k.teilprozessVon) continue
-    if (k.aus.length === 0 && !(k.typ === 'boundaryEvent' && !k.unterbrechend && opt.randOhneAusgang)) {
+    if (k.typ !== 'endEvent' && k.aus.length === 0 && !(k.typ === 'boundaryEvent' && !k.unterbrechend && opt.randOhneAusgang)) {
       melde('R02', 'fehler', k.id, `„${k.name || k.typ}“ hat keinen ausgehenden Sequenzfluss. Jeder Pfad muss ein Endereignis erreichen.`, `“${k.name || k.typ}” has no outgoing sequence flow. Every path must reach an end event.`)
     }
     if (k.ein.length === 0 && k.typ !== 'startEvent' && k.typ !== 'boundaryEvent') {
       melde('R02', 'fehler', k.id, `„${k.name || k.typ}“ hat keinen eingehenden Sequenzfluss und wird nie erreicht.`, `“${k.name || k.typ}” has no incoming sequence flow and is never reached.`)
+    }
+    if (k.ein.length > 0 && !vomStart.has(k.id)) {
+      melde('R02', 'fehler', k.id, `„${k.name || k.typ}“ ist von keinem Startereignis erreichbar.`, `“${k.name || k.typ}” cannot be reached from a start event.`)
+    }
+    if (k.aus.length > 0 && !zumEnde.has(k.id)) {
+      melde('R02', 'fehler', k.id, `Von „${k.name || k.typ}“ ist kein Endereignis erreichbar. Prüfen Sie Schleifen ohne Ausgang.`, `No end event can be reached from “${k.name || k.typ}”. Check for loops without an exit.`)
     }
   }
 
@@ -214,6 +246,9 @@ export function pruefeRegeln (g, opt = {}) {
     const v = g.knoten.get(f.von); const n = g.knoten.get(f.nach)
     if (v && n && v.prozess !== n.prozess) {
       melde('R06', 'fehler', f.id, `Der Sequenzfluss von „${v.name || v.id}“ nach „${n.name || n.id}“ überquert eine Poolgrenze. Zwischen Pools gibt es nur Nachrichtenflüsse.`, `The sequence flow from “${v.name || v.id}” to “${n.name || n.id}” crosses a pool boundary. Between pools there are only message flows.`)
+    }
+    if (v && n && v.prozess === n.prozess && v.teilprozessVon !== n.teilprozessVon) {
+      melde('R06', 'fehler', f.id, `Der Sequenzfluss von „${v.name || v.id}“ nach „${n.name || n.id}“ überquert die Grenze eines Teilprozesses.`, `The sequence flow from “${v.name || v.id}” to “${n.name || n.id}” crosses a subprocess boundary.`)
     }
   }
   for (const m of g.nachrichten) {
@@ -385,20 +420,10 @@ export function vergleicheStruktur (g, muster) {
     const n = g.nachrichten.length
     inSpanne(n, muster.nachrichten) ? ok(`Nachrichtenflüsse: ${n}`, `Message flows: ${n}`) : nein(`Erwartet werden ${spanneText(muster.nachrichten)} Nachrichtenflüsse, gefunden ${n}.`, `Expected ${spanneText(muster.nachrichten)} message flows, found ${n}.`)
   }
-  // Erreichbarkeit: jedes Endereignis von einem Start aus erreichbar
+  // Erreichbarkeit auch innerhalb eingebetteter Teilprozesse.
   const starts = knoten.filter(k => k.typ === 'startEvent')
-  const erreichbar = new Set()
-  const stapel = starts.map(s => s.id)
-  while (stapel.length) {
-    const id = stapel.pop()
-    if (erreichbar.has(id)) continue
-    erreichbar.add(id)
-    const k = g.knoten.get(id)
-    if (!k) continue
-    for (const f of k.aus) stapel.push(f.nach)
-    for (const r of knoten.filter(x => x.haengtAn === id)) stapel.push(r.id)
-  }
-  const nichtErreicht = knoten.filter(k => k.typ !== 'startEvent' && !k.teilprozessVon && !erreichbar.has(k.id))
+  const { vomStart } = erreichbarkeit(g)
+  const nichtErreicht = knoten.filter(k => k.typ !== 'startEvent' && !vomStart.has(k.id))
   if (starts.length && nichtErreicht.length) {
     nein(`${nichtErreicht.length} Element(e) sind vom Start aus nicht erreichbar, zuerst „${nichtErreicht[0].name || nichtErreicht[0].typ}“.`, `${nichtErreicht.length} element(s) cannot be reached from the start, first “${nichtErreicht[0].name || nichtErreicht[0].typ}”.`)
   } else if (starts.length) {

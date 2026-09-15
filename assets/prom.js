@@ -199,7 +199,13 @@ export const UEBUNGEN_GESAMT = LABS.reduce((n, l) => n + l.anzahl, 0)
 const fortschrittSchluessel = (lab) => `prom:fortschritt:${lab}`
 
 function ladeFortschritt (lab) {
-  try { return JSON.parse(localStorage.getItem(fortschrittSchluessel(lab)) || '{}') } catch { return {} }
+  try {
+    const f = JSON.parse(localStorage.getItem(fortschrittSchluessel(lab)) || '{}')
+    if (!f || typeof f !== 'object' || Array.isArray(f)) return {}
+    const l = LABS.find(l => l.id === lab)
+    return Object.fromEntries(Object.entries(f).filter(([id, fertig]) =>
+      fertig === true && l && new RegExp(`^P${l.nr}-\\d{2}$`).test(id) && +id.slice(-2) >= 1 && +id.slice(-2) <= l.anzahl))
+  } catch { return {} }
 }
 function merkeFortschritt (lab, id) {
   const f = ladeFortschritt(lab)
@@ -617,7 +623,16 @@ function baueBox (uebung, ctx) {
       if (!geruestXml) geruestXml = leeresDiagramm
       let start = geruestXml
       try { start = localStorage.getItem(speicherKey) || geruestXml } catch { /* egal */ }
-      editor = await baueModell(editorZiel, { xml: start, name: uebung.modellName || '', modeler: true, hoch: true, klick: false })
+      editor = await baueModell(editorZiel, { xml: geruestXml, name: uebung.modellName || '', modeler: true, hoch: true, klick: false })
+      if (start !== geruestXml) {
+        try { await editor.lade(start) } catch {
+          await editor.lade(geruestXml)
+          status(statusZiel, 'note', txt({
+            de: 'Das gespeicherte Modell konnte nicht geladen werden. Das Startgerüst ist wieder verfügbar; Sie können ein Modell importieren oder neu beginnen.',
+            en: 'The saved model could not be loaded. The starter is available again; you can import a model or start over.'
+          }))
+        }
+      }
       editor.wrap.classList.add('editor')
       let timer = null
       editor.viewer.on('commandStack.changed', () => { clearTimeout(timer); timer = setTimeout(speichern, 500) })
@@ -672,7 +687,8 @@ function baueBox (uebung, ctx) {
       const listeR = el('ul', 'befunde'); listeR.append(html('li', 'ok', `<strong>${txt(T.regeln)}</strong>`))
       if (!regeln.length) listeR.append(el('li', 'ok', txt(T.keineBefunde)))
       for (const b of regeln) {
-        const li = html('li', b.grad === 'fehler' ? 'fehler' : 'warnung', `<span class="regel-id">${b.regel}</span>${txt(b.text)}`)
+        const li = el('li', b.grad === 'fehler' ? 'fehler' : 'warnung')
+        li.append(el('span', 'regel-id', b.regel), document.createTextNode(txt(b.text)))
         if (b.element) { li.addEventListener('click', () => { editor.entmarkiere('fehler'); editor.markiere(b.element, 'fehler'); editor.zeige(b.element) }); editor.markiere(b.element, 'fehler') }
         listeR.append(li)
       }
@@ -799,7 +815,9 @@ function karteFortschritt () {
 
 async function baueGesamtfortschritt (ziel, basis) {
   const panel = el('div', 'fortschritt-panel')
+  let stand = 0
   const fuellen = async () => {
+    const lauf = ++stand
     panel.replaceChildren()
     const gesamt = LABS.reduce((n, l) => n + Object.keys(ladeFortschritt(l.id)).length, 0)
     const kopf = el('div', 'fortschritt-kopf')
@@ -819,6 +837,7 @@ async function baueGesamtfortschritt (ziel, basis) {
         const r = await fetch(`${basis}/data/uebungen/${naechstes.id}.json`)
         if (r.ok) { const ue = await r.json(); const f = ladeFortschritt(naechstes.id); const offen = ue.find(u => !f[u.id]); if (offen) anker = '#' + offen.id }
       } catch { /* egal */ }
+      if (lauf !== stand) return
       const a = el('a', 'btn solid', `${txt(T.weiter)} Lab ${naechstes.nr}${anker ? ' · ' + txt(T.aufgabe) + ' ' + anker.slice(1) : ''}`)
       a.href = naechstes.datei + (aktuelleSprache() === 'en' ? '?lang=en' : '') + anker
       aktionen.append(a)
@@ -827,13 +846,14 @@ async function baueGesamtfortschritt (ziel, basis) {
     const reset = el('button', 'btn-sm', txt(T.loeschen))
     reset.addEventListener('click', () => {
       if (!confirm(txt(T.loeschenFrage))) return
-      loescheFortschritt(); document.dispatchEvent(new CustomEvent('prom:fortschritt')); fuellen()
+      loescheFortschritt(); document.dispatchEvent(new CustomEvent('prom:fortschritt'))
     })
     aktionen.append(reset)
     panel.append(aktionen)
   }
   await fuellen()
   document.addEventListener('prom:sprache', fuellen)
+  document.addEventListener('prom:fortschritt', fuellen)
   ziel.replaceWith(panel)
 }
 
